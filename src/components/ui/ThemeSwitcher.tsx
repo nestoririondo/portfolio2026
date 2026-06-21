@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  ACCENT2_OPTIONS,
   FONT_PAIR_NAMES,
   THEMES,
   type FontPairName,
@@ -11,8 +12,45 @@ import {
 interface ThemeSwitcherProps {
   state: ThemeState;
   setPalette: (p: Palette) => void;
+  setAccent2: (c: string) => void;
   setFontPair: (f: FontPairName) => void;
   setHeroLayout: (h: HeroLayout) => void;
+}
+
+/** A round color swatch used in the color-picker rows. */
+function Swatch({
+  color,
+  bg,
+  on,
+  onClick,
+  label,
+}: {
+  color: string;
+  bg?: string;
+  on: boolean;
+  onClick: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      aria-label={label}
+      onClick={onClick}
+      style={{
+        flex: 1,
+        height: 30,
+        border: "none",
+        cursor: "pointer",
+        borderRadius: 8,
+        background: bg
+          ? `linear-gradient(135deg, ${color} 0 62%, ${bg} 62% 100%)`
+          : color,
+        boxShadow: on
+          ? "0 0 0 2px var(--paper), 0 0 0 4px var(--ink)"
+          : "inset 0 0 0 1px rgba(0,0,0,.08)",
+        transition: "box-shadow .2s",
+      }}
+    />
+  );
 }
 
 const FONT_LABELS: Record<FontPairName, string> = {
@@ -91,11 +129,12 @@ function Label({ children }: { children: string }) {
 export function ThemeSwitcher({
   state,
   setPalette,
+  setAccent2,
   setFontPair,
   setHeroLayout,
 }: ThemeSwitcherProps) {
   const [open, setOpen] = useState(false);
-  const activeKey = JSON.stringify(state.palette);
+  const activeKey = state.palette[0].toLowerCase();
 
   return (
     <div
@@ -125,30 +164,34 @@ export function ThemeSwitcher({
           }}
         >
           <div>
-            <Label>Farbe</Label>
-            <div style={{ display: "flex", gap: 8 }}>
-              {THEMES.map((t) => {
-                const on = JSON.stringify(t.palette) === activeKey;
-                return (
-                  <button
-                    key={t.palette[0]}
-                    aria-label={`Palette ${t.palette[0]}`}
+            <Label>Hauptfarbe</Label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {THEMES.map((t) => (
+                <div key={t.palette[0]} style={{ flex: "1 1 26px" }}>
+                  <Swatch
+                    color={t.palette[0]}
+                    bg={t.palette[2]}
+                    on={t.palette[0].toLowerCase() === activeKey}
                     onClick={() => setPalette(t.palette)}
-                    style={{
-                      flex: 1,
-                      height: 30,
-                      border: "none",
-                      cursor: "pointer",
-                      borderRadius: 8,
-                      background: t.palette[0],
-                      boxShadow: on
-                        ? "0 0 0 2px var(--paper), 0 0 0 4px var(--ink)"
-                        : "inset 0 0 0 1px rgba(0,0,0,.08)",
-                      transition: "box-shadow .2s",
-                    }}
+                    label={`Hauptfarbe ${t.palette[0]}`}
                   />
-                );
-              })}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label>Akzent</Label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {ACCENT2_OPTIONS.map((c) => (
+                <div key={c} style={{ flex: "1 1 26px" }}>
+                  <Swatch
+                    color={c}
+                    on={state.accent2.toLowerCase() === c.toLowerCase()}
+                    onClick={() => setAccent2(c)}
+                    label={`Akzentfarbe ${c}`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div>

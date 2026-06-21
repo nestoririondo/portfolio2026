@@ -1,4 +1,5 @@
 import type { IconName } from "../components/ui/Icon";
+import type { ProcessGfx } from "../components/sections/ProcessGraphic";
 
 /** Top navigation + footer links. `href` are in-page anchors. */
 export interface NavLink {
@@ -17,8 +18,18 @@ export const NAV_LINKS: NavLink[] = [
 export const LANGUAGES = ["DE", "EN", "ES"] as const;
 export type Language = (typeof LANGUAGES)[number];
 
+/** Central contact details. */
+export const CONTACT = {
+  email: "hallo@nestoririondo.de",
+  emailHref: "mailto:hallo@nestoririondo.de",
+  phoneDisplay: "+49 170 123 45 67",
+  phoneHref: "tel:+491701234567",
+  whatsappHref: "https://wa.me/491701234567",
+  location: "Alt-Treptow, Berlin",
+};
+
 /** Software → Outcomes section. `gfx` selects the mini-UI; `px` is parallax speed. */
-export type OutcomeGfx = "booking" | "chart" | "inbox" | "ai";
+export type OutcomeGfx = "booking" | "sync" | "inbox" | "ai";
 
 export interface Outcome {
   n: string;
@@ -32,64 +43,76 @@ export const OUTCOMES: Outcome[] = [
   {
     n: "01",
     gfx: "booking",
-    title: "Termine ohne Telefon",
-    body: "Kunden buchen selbst — Tag und Nacht.",
+    title: "Termine online buchen",
+    body: "Kund:innen buchen freie Zeiten direkt online – auch nach Feierabend.",
     px: 0.05,
   },
   {
     n: "02",
-    gfx: "chart",
-    title: "Immer aktuell",
-    body: "Inhalte live aus Ihrer Software.",
+    gfx: "sync",
+    title: "Immer aktuelle Inhalte",
+    body: "Angebote, Termine oder Objekte aktualisieren sich automatisch aus deinen Tools – ganz ohne Doppelarbeit.",
     px: -0.06,
   },
   {
     n: "03",
     gfx: "inbox",
-    title: "Anfragen direkt zu Ihnen",
-    body: "Ein Formular, das wirklich ankommt.",
+    title: "Anfragen, die ankommen",
+    body: "Ein Kontaktformular, dessen Nachrichten zuverlässig bei dir landen.",
     px: -0.05,
   },
   {
     n: "04",
     gfx: "ai",
-    title: "Hilfe rund um die Uhr",
-    body: "KI beantwortet, was Kunden fragen.",
+    title: "KI-Assistent, auf Wunsch",
+    body: "Beantwortet rund um die Uhr die häufigsten Fragen deiner Kund:innen.",
     px: 0.06,
   },
 ];
 
 /** Angebot section. */
 export const OFFER_INCLUDED: string[] = [
-  "Modernes, individuelles Design",
-  "Perfekt auf dem Handy",
+  "Individuelles Design",
+  "Für Handy optimiert",
+  "Bei Google gefunden (SEO)",
+  "Google-Business-Profil",
   "Kontaktformular",
-  "Google-Business-Einrichtung",
-  "Texte schreibe ich für Sie",
-  "SEO-Grundlagen inklusive",
+  "Texte inklusive",
+  "Schnell & sicher (SSL)",
+  "Rechtssicher: Impressum & Datenschutz",
 ];
 
-export interface OfferHighlight {
+/** The 3-step way of working — short, scannable. Each body is one phrase. */
+export interface OfferStep {
+  n: string;
   icon: IconName;
   title: string;
   body: string;
+  /** Flat-geometric layered graphic (with parallax) shown instead of the line icon. */
+  gfx?: ProcessGfx;
 }
 
-export const OFFER_HIGHLIGHTS: OfferHighlight[] = [
+export const OFFER_PROCESS: OfferStep[] = [
   {
+    n: "1",
+    icon: "phone",
+    title: "Ein Gespräch",
+    body: "Du erzählst mir dein Ziel – per Telefon oder bei dir vor Ort.",
+    gfx: "talk",
+  },
+  {
+    n: "2",
     icon: "pen",
-    title: "Sie schreiben keine Zeile",
-    body: "Die Texte übernehme ich für Sie.",
+    title: "Ein klickbarer Entwurf",
+    body: "Du siehst & klickst deine Seite, bevor irgendwas final ist.",
+    gfx: "plan",
   },
   {
-    icon: "spark",
-    title: "In 2–3 Wochen online",
-    body: "Schnell, ohne langes Hin und Her.",
-  },
-  {
-    icon: "check",
-    title: "ab 2.500 €",
-    body: "Ein fairer Festpreis. Keine Überraschungen.",
+    n: "3",
+    icon: "layout",
+    title: "Deine Live-Seite",
+    body: "Fertig online – für Handy optimiert und bei Google zu finden.",
+    gfx: "build",
   },
 ];
 
@@ -125,13 +148,13 @@ export const REB_CHAPTERS: CaseChapter[] = [
     k: "02",
     label: "Jetzt",
     title: "Direkt aus der Maklersoftware",
-    body: "Die Website zieht die Objekte live aus Propstack. Was dort steht, ist sofort online — ohne ein einziges manuelles Update.",
+    body: "Die Website zieht die Objekte live aus Propstack. Was dort steht, ist sofort online — ohne manuelle Updates.",
   },
   {
     k: "03",
     label: "Ergebnis",
     title: "Immer aktuell, auch mobil",
-    body: "Neue Objekte erscheinen automatisch, auf jedem Gerät. Mehr Anfragen, kein Pflegeaufwand.",
+    body: "Neue Objekte erscheinen automatisch und sind auf jedem Gerät gut lesbar — mit deutlich weniger Pflegeaufwand.",
   },
 ];
 

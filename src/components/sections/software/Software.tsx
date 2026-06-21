@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { OUTCOMES } from "../../../data/content";
 import { useParallax } from "../../../hooks/useParallax";
 import { Icon } from "../../ui/Icon";
+import { SectionHeading } from "../../ui/SectionHeading";
 import { OutcomeCard } from "./OutcomeCard";
 
 export function Software() {
@@ -51,9 +52,9 @@ export function Software() {
             maxHeight: 620,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle at 60% 40%, color-mix(in oklab,var(--accent) 42%,#000 8%), transparent 66%)",
+              "radial-gradient(circle at 60% 40%, color-mix(in oklab,var(--accent2) 52%,#000 6%), transparent 66%)",
             filter: "blur(26px)",
-            opacity: 0.5,
+            opacity: 0.55,
           }}
         />
         <div
@@ -76,13 +77,14 @@ export function Software() {
       </div>
 
       <div className="wrap" style={{ position: "relative" }}>
-        <div className="reveal" style={{ maxWidth: 740, marginBottom: "clamp(36px,5vw,60px)" }}>
-          <span className="eyebrow" style={{ color: "color-mix(in oklab,var(--accent) 60%,#fff)" }}>
-            Was Ihre Website für Sie tut
-          </span>
-          <h2 style={{ fontSize: "clamp(31px,4.2vw,50px)", marginTop: 16, color: "#fff" }}>
-            Sie führen Ihr Geschäft. Die Website erledigt den Rest.
-          </h2>
+        <div className="reveal">
+          <SectionHeading
+            onDark
+            align="left"
+            eyebrow="Funktion, nicht nur Design"
+            title="Funktionen, die im Alltag wirklich helfen."
+            sub="Vier Beispiele, was deine Website können kann – weit über eine digitale Visitenkarte hinaus."
+          />
         </div>
 
         <div
@@ -90,7 +92,7 @@ export function Software() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "clamp(54px,7vw,78px) clamp(16px,2vw,26px)",
+            gap: "clamp(52px,6vw,66px) clamp(18px,2.4vw,26px)",
           }}
         >
           {OUTCOMES.map((o) => (
@@ -109,10 +111,10 @@ export function Software() {
           }}
         >
           <a href="#kontakt" className="btn" style={{ background: "var(--accent)", color: "#fff" }}>
-            Was darf Ihre Website können? <Icon name="arrow" size={18} />
+            Was wäre für dich sinnvoll? <Icon name="arrow" size={18} />
           </a>
           <span style={{ fontSize: 15, color: "rgba(255,255,255,.55)" }}>
-            Erzählen Sie mir, was Ihnen Arbeit abnehmen würde.
+            Ich sage dir ehrlich, was sich lohnt.
           </span>
         </div>
       </div>

@@ -1,10 +1,11 @@
 import { ABOUT_CHIPS } from "../../data/content";
 import { Icon } from "../ui/Icon";
 import { Placeholder } from "../ui/Placeholder";
+import { Blob } from "../ui/Decorations";
 
 export function Ueber() {
   return (
-    <section id="ueber" style={{ padding: "clamp(50px,7vw,100px) 0" }}>
+    <section id="ueber" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
       <div className="wrap">
         <div
           className="reveal ueber-grid"
@@ -16,17 +17,43 @@ export function Ueber() {
           }}
         >
           <div style={{ position: "relative" }}>
-            <Placeholder label="Portrait · Nestor" ratio="4 / 5" round={22} />
+            <Blob
+              color="color-mix(in oklab,var(--accent2) 24%,transparent)"
+              style={{
+                position: "absolute",
+                width: "58%",
+                bottom: "-12%",
+                left: "-12%",
+                zIndex: 0,
+              }}
+            />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <Placeholder label="Portrait · Néstor" ratio="4 / 5" round={22} />
+            </div>
           </div>
           <div>
             <span className="eyebrow">Über mich</span>
-            <h2 style={{ fontSize: "clamp(30px,4vw,46px)", margin: "14px 0 20px" }}>
-              Hallo, ich bin Nestor.
+            <h2
+              style={{
+                fontSize: "clamp(34px,5vw,54px)",
+                letterSpacing: "-.02em",
+                margin: "18px 0 22px",
+              }}
+            >
+              Hallo, ich bin Néstor.
             </h2>
-            <p style={{ fontSize: 18.5, color: "var(--muted)", marginBottom: 24, lineHeight: 1.6 }}>
+            <p
+              style={{
+                fontSize: 18.5,
+                color: "var(--muted)",
+                marginBottom: 24,
+                lineHeight: 1.6,
+              }}
+            >
               Hauptberuflich entwickle ich Software in Berlin. Websites baue ich
               mit demselben Anspruch: solide, durchdacht, ohne Kompromisse. Ich
-              wohne in Alt-Treptow und arbeite auf Deutsch, Englisch und Spanisch.
+              wohne in Alt-Treptow und arbeite auf Deutsch, Englisch und
+              Spanisch.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {ABOUT_CHIPS.map(({ icon, label }) => (

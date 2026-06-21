@@ -1,18 +1,21 @@
 import { Icon } from "../../ui/Icon";
-import { TallBrowser } from "../../mockups/Frames";
+import { SectionHeading } from "../../ui/SectionHeading";
 import { PhysioDesktop } from "../../mockups/PhysioSite";
-import { CaseLabel, Showcase, TechChips } from "./CaseParts";
+import { CaseLabel, TechChips } from "./CaseParts";
+import { ScrollThrough } from "./ScrollThrough";
 import { StickyCase } from "./StickyCase";
 
 export function Arbeiten() {
   return (
-    <section id="arbeiten" style={{ padding: "clamp(50px,7vw,96px) 0" }}>
+    <section id="arbeiten" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
       <div className="wrap">
-        <div className="reveal" style={{ maxWidth: 660, marginBottom: 46 }}>
-          <span className="eyebrow">Arbeiten</span>
-          <h2 style={{ fontSize: "clamp(30px,4vw,46px)", marginTop: 14 }}>
-            Echte Kunden, echte Funktion.
-          </h2>
+        <div className="reveal">
+          <SectionHeading
+            align="left"
+            eyebrow="Arbeiten"
+            title="Echte Projekte, echte Funktionen."
+            sub="Zwei echte Kunden — und was ihre Website jeden Tag für sie erledigt."
+          />
         </div>
 
         {/* CASE 1 — REB (scroll-through) */}
@@ -49,8 +52,8 @@ export function Arbeiten() {
                 Physiotherapie · Alt-Treptow
               </div>
               <p style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6 }}>
-                Klarer Auftritt mit eingebauter Terminbuchung. Patienten buchen
-                direkt auf der Website — rund um die Uhr, ohne Telefon.
+                Klarer Auftritt mit eingebauter Terminbuchung. Patient:innen
+                buchen direkt auf der Website — rund um die Uhr, ohne Telefon.
               </p>
             </div>
             <div style={{ display: "grid", gap: 16 }}>
@@ -117,11 +120,30 @@ export function Arbeiten() {
             </div>
           </div>
 
-          <Showcase caption="Die neue Website · Vollansicht">
-            <TallBrowser url="praxis-treptowerpark.de">
+          <div style={{ marginTop: "clamp(28px,4vw,48px)" }}>
+            <div
+              style={{
+                fontFamily: "var(--mono)",
+                fontSize: 11.5,
+                letterSpacing: ".1em",
+                textTransform: "uppercase",
+                color: "var(--muted)",
+                marginBottom: 14,
+              }}
+            >
+              ↓ Scroll dich durch die Seite
+            </div>
+            <ScrollThrough
+              url="praxis-treptowerpark.de"
+              stops={[
+                { at: 0, label: "Start" },
+                { at: 0.34, label: "Online-Buchung" },
+                { at: 0.68, label: "Leistungen" },
+              ]}
+            >
               <PhysioDesktop />
-            </TallBrowser>
-          </Showcase>
+            </ScrollThrough>
+          </div>
         </div>
       </div>
     </section>

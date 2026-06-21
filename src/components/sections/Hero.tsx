@@ -1,14 +1,32 @@
 import { Icon } from "../ui/Icon";
 import { Placeholder } from "../ui/Placeholder";
+import { Blob } from "../ui/Decorations";
 import type { HeroLayout } from "../../theme/themes";
 
 function Portrait({ wide }: { wide?: boolean }) {
   return (
     <div style={{ position: "relative" }}>
-      <Placeholder label="Portrait · Nestor" ratio={wide ? "5 / 4" : "4 / 5"} round={22} />
+      <Blob
+        color="color-mix(in oklab,var(--accent2) 26%,transparent)"
+        style={{
+          position: "absolute",
+          width: "62%",
+          top: "-13%",
+          right: "-11%",
+          zIndex: 0,
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <Placeholder
+          label="Portrait · Néstor"
+          ratio={wide ? "5 / 4" : "4 / 5"}
+          round={22}
+        />
+      </div>
       <div
         style={{
           position: "absolute",
+          zIndex: 2,
           left: wide ? "auto" : -16,
           right: wide ? 16 : "auto",
           bottom: wide ? 16 : 24,
@@ -46,7 +64,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
   );
   const h1 = (
     <h1 style={{ fontSize: "clamp(38px, 6vw, 68px)", margin: "18px 0 0" }}>
-      Websites, die für Sie arbeiten.
+      Websites, die für dich arbeiten.
     </h1>
   );
   const sub = (
@@ -59,8 +77,9 @@ export function Hero({ layout }: { layout: HeroLayout }) {
         lineHeight: 1.55,
       }}
     >
-      Termine buchen sich von selbst, Angebote bleiben aktuell, Anfragen kommen
-      direkt an. Ich baue Websites in Berlin, die Ihnen den Rücken freihalten.
+      Am Ende zählt nicht die Website, sondern was sie dir bringt: mehr
+      Anfragen, weniger Aufwand und einen Auftritt, dem deine Kund:innen
+      vertrauen.
     </p>
   );
   const ctas = (

@@ -9,13 +9,45 @@ function LangSwitch({
   lang: Language;
   setLang: (l: Language) => void;
 }) {
+  const activeIndex = LANGUAGES.indexOf(lang);
+
   return (
-    <>
+    <div
+      style={{
+        position: "relative",
+        display: "grid",
+        gridTemplateColumns: `repeat(${LANGUAGES.length}, 1fr)`,
+        padding: 3,
+        border: "1px solid var(--line)",
+        borderRadius: 999,
+        background: "var(--paper)",
+        overflow: "hidden",
+      }}
+    >
+      <span
+        aria-hidden="true"
+        className="lang-switch-indicator"
+        style={{
+          position: "absolute",
+          top: 3,
+          bottom: 3,
+          left: 3,
+          width: `calc((100% - 6px) / ${LANGUAGES.length})`,
+          borderRadius: 999,
+          background: "var(--accent)",
+          boxShadow:
+            "0 10px 24px -14px color-mix(in oklab, var(--accent) 80%, transparent)",
+          transform: `translateX(${activeIndex * 100}%)`,
+        }}
+      />
       {LANGUAGES.map((l) => (
         <button
           key={l}
           onClick={() => setLang(l)}
+          aria-pressed={lang === l}
           style={{
+            position: "relative",
+            zIndex: 1,
             border: "none",
             cursor: "pointer",
             borderRadius: 999,
@@ -24,15 +56,15 @@ function LangSwitch({
             fontSize: 12,
             fontWeight: 500,
             letterSpacing: ".04em",
-            background: lang === l ? "var(--accent)" : "transparent",
+            background: "transparent",
             color: lang === l ? "#fff" : "var(--muted)",
-            transition: "all .2s",
+            transition: "color .22s ease",
           }}
         >
           {l}
         </button>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -80,7 +112,7 @@ export function Header() {
               display: "inline-block",
             }}
           />
-          Nestor Iriondo
+          Néstor Iriondo
         </a>
         <nav
           className="desk-nav"
@@ -108,18 +140,7 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <div
-          className="desk-nav"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 3,
-            padding: 3,
-            border: "1px solid var(--line)",
-            borderRadius: 999,
-            background: "var(--paper)",
-          }}
-        >
+        <div className="desk-nav">
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
         <a
@@ -198,17 +219,7 @@ export function Header() {
               </a>
             ))}
             <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 12 }}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 3,
-                  padding: 3,
-                  border: "1px solid var(--line)",
-                  borderRadius: 999,
-                }}
-              >
-                <LangSwitch lang={lang} setLang={setLang} />
-              </div>
+              <LangSwitch lang={lang} setLang={setLang} />
               <a
                 href="#kontakt"
                 onClick={() => setOpen(false)}

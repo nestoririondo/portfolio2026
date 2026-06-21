@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { OutcomeGfx } from "../../../data/content";
 
 /** Little browser-window shell that frames each outcome's mini-UI. */
-function Screen({ children, w = 222 }: { children: ReactNode; w?: number }) {
+function Screen({ children, w = 268 }: { children: ReactNode; w?: number }) {
   return (
     <div
       style={{
@@ -113,47 +113,49 @@ export function Gfx({ type }: { type: OutcomeGfx }) {
       </Screen>
     );
 
-  if (type === "chart")
+  if (type === "sync") {
+    const Row = ({ w }: { w: string }) => (
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div
+          style={{
+            width: 26,
+            height: 26,
+            borderRadius: 7,
+            background: "color-mix(in oklab,var(--accent) 16%,#fff)",
+            flex: "0 0 auto",
+          }}
+        />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
+          <Bar w={w} />
+          <Bar w="50%" c="#f0e8dd" />
+        </div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={GRN} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="4 12 9 17 20 6" />
+        </svg>
+      </div>
+    );
     return (
       <Screen>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Bar w={56} c="#e2d8ca" />
-          <span
-            style={{
-              ...mono,
-              fontSize: 9,
-              color: GRN,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
+          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>DEINE INHALTE</span>
+          <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
             <i style={{ width: 6, height: 6, borderRadius: 9, background: GRN }} />
             LIVE
           </span>
         </div>
-        {[0, 1].map((i) => (
-          <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <div
-              style={{
-                width: 34,
-                height: 26,
-                borderRadius: 6,
-                background: `color-mix(in oklab,var(--accent) ${i ? 22 : 34}%,#fff)`,
-                flex: "0 0 auto",
-              }}
-            />
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
-              <Bar w="80%" />
-              <Bar w="52%" c="#f0e8dd" />
-            </div>
-            <span style={{ ...mono, fontSize: 10, color: A, fontWeight: 600 }}>
-              {i ? "320T" : "540T"} €
-            </span>
-          </div>
-        ))}
+        <Row w="82%" />
+        <Row w="68%" />
+        <div style={{ height: 1, background: "#f0e8dd", margin: "1px 0" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 6, ...mono, fontSize: 9.5, color: A }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={A} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12a9 9 0 1 1-2.6-6.4" />
+            <polyline points="21 3 21 8 16 8" />
+          </svg>
+          Automatisch aktualisiert
+        </div>
       </Screen>
     );
+  }
 
   if (type === "inbox")
     return (

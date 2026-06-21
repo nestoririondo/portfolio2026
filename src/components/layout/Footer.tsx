@@ -24,11 +24,23 @@ export function Footer() {
           }}
         >
           <span
-            style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 99,
+              background: "var(--accent)",
+            }}
           />{" "}
-          Nestor Iriondo
+          Néstor Iriondo
         </div>
-        <div style={{ display: "flex", gap: 22, fontSize: 14.5, color: "var(--muted)" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 22,
+            fontSize: 14.5,
+            color: "var(--muted)",
+          }}
+        >
           {FOOTER_LINKS.map(({ label, href }) => (
             <a key={label} href={href}>
               {label}
@@ -41,7 +53,11 @@ export function Footer() {
           ))}
         </div>
         <div
-          style={{ fontSize: 13.5, color: "var(--muted)", fontFamily: "var(--mono)" }}
+          style={{
+            fontSize: 13.5,
+            color: "var(--muted)",
+            fontFamily: "var(--mono)",
+          }}
         >
           © 2026 · Berlin
         </div>

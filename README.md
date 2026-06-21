@@ -1,4 +1,4 @@
-# Nestor Iriondo — Portfolio 2026
+# Néstor Iriondo — Portfolio 2026
 
 Marketing landing page for a Berlin web developer, built with **React + TypeScript + Vite**.
 

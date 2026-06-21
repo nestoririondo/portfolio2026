@@ -1,175 +1,106 @@
-import { OFFER_HIGHLIGHTS, OFFER_INCLUDED } from "../../data/content";
+import { useRef } from "react";
+import { OFFER_INCLUDED, OFFER_PROCESS } from "../../data/content";
+import { useParallax } from "../../hooks/useParallax";
+import { ProcessGraphic } from "./ProcessGraphic";
 import { Icon } from "../ui/Icon";
+import { SectionHeading } from "../ui/SectionHeading";
 
 export function Angebot() {
+  const secRef = useRef<HTMLElement>(null);
+  useParallax(secRef);
+
   return (
     <section
+      ref={secRef}
       id="angebot"
       style={{
         background: "var(--accent-tint)",
         borderTop: "1px solid var(--line)",
         borderBottom: "1px solid var(--line)",
-        padding: "clamp(50px,7vw,96px) 0",
+        padding: "clamp(64px,9vw,120px) 0",
       }}
     >
       <div className="wrap">
-        <div className="reveal" style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 40px" }}>
-          <span className="eyebrow" style={{ justifyContent: "center" }}>
-            Angebot
-          </span>
-          <h2 style={{ fontSize: "clamp(30px,4vw,48px)", marginTop: 14 }}>
-            Eine Website, ein Festpreis.
-          </h2>
-          <p style={{ color: "var(--muted)", fontSize: 18, marginTop: 16 }}>
-            Kein Baukasten, keine versteckten Kosten. Alles, was ein kleines
-            Unternehmen wirklich braucht — fertig gemacht.
-          </p>
+        <div className="reveal">
+          <SectionHeading
+            eyebrow="So läuft’s"
+            title="Erst verstehen, dann bauen."
+            sub="Von der Idee zur fertigen Website – bei jedem Schritt siehst du ein echtes Zwischenergebnis. Du sagst mir dein Ziel, um den Rest kümmere ich mich."
+          />
         </div>
 
-        <div
-          className="reveal hl-3"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: 18,
-            marginBottom: 30,
-          }}
-        >
-          {OFFER_HIGHLIGHTS.map(({ icon, title, body }) => (
-            <div
-              key={title}
-              style={{
-                background: "var(--paper)",
-                border: "1px solid var(--line)",
-                borderRadius: 18,
-                padding: "26px 24px",
-                boxShadow: "0 16px 40px -32px rgba(60,40,25,.4)",
-              }}
-            >
-              <span
-                style={{
-                  width: 46,
-                  height: 46,
-                  borderRadius: 13,
-                  background: "var(--accent-soft)",
-                  display: "grid",
-                  placeItems: "center",
-                  color: "var(--accent)",
-                }}
-              >
-                <Icon name={icon} size={22} />
-              </span>
-              <h3 style={{ fontSize: 23, margin: "16px 0 6px" }}>{title}</h3>
-              <p style={{ color: "var(--muted)", fontSize: 15.5 }}>{body}</p>
+        {/* 1 → 2 → 3 deliverable timeline */}
+        <div className="reveal process-flow" style={{ marginBottom: "clamp(40px,6vw,64px)" }}>
+          {OFFER_PROCESS.map((step, i) => (
+            <div className="process-step" key={step.n}>
+              <span className="process-num">{step.n}</span>
+              <div className={`process-icon${step.gfx ? " process-icon--gfx" : ""}`}>
+                {step.gfx ? (
+                  <ProcessGraphic kind={step.gfx} px={i % 2 === 0 ? 0.1 : -0.07} />
+                ) : (
+                  <Icon name={step.icon} size={68} stroke={1.4} />
+                )}
+              </div>
+              <h3 style={{ fontSize: 25, marginBottom: 8 }}>{step.title}</h3>
+              <p style={{ color: "var(--muted)", fontSize: 16, lineHeight: 1.55 }}>{step.body}</p>
             </div>
           ))}
         </div>
 
-        <div
-          className="reveal offer-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr .9fr",
-            gap: "clamp(20px,3vw,36px)",
-            alignItems: "stretch",
-          }}
-        >
-          <div
-            style={{
-              background: "var(--paper)",
-              border: "1px solid var(--line)",
-              borderRadius: 22,
-              padding: "clamp(26px,3vw,40px)",
-            }}
-          >
-            <h3 style={{ fontSize: 24, marginBottom: 18 }}>Das ist alles dabei</h3>
+        {/* one consolidated price card */}
+        <div className="reveal price-card">
+          <div className="price-card-head">
+            <span className="price-tag">
+              <Icon name="spark" size={14} color="var(--accent)" /> Komplett-Website
+            </span>
             <div
-              className="incl-grid"
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "14px 22px",
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "center",
+                gap: 8,
+                margin: "16px 0 6px",
               }}
             >
-              {OFFER_INCLUDED.map((t) => (
-                <div key={t} style={{ display: "flex", gap: 11, alignItems: "flex-start" }}>
-                  <span
-                    style={{
-                      width: 24,
-                      height: 24,
-                      flex: "0 0 auto",
-                      borderRadius: 99,
-                      background: "var(--accent)",
-                      color: "#fff",
-                      display: "grid",
-                      placeItems: "center",
-                      marginTop: 1,
-                    }}
-                  >
-                    <Icon name="check" size={14} stroke={2.4} />
-                  </span>
-                  <span style={{ fontWeight: 500, lineHeight: 1.35 }}>{t}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div
-            style={{
-              background:
-                "linear-gradient(165deg, color-mix(in oklab,var(--accent) 92%,#000) 0%, var(--accent) 100%)",
-              color: "#fff",
-              borderRadius: 22,
-              padding: "clamp(26px,3vw,40px)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              boxShadow:
-                "0 26px 60px -30px color-mix(in oklab,var(--accent) 80%,transparent)",
-            }}
-          >
-            <div>
-              <div
+              <span style={{ fontSize: 20, fontWeight: 500, color: "var(--muted)" }}>ab</span>
+              <span
                 style={{
-                  fontFamily: "var(--mono)",
-                  fontSize: 12.5,
-                  letterSpacing: ".14em",
-                  textTransform: "uppercase",
-                  opacity: 0.85,
+                  fontFamily: "var(--font-head)",
+                  fontSize: "clamp(46px,6vw,64px)",
+                  fontWeight: 600,
+                  lineHeight: 1,
                 }}
               >
-                Komplett-Website
-              </div>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 14 }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-head)",
-                    fontSize: "clamp(44px,6vw,64px)",
-                    fontWeight: 600,
-                    lineHeight: 1,
-                  }}
-                >
-                  2.500
-                </span>
-                <span style={{ fontSize: 24, fontWeight: 500 }}>€</span>
-              </div>
-              <div style={{ fontSize: 15, opacity: 0.85, marginTop: 6 }}>
-                Festpreis, ab — inkl. Texte &amp; Einrichtung.
-              </div>
+                2.500 €
+              </span>
             </div>
-            <a
-              href="#kontakt"
-              className="btn"
-              style={{
-                background: "#fff",
-                color: "var(--accent-deep)",
-                marginTop: 28,
-                justifyContent: "center",
-                fontWeight: 700,
-              }}
-            >
-              Unverbindlich anfragen <Icon name="arrow" size={18} />
-            </a>
+            <div style={{ color: "var(--muted)", fontSize: 15 }}>
+              Fairer Festpreis, nach dem Gespräch festgelegt.
+            </div>
           </div>
+
+          <div className="price-included-label">Alles dabei:</div>
+          <div className="price-included">
+            {OFFER_INCLUDED.map((t) => (
+              <div key={t} className="price-included-item">
+                <span className="price-check">
+                  <Icon name="check" size={13} stroke={3} color="var(--accent)" />
+                </span>
+                {t}
+              </div>
+            ))}
+          </div>
+
+          <a
+            href="#kontakt"
+            className="btn btn-primary"
+            style={{ justifyContent: "center", width: "100%" }}
+          >
+            Kostenloses Erstgespräch <Icon name="arrow" size={18} />
+          </a>
+          <p className="price-reassure">
+            Unverbindlich · keine versteckten Kosten
+          </p>
         </div>
       </div>
     </section>

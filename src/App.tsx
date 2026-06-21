@@ -11,7 +11,8 @@ import { Ueber } from "./components/sections/Ueber";
 import { Kontakt } from "./components/sections/Kontakt";
 
 export default function App() {
-  const { state, setPalette, setFontPair, setHeroLayout } = useTheme();
+  const { state, setPalette, setAccent2, setFontPair, setHeroLayout } =
+    useTheme();
   useReveal();
 
   return (
@@ -30,6 +31,7 @@ export default function App() {
       <ThemeSwitcher
         state={state}
         setPalette={setPalette}
+        setAccent2={setAccent2}
         setFontPair={setFontPair}
         setHeroLayout={setHeroLayout}
       />

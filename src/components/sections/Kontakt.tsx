@@ -1,5 +1,11 @@
-import { useState, type CSSProperties, type FocusEvent, type FormEvent } from "react";
-import { Icon } from "../ui/Icon";
+import {
+  useState,
+  type CSSProperties,
+  type FocusEvent,
+  type FormEvent,
+} from "react";
+import { CONTACT } from "../../data/content";
+import { Icon, type IconName } from "../ui/Icon";
 
 const fieldStyle: CSSProperties = {
   width: "100%",
@@ -31,203 +37,241 @@ function onFieldBlur(e: FocusEvent<Field>) {
   e.target.style.boxShadow = "none";
 }
 
+function ContactMethod({
+  href,
+  icon,
+  label,
+  external,
+}: {
+  href: string;
+  icon: IconName;
+  label: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener" } : {})}
+      className="contact-method"
+    >
+      <span className="contact-method-icon">
+        <Icon name={icon} size={16} />
+      </span>
+      {label}
+    </a>
+  );
+}
+
+function TrustPoint({ icon, children }: { icon: IconName; children: string }) {
+  return (
+    <div className="contact-trust-point">
+      <Icon name={icon} size={17} color="var(--accent)" />
+      <span>{children}</span>
+    </div>
+  );
+}
+
 export function Kontakt() {
-  const [sent, setSent] = useState(false);
-  const submit = (e: FormEvent) => {
+  const [requestSent, setRequestSent] = useState(false);
+
+  const submitRequest = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
+    const data = new FormData(e.currentTarget);
+    const name = String(data.get("name") ?? "");
+    const email = String(data.get("email") ?? "");
+    const message = String(data.get("message") ?? "");
+    const subject = "Anfrage kostenloses Erstgespräch";
+    const body = [
+      `Name: ${name}`,
+      `E-Mail: ${email}`,
+      "",
+      "Worum geht es?",
+      message || "Bitte kurz im Erstgespräch klären.",
+    ].join("\n");
+
+    window.location.href = `${CONTACT.emailHref}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setRequestSent(true);
   };
 
   return (
     <section
       id="kontakt"
-      style={{ padding: "clamp(50px,7vw,100px) 0 clamp(40px,5vw,70px)" }}
+      className="kontakt-band"
+      style={{ padding: "clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)" }}
     >
       <div className="wrap">
         <div
-          className="reveal kontakt-grid"
+          className="kontakt-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1.05fr",
             gap: "clamp(30px,5vw,70px)",
             alignItems: "center",
-            background: "var(--paper)",
-            border: "1px solid var(--line)",
-            borderRadius: 26,
-            padding: "clamp(28px,4vw,56px)",
-            boxShadow: "0 30px 70px -44px rgba(60,40,25,.4)",
           }}
         >
-          <div>
+          <div
+            className="kontakt-intro reveal"
+            style={{ display: "flex", flexDirection: "column", gap: 26 }}
+          >
             <span className="eyebrow">Kontakt</span>
-            <h2 style={{ fontSize: "clamp(32px,4.5vw,52px)", margin: "14px 0 18px" }}>
-              Lassen Sie uns reden.
-            </h2>
-            <p style={{ fontSize: 18, color: "var(--muted)", marginBottom: 26, maxWidth: 420 }}>
-              Schreiben Sie mir kurz, was Sie sich vorstellen. Ich melde mich
-              innerhalb von zwei Tagen.
-            </p>
-            <div style={{ display: "grid", gap: 12 }}>
-              <a href="mailto:hallo@nestoririondo.de" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <span
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 12,
-                    background: "var(--accent-soft)",
-                    color: "var(--accent)",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <Icon name="mail" size={19} />
-                </span>
-                <span style={{ fontWeight: 600 }}>hallo@nestoririondo.de</span>
-              </a>
-              <a
-                href="https://wa.me/491701234567"
-                target="_blank"
-                rel="noopener"
-                style={{ display: "flex", alignItems: "center", gap: 12 }}
+            <div>
+              <h2
+                style={{
+                  fontSize: "clamp(34px,5vw,56px)",
+                  letterSpacing: "-.02em",
+                  marginBottom: 18,
+                }}
               >
-                <span
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 12,
-                    background: "rgba(37,211,102,.15)",
-                    color: "#1aa84e",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <Icon name="whatsapp" size={20} />
-                </span>
-                <span style={{ fontWeight: 600 }}>
-                  WhatsApp{" "}
-                  <span style={{ fontWeight: 500, color: "var(--muted)" }}>
-                    · meist in Minuten
-                  </span>
-                </span>
-              </a>
-              <a href="tel:+491701234567" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <span
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 12,
-                    background: "var(--accent-soft)",
-                    color: "var(--accent)",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <Icon name="phone" size={19} />
-                </span>
-                <span style={{ fontWeight: 600 }}>+49 170 123 45 67</span>
-              </a>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <span
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 12,
-                    background: "var(--accent-soft)",
-                    color: "var(--accent)",
-                    display: "grid",
-                    placeItems: "center",
-                  }}
-                >
-                  <Icon name="pin" size={19} />
-                </span>
-                <span style={{ fontWeight: 600, color: "var(--muted)" }}>
-                  Alt-Treptow, Berlin
-                </span>
+                Lass uns reden.
+              </h2>
+              <p style={{ fontSize: 18.5, color: "var(--muted)", maxWidth: 430, lineHeight: 1.6 }}>
+                Du brauchst kein fertiges Konzept – eine grobe Idee reicht. Im
+                kostenlosen Erstgespräch sage ich dir ehrlich, ob und wie ich
+                helfen kann.
+              </p>
+            </div>
+
+            <div className="contact-trust">
+              <TrustPoint icon="check">Antwort innerhalb von 24 Stunden</TrustPoint>
+              <TrustPoint icon="phone">30 Minuten, unverbindlich</TrustPoint>
+              <TrustPoint icon="pin">Berlin & remote</TrustPoint>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "var(--muted)",
+                  marginBottom: 12,
+                }}
+              >
+                Lieber direkt schreiben?
+              </div>
+              <div className="contact-methods">
+                <ContactMethod
+                  href={CONTACT.whatsappHref}
+                  external
+                  icon="whatsapp"
+                  label="WhatsApp"
+                />
+                <ContactMethod
+                  href={CONTACT.emailHref}
+                  icon="mail"
+                  label="E-Mail"
+                />
+                <ContactMethod
+                  href={CONTACT.phoneHref}
+                  icon="phone"
+                  label="Anrufen"
+                />
               </div>
             </div>
           </div>
 
-          {sent ? (
-            <div
-              style={{
-                display: "grid",
-                placeItems: "center",
-                textAlign: "center",
-                minHeight: 280,
-                gap: 14,
-              }}
-            >
-              <span
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 99,
-                  background: "var(--accent)",
-                  color: "#fff",
-                  display: "grid",
-                  placeItems: "center",
-                  boxShadow: "0 14px 34px -14px var(--accent)",
-                }}
-              >
-                <Icon name="check" size={30} stroke={2.4} />
-              </span>
-              <h3 style={{ fontSize: 28 }}>Vielen Dank!</h3>
-              <p style={{ color: "var(--muted)", maxWidth: 320 }}>
-                Ihre Anfrage ist angekommen. Ich melde mich in ein bis zwei Tagen
-                bei Ihnen.
-              </p>
+          <div className="appointment-card reveal kontakt-pop">
+            <div style={{ display: "grid", gap: 18 }}>
+              {requestSent ? (
+                <div style={{ marginBottom: 2 }}>
+                  <span
+                    style={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 18,
+                      background: "var(--accent)",
+                      color: "#fff",
+                      display: "grid",
+                      placeItems: "center",
+                      marginBottom: 16,
+                    }}
+                  >
+                    <Icon name="check" size={26} stroke={2.4} />
+                  </span>
+                  <h3 style={{ fontSize: 27, marginBottom: 8 }}>Anfrage vorbereitet.</h3>
+                  <p style={{ color: "var(--muted)", marginBottom: 18 }}>
+                    Dein Mailprogramm sollte sich geöffnet haben. Schick die
+                    Nachricht ab, dann melde ich mich persönlich bei dir.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    style={{ justifyContent: "center", width: "100%" }}
+                    onClick={() => {
+                      setRequestSent(false);
+                    }}
+                  >
+                    Anfrage bearbeiten
+                  </button>
+                </div>
+              ) : null}
+
+              {!requestSent ? (
+                <form onSubmit={submitRequest} style={{ display: "grid", gap: 14 }}>
+                  <h3 style={{ fontSize: 23, marginBottom: 2 }}>
+                    Schreib mir kurz.
+                  </h3>
+                  <div>
+                    <label htmlFor="contact-name" style={labelStyle}>
+                      Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      required
+                      name="name"
+                      autoComplete="name"
+                      style={fieldStyle}
+                      onFocus={onFieldFocus}
+                      onBlur={onFieldBlur}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" style={labelStyle}>
+                      E-Mail
+                    </label>
+                    <input
+                      id="contact-email"
+                      required
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      style={fieldStyle}
+                      onFocus={onFieldFocus}
+                      onBlur={onFieldBlur}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" style={labelStyle}>
+                      Worum geht es? <span style={{ color: "var(--muted)" }}>(optional)</span>
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      rows={5}
+                      style={{ ...fieldStyle, resize: "vertical", minHeight: 126 }}
+                      onFocus={onFieldFocus}
+                      onBlur={onFieldBlur}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ justifyContent: "center", padding: "15px", marginTop: 4 }}
+                  >
+                    Erstgespräch anfragen <Icon name="arrow" size={18} />
+                  </button>
+                  <p
+                    style={{
+                      fontSize: 13,
+                      color: "var(--muted)",
+                      textAlign: "center",
+                    }}
+                  >
+                    Deine Nachricht kommt direkt bei mir an – ganz persönlich, kein Automat.
+                  </p>
+                </form>
+              ) : null}
             </div>
-          ) : (
-            <form onSubmit={submit} style={{ display: "grid", gap: 16 }}>
-              <div
-                className="form-row"
-                style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
-              >
-                <div>
-                  <label style={labelStyle}>Name</label>
-                  <input
-                    required
-                    style={fieldStyle}
-                    onFocus={onFieldFocus}
-                    onBlur={onFieldBlur}
-                    placeholder="Ihr Name"
-                  />
-                </div>
-                <div>
-                  <label style={labelStyle}>E-Mail</label>
-                  <input
-                    required
-                    type="email"
-                    style={fieldStyle}
-                    onFocus={onFieldFocus}
-                    onBlur={onFieldBlur}
-                    placeholder="name@beispiel.de"
-                  />
-                </div>
-              </div>
-              <div>
-                <label style={labelStyle}>Worum geht es?</label>
-                <textarea
-                  required
-                  rows={5}
-                  style={{ ...fieldStyle, resize: "vertical" }}
-                  onFocus={onFieldFocus}
-                  onBlur={onFieldBlur}
-                  placeholder="Ein paar Sätze zu Ihrem Unternehmen und was Sie sich wünschen…"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{ justifyContent: "center", padding: "15px" }}
-              >
-                Anfrage senden <Icon name="arrow" size={18} />
-              </button>
-              <p style={{ fontSize: 13, color: "var(--muted)", textAlign: "center" }}>
-                Kein Newsletter, kein Funnel. Nur eine ehrliche Antwort.
-              </p>
-            </form>
-          )}
+          </div>
         </div>
       </div>
     </section>

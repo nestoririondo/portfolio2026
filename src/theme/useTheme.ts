@@ -19,7 +19,7 @@ export function useTheme() {
 
   const theme =
     THEMES.find(
-      (t) => JSON.stringify(t.palette) === JSON.stringify(state.palette),
+      (t) => t.palette[0].toLowerCase() === state.palette[0].toLowerCase(),
     ) ?? THEMES[0];
   const pair = FONT_PAIRS[state.fontPair] ?? FONT_PAIRS.editorial;
 
@@ -27,18 +27,22 @@ export function useTheme() {
     const root = document.documentElement.style;
     const vars = {
       ...theme.vars,
+      // The secondary accent is its own axis — it wins over the theme's default.
+      "--accent2": state.accent2,
       "--font-head": pair.head,
       "--font-body": pair.body,
     };
     Object.entries(vars).forEach(([k, v]) => root.setProperty(k, v));
-  }, [theme, pair]);
+  }, [theme, pair, state.accent2]);
 
   const setPalette = (palette: Palette) =>
     setState((s) => ({ ...s, palette }));
+  const setAccent2 = (accent2: string) =>
+    setState((s) => ({ ...s, accent2 }));
   const setFontPair = (fontPair: FontPairName) =>
     setState((s) => ({ ...s, fontPair }));
   const setHeroLayout = (heroLayout: HeroLayout) =>
     setState((s) => ({ ...s, heroLayout }));
 
-  return { state, setPalette, setFontPair, setHeroLayout };
+  return { state, setPalette, setAccent2, setFontPair, setHeroLayout };
 }
