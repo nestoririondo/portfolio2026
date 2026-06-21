@@ -83,7 +83,7 @@ export function Software() {
             align="left"
             eyebrow="Funktion, nicht nur Design"
             title="Funktionen, die im Alltag wirklich helfen."
-            sub="Vier Beispiele, was deine Website können kann – weit über eine digitale Visitenkarte hinaus."
+            sub="Vier Beispiele dafür, was deine Website alles kann – weit über eine digitale Visitenkarte hinaus."
           />
         </div>
 

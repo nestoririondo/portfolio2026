@@ -25,7 +25,7 @@ export function Angebot() {
           <SectionHeading
             eyebrow="So läuft’s"
             title="Erst verstehen, dann bauen."
-            sub="Von der Idee zur fertigen Website – bei jedem Schritt siehst du ein echtes Zwischenergebnis. Du sagst mir dein Ziel, um den Rest kümmere ich mich."
+            sub="Von der Idee zur fertigen Website – bei jedem Schritt siehst du ein echtes Zwischenergebnis und sagst, was passt. Wir feilen so lange daran, bis es wirklich sitzt und du zufrieden bist."
           />
         </div>
 

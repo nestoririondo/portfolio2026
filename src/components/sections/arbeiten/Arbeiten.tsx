@@ -13,8 +13,8 @@ export function Arbeiten() {
           <SectionHeading
             align="left"
             eyebrow="Arbeiten"
-            title="Echte Projekte, echte Funktionen."
-            sub="Ein echter Kunde und ein Konzept-Case — und was so eine Website jeden Tag erledigt."
+            title="Echte Projekte, die mitarbeiten."
+            sub="Ein laufendes Kundenprojekt und ein Beispiel-Konzept — und was so eine Website jeden Tag erledigt."
           />
         </div>
 
@@ -25,7 +25,7 @@ export function Arbeiten() {
         <div className="reveal">
           <CaseLabel n="Fallstudie 02">
             <span className="chip" style={{ fontWeight: 600 }}>
-              <Icon name="layout" size={14} /> Konzept-Case
+              <Icon name="layout" size={14} /> Beispiel-Konzept
             </span>
             <span className="chip">
               <Icon name="spark" size={14} /> Online-Terminbuchung
