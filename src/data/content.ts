@@ -20,12 +20,14 @@ export type Language = (typeof LANGUAGES)[number];
 
 /** Central contact details. */
 export const CONTACT = {
-  email: "hallo@nestoririondo.de",
-  emailHref: "mailto:hallo@nestoririondo.de",
+  email: "hello@nestoririondo.com",
+  emailHref: "mailto:hello@nestoririondo.com",
   phoneDisplay: "+49 170 123 45 67",
   phoneHref: "tel:+491701234567",
   whatsappHref: "https://wa.me/491701234567",
   location: "Alt-Treptow, Berlin",
+  /** Serverless endpoint that sends the contact form via Resend (see api/contact.ts). */
+  formEndpoint: "/api/contact",
 };
 
 /** Software → Outcomes section. `gfx` selects the mini-UI; `px` is parallax speed. */

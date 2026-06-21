@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LANGUAGES, NAV_LINKS, type Language } from "../../data/content";
 import { useScrolled } from "../../hooks/useScrolled";
 
@@ -72,9 +72,29 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<Language>("DE");
   const scrolled = useScrolled();
+  const headerRef = useRef<HTMLElement>(null);
+
+  // close the mobile menu when clicking/tapping anywhere outside the header,
+  // or pressing Escape
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   return (
     <header
+      ref={headerRef}
       style={{
         position: "sticky",
         top: 0,
@@ -101,6 +121,8 @@ export function Header() {
             display: "flex",
             alignItems: "center",
             gap: 9,
+            whiteSpace: "nowrap",
+            flex: "0 0 auto",
           }}
         >
           <span
@@ -132,6 +154,7 @@ export function Header() {
                 color: "var(--muted)",
                 fontWeight: 500,
                 transition: "color .2s",
+                whiteSpace: "nowrap",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ink)")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}

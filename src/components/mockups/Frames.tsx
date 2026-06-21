@@ -71,7 +71,7 @@ export function TallBrowser({
         </div>
         <div style={{ width: 52 }} />
       </div>
-      <div>{children}</div>
+      <div className="tall-browser-body">{children}</div>
     </div>
   );
 }

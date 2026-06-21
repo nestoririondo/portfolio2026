@@ -1,6 +1,8 @@
+import { useRef } from "react";
 import { Icon } from "../ui/Icon";
 import { Placeholder } from "../ui/Placeholder";
 import { Blob } from "../ui/Decorations";
+import { useParallax } from "../../hooks/useParallax";
 import type { HeroLayout } from "../../theme/themes";
 
 function Portrait({ wide }: { wide?: boolean }) {
@@ -8,6 +10,7 @@ function Portrait({ wide }: { wide?: boolean }) {
     <div style={{ position: "relative" }}>
       <Blob
         color="color-mix(in oklab,var(--accent2) 26%,transparent)"
+        dataPx={0.07}
         style={{
           position: "absolute",
           width: "62%",
@@ -58,6 +61,8 @@ function Portrait({ wide }: { wide?: boolean }) {
 }
 
 export function Hero({ layout }: { layout: HeroLayout }) {
+  const secRef = useRef<HTMLElement>(null);
+  useParallax(secRef);
   const centered = layout === "centered";
   const eyebrow = (
     <span className="eyebrow">Webentwickler · Berlin Alt-Treptow</span>
@@ -77,9 +82,9 @@ export function Hero({ layout }: { layout: HeroLayout }) {
         lineHeight: 1.55,
       }}
     >
-      Am Ende zählt nicht die Website, sondern was sie dir bringt: mehr
-      Anfragen, weniger Aufwand und einen Auftritt, dem deine Kund:innen
-      vertrauen.
+      Die meisten Websites stehen nur da. Deine arbeitet mit: Sie nimmt
+      Termine an, hält sich selbst aktuell und bringt dir Anfragen – auch
+      dann, wenn du längst Feierabend hast.
     </p>
   );
   const ctas = (
@@ -121,6 +126,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
 
   return (
     <section
+      ref={secRef}
       id="top"
       style={{
         paddingTop: "clamp(30px,5vw,64px)",

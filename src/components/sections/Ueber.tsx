@@ -1,11 +1,15 @@
+import { useRef } from "react";
 import { ABOUT_CHIPS } from "../../data/content";
 import { Icon } from "../ui/Icon";
 import { Placeholder } from "../ui/Placeholder";
 import { Blob } from "../ui/Decorations";
+import { useParallax } from "../../hooks/useParallax";
 
 export function Ueber() {
+  const secRef = useRef<HTMLElement>(null);
+  useParallax(secRef);
   return (
-    <section id="ueber" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
+    <section ref={secRef} id="ueber" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
       <div className="wrap">
         <div
           className="reveal ueber-grid"
@@ -19,6 +23,7 @@ export function Ueber() {
           <div style={{ position: "relative" }}>
             <Blob
               color="color-mix(in oklab,var(--accent2) 24%,transparent)"
+              dataPx={-0.07}
               style={{
                 position: "absolute",
                 width: "58%",

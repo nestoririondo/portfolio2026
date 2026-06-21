@@ -47,7 +47,9 @@ CTA: **Projekt anfragen**
 
 - **Eyebrow:** Arbeiten
 - **H2:** Echte Projekte, echte Funktionen.
-- **Sub:** Zwei echte Kunden — und was ihre Website jeden Tag für sie erledigt.
+- **Sub:** Ein echter Kunde und ein Konzept-Case — und was so eine Website jeden
+  Tag erledigt. (Nur REB ist ein echter Kunde; der Physio-Case ist eine
+  Konzeptstudie und ist als „Konzept-Case" gekennzeichnet.)
 
 ### Fallstudie 01 — REB Consulting GmbH (Echter Kunde)
 
@@ -63,7 +65,7 @@ CTA: **Projekt anfragen**
   Pflegeaufwand.
 - **Tech:** Propstack-API · Live-Daten · Responsive · Kontaktformular
 
-### Fallstudie 02 — Praxis am Treptower Park (Online-Terminbuchung)
+### Fallstudie 02 — Praxis am Treptower Park (Konzept-Case · Online-Terminbuchung)
 
 - Physiotherapie · Alt-Treptow
 - **Intro:** Klarer Auftritt mit eingebauter Terminbuchung. Patient:innen buchen
@@ -142,16 +144,19 @@ darunter die schnellen Kanäle, rechts das Formular als Alternative.
 - **H2:** Lass uns reden.
 - **Sub:** Am liebsten direkt: buch dir einen Termin oder schreib mir per
   WhatsApp. Ich melde mich schnell.
-- **Primär (Calendly-Popup):** Kostenloses Erstgespräch buchen — „15 Minuten,
-  unverbindlich — direkt im Kalender." (`CONTACT.calendlyUrl` ist ein Platzhalter,
-  vor dem Launch durch den echten Calendly-Link ersetzen.)
+- **Primär (Termin buchen):** Kostenloses Erstgespräch buchen — „15 Minuten,
+  unverbindlich — direkt im Kalender." (`CONTACT.bookingUrl` ist ein Platzhalter,
+  vor dem Launch durch den echten Cal.com-/Calendly-Link ersetzen.)
 - **Schnelle Kanäle (oder direkt):**
   - WhatsApp schreiben — meist in Minuten
   - Anrufen — +49 170 123 45 67
   - E-Mail — hallo@nestoririondo.de
 - **Ort:** Alt-Treptow, Berlin
 - **Formular (oder schreib mir):** „Erzähl mir kurz von deinem Projekt." —
-  Name · E-Mail · Worum geht es? · Button **Anfrage senden**
+  Name · E-Mail · Worum geht es? · Button **Erstgespräch anfragen**. Das Formular
+  postet an `CONTACT.formEndpoint` (Formspree-Platzhalter, vor dem Launch durch
+  die echte Form-ID ersetzen) — kein `mailto` mehr, das still scheitern kann.
+  Zustände: Wird gesendet … → Anfrage angekommen / Fehler mit E-Mail-Fallback.
 - **Hinweis:** Kein Newsletter, kein Funnel. Nur eine ehrliche Antwort.
 - **Danke-Status:** Vielen Dank! Deine Anfrage ist angekommen. Ich melde mich in
   ein bis zwei Tagen bei dir.

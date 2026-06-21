@@ -1,19 +1,19 @@
 :root {
-  /* First-paint defaults — match THEMES[0] "Pine & Stone"; overridden at runtime by useTheme() */
-  --bg: #f4f4f0;
-  --paper: #fcfcfa;
-  --ink: #2a2c29;
-  --muted: #73716a;
-  --line: #e6e5de;
-  --ph-bg: #eae9e2;
+  /* First-paint defaults — match THEMES[0] "Terracotta «Clay»"; overridden at runtime by useTheme() */
+  --bg: #f3f2ef;
+  --paper: #fdfcfa;
+  --ink: #2c2a26;
+  --muted: #756f64;
+  --line: #e6e2da;
+  --ph-bg: #ebe5db;
   --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --accent: #1f6f5c;
+  --accent: #bf7050;
   --font-head: "Spectral", Georgia, serif;
   --font-body: "DM Sans", system-ui, sans-serif;
   --accent-deep: color-mix(in oklab, var(--accent) 82%, #000);
   --accent-soft: color-mix(in oklab, var(--accent) 13%, #fff);
   --accent-tint: color-mix(in oklab, var(--accent) 6%, var(--bg));
-  --accent2: #c98a3c;
+  --accent2: #5e8a72;
   --accent2-soft: color-mix(in oklab, var(--accent2) 14%, var(--bg));
 }
 
@@ -117,6 +117,62 @@ section {
   border-color: color-mix(in oklab, var(--accent) 35%, var(--line));
   transform: translateY(-1px);
 }
+.btn:disabled {
+  transform: none;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid color-mix(in oklab, #fff 45%, transparent);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Contact form — confirmation state entrance */
+.confirm {
+  animation: confirm-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.confirm-badge {
+  animation: confirm-badge 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+}
+.confirm-item {
+  animation: confirm-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes confirm-badge {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-12deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .confirm,
+  .confirm-badge,
+  .confirm-item,
+  .spinner {
+    animation: none;
+  }
+}
 
 .chip {
   display: inline-flex;
@@ -199,8 +255,8 @@ section {
   background: color-mix(in oklab, #5b7fa6 14%, #fff);
 }
 .contact-method:nth-child(3) .contact-method-icon {
-  color: #b9826f;
-  background: color-mix(in oklab, #b9826f 16%, #fff);
+  color: #bf7050;
+  background: color-mix(in oklab, #bf7050 16%, #fff);
 }
 
 /* reveal on scroll */
@@ -254,6 +310,11 @@ section {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .process-step:last-child .process-icon::before,
+  .process-step:last-child .process-icon::after {
+    animation: none !important;
+    opacity: 0 !important;
   }
   html {
     scroll-behavior: auto;
@@ -515,20 +576,88 @@ textarea {
 }
 .process-flow > * {
   opacity: 0;
-  transform: translateY(26px) scale(0.94);
+  transform: translateY(30px) scale(0.78);
   transition:
-    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    opacity 0.55s ease,
+    /* back-out overshoot → a pronounced "pop" as each step lands */
+      transform 0.85s cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 .process-flow.in > * {
   opacity: 1;
   transform: none;
 }
+/* slower, more deliberate 1 → 2 → 3 cadence */
+.process-flow.in > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
 .process-flow.in > *:nth-child(2) {
-  transition-delay: 0.14s;
+  transition-delay: 0.5s;
 }
 .process-flow.in > *:nth-child(3) {
-  transition-delay: 0.28s;
+  transition-delay: 0.9s;
+}
+
+/* ── celebratory fireworks on the final "fertig" step ───────────────── */
+@keyframes firework-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.05);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+.process-step:last-child .process-icon::before,
+.process-step:last-child .process-icon::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+/* outer ring of 12 sparks */
+.process-step:last-child .process-icon::before {
+  box-shadow:
+    62px 0 0 var(--accent2),
+    54px -31px 0 #d8a24a,
+    31px -54px 0 #c06e4e,
+    0 -62px 0 var(--accent),
+    -31px -54px 0 #d8a24a,
+    -54px -31px 0 var(--accent2),
+    -62px 0 0 #c06e4e,
+    -54px 31px 0 var(--accent),
+    -31px 54px 0 #d8a24a,
+    0 62px 0 var(--accent2),
+    31px 54px 0 #c06e4e,
+    54px 31px 0 var(--accent);
+}
+/* inner ring of 6 sparks, offset angle, fires slightly later */
+.process-step:last-child .process-icon::after {
+  width: 5px;
+  height: 5px;
+  box-shadow:
+    36px -10px 0 #d8a24a,
+    10px -36px 0 var(--accent),
+    -28px -24px 0 #c06e4e,
+    -36px 14px 0 var(--accent2),
+    4px 38px 0 #d8a24a,
+    32px 22px 0 var(--accent);
+}
+.process-flow.in .process-step:last-child .process-icon::before {
+  animation: firework-burst 1.15s 1.05s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
+}
+.process-flow.in .process-step:last-child .process-icon::after {
+  animation: firework-burst 1.35s 1.3s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
 }
 
 @media (max-width: 720px) {
@@ -568,6 +697,14 @@ textarea {
     position: static !important;
     margin-bottom: 8px;
   }
+  /* in single-column, cap the full-page browser shot and scroll its content
+     inside the frame so the fake browser chrome/border stays in view */
+  .tall-browser-body {
+    max-height: 68vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
   #ba-grid {
     grid-template-columns: 1fr !important;
   }
@@ -599,7 +736,7 @@ textarea {
     margin: 26px auto 0;
   }
 }
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .desk-nav {
     display: none !important;
   }

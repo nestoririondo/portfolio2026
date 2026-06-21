@@ -50,29 +50,44 @@ const theme = (vars: CssVars): Theme => ({
 });
 
 export const THEMES: Theme[] = [
-  // 1 · Pine & Stone — confident deep green on soft greige. Calm but the accent reads.
+  // 1 · Terracotta «Clay» — the recommended fix. True burnt-clay accent (more
+  //     orange + chroma than the old rose #b9826f, so tints read warm-earth not
+  //     pink) sitting on a near-neutral greige ground, sage second for contrast.
   theme({
-    "--bg": "#f4f4f0",
-    "--paper": "#fcfcfa",
-    "--ink": "#2a2c29",
-    "--muted": "#73716a",
-    "--line": "#e6e5de",
-    "--ph-bg": "#eae9e2",
-    "--accent": "#1f6f5c",
-    "--accent2": "#c98a3c",
+    "--bg": "#f3f2ef",
+    "--paper": "#fdfcfa",
+    "--ink": "#2c2a26",
+    "--muted": "#756f64",
+    "--line": "#e6e2da",
+    "--ph-bg": "#ebe5db",
+    "--accent": "#bf7050",
+    "--accent2": "#5e8a72",
   }),
-  // 2 · Indigo & Clay — saturated indigo on cool light grey, warm clay second.
+  // 2 · Terracotta «Sienna» — deeper, punchier burnt-sienna for more tonal
+  //     contrast against the page (kills the flat/monotone feel via depth).
   theme({
-    "--bg": "#f3f4f6",
-    "--paper": "#fdfdfe",
-    "--ink": "#26282e",
-    "--muted": "#6b6f78",
-    "--line": "#e3e5ea",
-    "--ph-bg": "#e8eaef",
-    "--accent": "#3b53a0",
-    "--accent2": "#c2735a",
+    "--bg": "#f3f2ef",
+    "--paper": "#fdfcf9",
+    "--ink": "#2b2925",
+    "--muted": "#746e63",
+    "--line": "#e6e1d9",
+    "--ph-bg": "#ebe4da",
+    "--accent": "#b65f3e",
+    "--accent2": "#5e8a72",
   }),
-  // 3 · Teal & Amber — fresh deep teal on a barely-warm neutral, amber pop.
+  // 3 · Terracotta «Soft» — closest to the original mood but corrected: a hair
+  //     more saturated/orange so it stays clay rather than drifting to dusty pink.
+  theme({
+    "--bg": "#f4f3ef",
+    "--paper": "#fdfcfa",
+    "--ink": "#2d2b27",
+    "--muted": "#767065",
+    "--line": "#e8e3da",
+    "--ph-bg": "#ede6dc",
+    "--accent": "#c17a5e",
+    "--accent2": "#5e8a72",
+  }),
+  // 4 · Teal & Amber — fresh deep teal on a barely-warm neutral, amber pop.
   theme({
     "--bg": "#f2f4f3",
     "--paper": "#fcfdfc",
@@ -83,29 +98,7 @@ export const THEMES: Theme[] = [
     "--accent": "#0f7d74",
     "--accent2": "#d99a3e",
   }),
-  // 4 · Plum & Sage — muted aubergine on warm greige, sage-green second.
-  theme({
-    "--bg": "#f5f3f1",
-    "--paper": "#fdfcfb",
-    "--ink": "#2b2829",
-    "--muted": "#766e70",
-    "--line": "#e8e2e1",
-    "--ph-bg": "#ede5e4",
-    "--accent": "#7a4a6b",
-    "--accent2": "#5e8a72",
-  }),
-  // 5 · Terracotta & Sage — the original warm clay, balanced by a sage second.
-  theme({
-    "--bg": "#f5f3ef",
-    "--paper": "#fdfcfa",
-    "--ink": "#2d2b27",
-    "--muted": "#767065",
-    "--line": "#e8e3da",
-    "--ph-bg": "#ede6dc",
-    "--accent": "#b9826f",
-    "--accent2": "#5e8a72",
-  }),
-  // 6 · Mustard & Slate — warm ochre-mustard on greige, cool slate-blue second.
+  // 5 · Mustard & Slate — warm ochre-mustard on greige, cool slate-blue second.
   theme({
     "--bg": "#f5f4ee",
     "--paper": "#fdfcf8",
@@ -116,7 +109,7 @@ export const THEMES: Theme[] = [
     "--accent": "#bd8a2c",
     "--accent2": "#3b6ea0",
   }),
-  // 7 · Golden Mustard & Pine — brighter golden mustard, deep-green second.
+  // 6 · Golden Mustard & Pine — brighter golden mustard, deep-green second.
   theme({
     "--bg": "#f5f4ed",
     "--paper": "#fdfcf7",

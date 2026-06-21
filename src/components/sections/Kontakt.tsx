@@ -71,26 +71,35 @@ function TrustPoint({ icon, children }: { icon: IconName; children: string }) {
   );
 }
 
+type SubmitStatus = "idle" | "sending" | "sent" | "error";
+
 export function Kontakt() {
-  const [requestSent, setRequestSent] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
 
-  const submitRequest = (e: FormEvent<HTMLFormElement>) => {
+  const submitRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") ?? "");
-    const email = String(data.get("email") ?? "");
-    const message = String(data.get("message") ?? "");
-    const subject = "Anfrage kostenloses Erstgespräch";
-    const body = [
-      `Name: ${name}`,
-      `E-Mail: ${email}`,
-      "",
-      "Worum geht es?",
-      message || "Bitte kurz im Erstgespräch klären.",
-    ].join("\n");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? "").trim(),
+      email: String(data.get("email") ?? "").trim(),
+      message: String(data.get("message") ?? "").trim(),
+      company: String(data.get("company") ?? ""), // honeypot
+    };
 
-    window.location.href = `${CONTACT.emailHref}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setRequestSent(true);
+    setStatus("sending");
+    try {
+      const res = await fetch(CONTACT.formEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -171,9 +180,10 @@ export function Kontakt() {
 
           <div className="appointment-card reveal kontakt-pop">
             <div style={{ display: "grid", gap: 18 }}>
-              {requestSent ? (
-                <div style={{ marginBottom: 2 }}>
+              {status === "sent" ? (
+                <div className="confirm" style={{ marginBottom: 2 }}>
                   <span
+                    className="confirm-badge"
                     style={{
                       width: 54,
                       height: 54,
@@ -187,29 +197,40 @@ export function Kontakt() {
                   >
                     <Icon name="check" size={26} stroke={2.4} />
                   </span>
-                  <h3 style={{ fontSize: 27, marginBottom: 8 }}>Anfrage vorbereitet.</h3>
-                  <p style={{ color: "var(--muted)", marginBottom: 18 }}>
-                    Dein Mailprogramm sollte sich geöffnet haben. Schick die
-                    Nachricht ab, dann melde ich mich persönlich bei dir.
+                  <h3 className="confirm-item" style={{ fontSize: 27, marginBottom: 8, animationDelay: ".12s" }}>
+                    Anfrage angekommen.
+                  </h3>
+                  <p className="confirm-item" style={{ color: "var(--muted)", marginBottom: 18, animationDelay: ".18s" }}>
+                    Vielen Dank! Deine Nachricht ist bei mir gelandet. Ich melde
+                    mich in ein bis zwei Tagen persönlich bei dir.
                   </p>
                   <button
                     type="button"
-                    className="btn btn-ghost"
-                    style={{ justifyContent: "center", width: "100%" }}
+                    className="btn btn-ghost confirm-item"
+                    style={{ justifyContent: "center", width: "100%", animationDelay: ".24s" }}
                     onClick={() => {
-                      setRequestSent(false);
+                      setStatus("idle");
                     }}
                   >
-                    Anfrage bearbeiten
+                    Neue Anfrage schreiben
                   </button>
                 </div>
               ) : null}
 
-              {!requestSent ? (
+              {status !== "sent" ? (
                 <form onSubmit={submitRequest} style={{ display: "grid", gap: 14 }}>
                   <h3 style={{ fontSize: 23, marginBottom: 2 }}>
                     Schreib mir kurz.
                   </h3>
+                  {/* Honeypot — hidden from users, catches bots. */}
+                  <input
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ display: "none" }}
+                  />
                   <div>
                     <label htmlFor="contact-name" style={labelStyle}>
                       Name
@@ -252,12 +273,49 @@ export function Kontakt() {
                       onBlur={onFieldBlur}
                     />
                   </div>
+                  {status === "error" ? (
+                    <p
+                      role="alert"
+                      style={{
+                        fontSize: 14,
+                        lineHeight: 1.5,
+                        color: "#b4452f",
+                        background: "color-mix(in oklab,#b4452f 8%,transparent)",
+                        border: "1px solid color-mix(in oklab,#b4452f 26%,transparent)",
+                        borderRadius: 12,
+                        padding: "11px 14px",
+                      }}
+                    >
+                      Das hat gerade nicht geklappt. Versuch es bitte nochmal –
+                      oder schreib mir direkt an{" "}
+                      <a href={CONTACT.emailHref} style={{ color: "inherit", fontWeight: 600 }}>
+                        {CONTACT.email}
+                      </a>
+                      .
+                    </p>
+                  ) : null}
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    style={{ justifyContent: "center", padding: "15px", marginTop: 4 }}
+                    disabled={status === "sending"}
+                    aria-busy={status === "sending"}
+                    style={{
+                      justifyContent: "center",
+                      padding: "15px",
+                      marginTop: 4,
+                      opacity: status === "sending" ? 0.65 : 1,
+                      cursor: status === "sending" ? "wait" : "pointer",
+                    }}
                   >
-                    Erstgespräch anfragen <Icon name="arrow" size={18} />
+                    {status === "sending" ? (
+                      <>
+                        <span className="spinner" aria-hidden="true" /> Wird gesendet …
+                      </>
+                    ) : (
+                      <>
+                        Erstgespräch anfragen <Icon name="arrow" size={18} />
+                      </>
+                    )}
                   </button>
                   <p
                     style={{
