@@ -15,6 +15,7 @@
   --accent-tint: color-mix(in oklab, var(--accent) 6%, var(--bg));
   --accent2: #5e8a72;
   --accent2-soft: color-mix(in oklab, var(--accent2) 14%, var(--bg));
+  --success: #5e8a72;
 }
 
 * {
@@ -100,12 +101,14 @@ section {
 .btn-primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 28px -12px color-mix(in oklab, var(--accent) 80%, transparent);
+  box-shadow: 0 12px 28px -12px
+    color-mix(in oklab, var(--accent) 80%, transparent);
 }
 .btn-primary:hover {
   background: var(--accent-deep);
   transform: translateY(-1px);
-  box-shadow: 0 16px 34px -12px color-mix(in oklab, var(--accent) 75%, transparent);
+  box-shadow: 0 16px 34px -12px
+    color-mix(in oklab, var(--accent) 75%, transparent);
 }
 .btn-ghost {
   background: transparent;
@@ -165,11 +168,31 @@ section {
     transform: scale(1) rotate(0);
   }
 }
+/* gentle, always-on float for the portrait photos (composes with scroll parallax,
+   which lives on a separate wrapper so the two transforms don't collide) */
+@keyframes photo-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.photo-float {
+  animation: photo-float 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+.photo-float.delay {
+  animation-delay: -3s; /* desync hero vs about */
+}
+
 @media (prefers-reduced-motion: reduce) {
   .confirm,
   .confirm-badge,
   .confirm-item,
-  .spinner {
+  .spinner,
+  .photo-float {
     animation: none;
   }
 }
@@ -377,11 +400,7 @@ textarea {
   text-align: center;
   overflow: hidden;
   background:
-    radial-gradient(
-      130% 80% at 50% -10%,
-      var(--accent-tint),
-      transparent 55%
-    ),
+    radial-gradient(130% 80% at 50% -10%, var(--accent-tint), transparent 55%),
     var(--paper);
   box-shadow: 0 34px 70px -42px rgba(60, 40, 25, 0.5);
 }
@@ -472,12 +491,12 @@ textarea {
 .kontakt-band {
   position: relative;
   background:
-    radial-gradient(
-      120% 90% at 85% 0%,
-      var(--accent-tint),
-      transparent 60%
-    ),
-    linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)), var(--bg));
+    radial-gradient(120% 90% at 85% 0%, var(--accent-tint), transparent 60%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--accent) 5%, var(--bg)),
+      var(--bg)
+    );
   border-top: 1px solid var(--line);
 }
 
@@ -506,7 +525,7 @@ textarea {
 .process-step:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 18px; /* vertical center of the 38px dot */
+  top: 20px; /* vertical center of the 40px badge */
   left: 50%;
   width: calc(100% + clamp(8px, 2vw, 26px)); /* span the flex gap */
   height: 2px;
@@ -540,29 +559,33 @@ textarea {
 }
 .process-layer-main {
   z-index: 1;
+  /* soft floating lift, echoing the software section's elevated Screen boxes */
+  filter: drop-shadow(0 16px 22px rgba(60, 40, 25, 0.16));
 }
-/* milestone dot sitting on the rail, centered above each step's graphic */
+/* milestone badge sitting on the rail, centered above each step's graphic */
 .process-num {
   position: relative;
   z-index: 1;
-  margin: 0 auto 14px;
-  width: 38px;
-  height: 38px;
+  margin: 0 auto 16px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   display: grid;
   place-items: center;
-  background: color-mix(in oklab, var(--accent) 12%, var(--paper));
-  color: var(--accent);
+  /* solid, confident step badge — same accent for all three */
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--accent) 84%, #fff),
+    var(--accent)
+  );
+  color: var(--paper);
   font-family: var(--font-head);
   font-weight: 600;
-  font-size: 19px;
-  /* ring in the section's tint so the rail visually passes behind the dot */
-  box-shadow: 0 0 0 6px var(--accent-tint);
-}
-/* last step = "live/fertig" → warm amber accent */
-.process-step:last-child .process-num {
-  background: color-mix(in oklab, var(--accent2) 14%, var(--paper));
-  color: var(--accent2);
+  font-size: 18px;
+  /* soft lift + a tint ring so the rail visually passes behind the badge */
+  box-shadow:
+    0 7px 16px -7px color-mix(in oklab, var(--accent) 65%, transparent),
+    0 0 0 6px var(--accent-tint);
 }
 .process-step h3 {
   position: relative;
@@ -579,8 +602,8 @@ textarea {
   transform: translateY(30px) scale(0.78);
   transition:
     opacity 0.55s ease,
-    /* back-out overshoot → a pronounced "pop" as each step lands */
-      transform 0.85s cubic-bezier(0.34, 1.7, 0.5, 1);
+    /* back-out overshoot → a pronounced "pop" as each step lands */ transform
+      0.85s cubic-bezier(0.34, 1.7, 0.5, 1);
 }
 .process-flow.in > * {
   opacity: 1;
@@ -677,7 +700,7 @@ textarea {
   }
   /* rail runs vertically down through the stacked dots */
   .process-step:not(:last-child)::after {
-    top: 38px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
     width: 2px;

@@ -110,7 +110,7 @@ export function Software() {
             flexWrap: "wrap",
           }}
         >
-          <a href="#kontakt" className="btn" style={{ background: "var(--accent)", color: "#fff" }}>
+          <a href="#kontakt" className="btn btn-primary">
             Was wäre für dich sinnvoll? <Icon name="arrow" size={18} />
           </a>
           <span style={{ fontSize: 15, color: "rgba(255,255,255,.55)" }}>

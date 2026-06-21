@@ -155,7 +155,7 @@ export function Kontakt() {
                   marginBottom: 12,
                 }}
               >
-                Lieber direkt schreiben?
+                Lieber direkt schreiben oder anrufen?
               </div>
               <div className="contact-methods">
                 <ContactMethod

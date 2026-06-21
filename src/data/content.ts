@@ -127,7 +127,7 @@ export interface AboutChip {
 export const ABOUT_CHIPS: AboutChip[] = [
   { icon: "pin", label: "Alt-Treptow, Berlin" },
   { icon: "globe", label: "DE · EN · ES" },
-  { icon: "phoneDevice", label: "Auch Apps & Tools" },
+  { icon: "phoneDevice", label: "Web, Apps & Tools" },
   { icon: "spark", label: "KI-Integration" },
 ];
 

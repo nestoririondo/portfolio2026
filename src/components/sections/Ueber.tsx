@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { ABOUT_CHIPS } from "../../data/content";
 import { Icon } from "../ui/Icon";
-import { Placeholder } from "../ui/Placeholder";
+import { Photo } from "../ui/Photo";
 import { Blob } from "../ui/Decorations";
 import { useParallax } from "../../hooks/useParallax";
 
@@ -32,8 +32,17 @@ export function Ueber() {
                 zIndex: 0,
               }}
             />
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <Placeholder label="Portrait · Néstor" ratio="4 / 5" round={22} />
+            {/* scroll-parallax layer (JS transform) wrapping the float layer (CSS transform) */}
+            <div data-px={-0.05} style={{ position: "relative", zIndex: 1 }}>
+              <div className="photo-float delay">
+                <Photo
+                  src="/img/portrait-about.jpg"
+                  alt="Néstor in Berlin Alt-Treptow"
+                  label="Portrait · Néstor"
+                  ratio="4 / 5"
+                  round={22}
+                />
+              </div>
             </div>
           </div>
           <div>
@@ -55,10 +64,11 @@ export function Ueber() {
                 lineHeight: 1.6,
               }}
             >
-              Hauptberuflich entwickle ich Software in Berlin. Websites baue ich
-              mit demselben Anspruch: solide, durchdacht, ohne Kompromisse. Ich
-              wohne in Alt-Treptow und arbeite auf Deutsch, Englisch und
-              Spanisch.
+              Hauptberuflich entwickle ich Software – und mit derselben Technik
+              baue ich deine Website: schnell, zuverlässig und darauf ausgelegt,
+              dir Anfragen zu bringen. Um die Technik kümmere ich mich, du
+              behältst den Kopf frei fürs Geschäft. Ich erkläre alles
+              verständlich und bin auch nach dem Launch für dich da.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {ABOUT_CHIPS.map(({ icon, label }) => (

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Icon } from "../ui/Icon";
-import { Placeholder } from "../ui/Placeholder";
+import { Photo } from "../ui/Photo";
 import { Blob } from "../ui/Decorations";
 import { useParallax } from "../../hooks/useParallax";
 import type { HeroLayout } from "../../theme/themes";
@@ -19,42 +19,49 @@ function Portrait({ wide }: { wide?: boolean }) {
           zIndex: 0,
         }}
       />
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <Placeholder
-          label="Portrait · Néstor"
-          ratio={wide ? "5 / 4" : "4 / 5"}
-          round={22}
-        />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 2,
-          left: wide ? "auto" : -16,
-          right: wide ? 16 : "auto",
-          bottom: wide ? 16 : 24,
-          background: "var(--paper)",
-          border: "1px solid var(--line)",
-          borderRadius: 14,
-          padding: "10px 14px",
-          boxShadow: "0 18px 40px -22px rgba(60,40,25,.45)",
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-        }}
-      >
-        <span
-          style={{
-            width: 9,
-            height: 9,
-            borderRadius: 99,
-            background: "#5db469",
-            boxShadow: "0 0 0 4px color-mix(in oklab,#5db469 22%,transparent)",
-          }}
-        />
-        <span style={{ fontSize: 14, fontWeight: 600 }}>
-          Verfügbar für neue Projekte
-        </span>
+      {/* scroll-parallax layer (JS writes an inline transform here) */}
+      <div data-px={0.04} style={{ position: "relative", zIndex: 1 }}>
+        {/* gentle-float layer (CSS animates a transform here — kept separate
+            from the parallax wrapper so the two transforms don't collide) */}
+        <div className="photo-float" style={{ position: "relative" }}>
+          <Photo
+            src="/img/portrait-hero.jpg"
+            alt="Néstor – Webentwickler aus Berlin"
+            label="Portrait · Néstor"
+            ratio={wide ? "5 / 4" : "4 / 5"}
+            round={22}
+          />
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 2,
+              left: wide ? "auto" : -16,
+              right: wide ? 16 : "auto",
+              bottom: wide ? 16 : 24,
+              background: "var(--paper)",
+              border: "1px solid var(--line)",
+              borderRadius: 14,
+              padding: "10px 14px",
+              boxShadow: "0 18px 40px -22px rgba(60,40,25,.45)",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <span
+              style={{
+                width: 9,
+                height: 9,
+                borderRadius: 99,
+                background: "#5db469",
+                boxShadow: "0 0 0 4px color-mix(in oklab,#5db469 22%,transparent)",
+              }}
+            />
+            <span style={{ fontSize: 14, fontWeight: 600 }}>
+              Verfügbar für neue Projekte
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -65,7 +72,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
   useParallax(secRef);
   const centered = layout === "centered";
   const eyebrow = (
-    <span className="eyebrow">Webentwickler · Berlin Alt-Treptow</span>
+    <span className="eyebrow">Webentwickler · Berlin</span>
   );
   const h1 = (
     <h1 style={{ fontSize: "clamp(38px, 6vw, 68px)", margin: "18px 0 0" }}>
