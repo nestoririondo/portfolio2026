@@ -148,20 +148,20 @@ export const REB_CHAPTERS: CaseChapter[] = [
   {
     k: "01",
     label: "Vorher",
-    title: "Eine Seite von 2009",
-    body: "Objekte wurden von Hand eingepflegt — und waren ständig veraltet.",
+    title: "Eine Seite ohne Objekte",
+    body: "Ein älteres WordPress-Theme: viel Text, ein paar Fotos — aber keine Immobilien.",
   },
   {
     k: "02",
-    label: "Jetzt",
-    title: "Direkt aus der Maklersoftware",
-    body: "Die Website zieht die Objekte live aus Propstack. Was dort steht, ist sofort online — ohne manuelle Updates.",
+    label: "Die Arbeit",
+    title: "Die Objekte auf der eigenen Seite",
+    body: "Jetzt zieht die Website die Immobilien live aus der Maklersoftware — immer aktuell, ganz ohne Handarbeit.",
   },
   {
     k: "03",
-    label: "Ergebnis",
-    title: "Immer aktuell, auch mobil",
-    body: "Neue Objekte erscheinen automatisch und sind auf jedem Gerät gut lesbar — mit deutlich weniger Pflegeaufwand.",
+    label: "Das Ergebnis",
+    title: "Unabhängig und immer aktuell",
+    body: "Anfragen kommen direkt über die eigene Seite — unabhängig und auf jedem Gerät gut lesbar.",
   },
 ];
 

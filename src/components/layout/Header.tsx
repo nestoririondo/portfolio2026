@@ -71,8 +71,27 @@ function LangSwitch({
 export function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<Language>("DE");
+  const [hidden, setHidden] = useState(false);
   const scrolled = useScrolled();
   const headerRef = useRef<HTMLElement>(null);
+
+  // auto-hide: slide the nav away when scrolling down, reveal it scrolling up
+  useEffect(() => {
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (open) {
+        setHidden(false);
+      } else if (y > last && y > 120) {
+        setHidden(true);
+      } else if (y < last) {
+        setHidden(false);
+      }
+      last = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
 
   // close the mobile menu when clicking/tapping anywhere outside the header,
   // or pressing Escape
@@ -104,7 +123,10 @@ export function Header() {
           : "transparent",
         backdropFilter: scrolled ? "saturate(1.4) blur(10px)" : "none",
         borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
-        transition: "all .3s ease",
+        transform: hidden ? "translateY(-100%)" : "translateY(0)",
+        // explicit props only — never `all`, so the dropdown menu mounts instantly
+        transition:
+          "transform .3s ease, background .3s ease, border-color .3s ease, backdrop-filter .3s ease",
       }}
     >
       <div
@@ -217,8 +239,13 @@ export function Header() {
         <div
           className="mob-menu"
           style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
             background: "var(--paper)",
             borderBottom: "1px solid var(--line)",
+            boxShadow: "0 24px 40px -28px rgba(60,40,25,.5)",
             padding: "8px 0 16px",
           }}
         >
