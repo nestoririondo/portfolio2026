@@ -43,6 +43,7 @@ export function Angebot() {
               </div>
               <h3 style={{ fontSize: 25, marginBottom: 8 }}>{step.title}</h3>
               <p style={{ color: "var(--muted)", fontSize: 16, lineHeight: 1.55 }}>{step.body}</p>
+              {step.meta ? <span className="process-meta">{step.meta}</span> : null}
             </div>
           ))}
         </div>
@@ -75,7 +76,11 @@ export function Angebot() {
               </span>
             </div>
             <div style={{ color: "var(--muted)", fontSize: 15 }}>
-              Fairer Festpreis, nach dem Gespräch festgelegt.
+              Einmaliger Festpreis, nach dem Gespräch festgelegt.
+            </div>
+            <div className="price-recurring">
+              <strong>1. Jahr Betreuung inklusive</strong> – danach 50 €/Monat
+              für Hosting, Domain, Updates & kleine Änderungen.
             </div>
           </div>
 

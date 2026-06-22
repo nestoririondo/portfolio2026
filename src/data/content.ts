@@ -76,11 +76,11 @@ export const OUTCOMES: Outcome[] = [
 export const OFFER_INCLUDED: string[] = [
   "Individuelles Design",
   "Für Handy optimiert",
+  "Schnelle Ladezeiten",
   "Bei Google gefunden (SEO)",
   "Google-Business-Profil",
-  "Kontaktformular",
   "Texte inklusive",
-  "Schnell & sicher (SSL)",
+  "Kontaktformular",
   "Rechtssicher: Impressum & Datenschutz",
 ];
 
@@ -90,6 +90,8 @@ export interface OfferStep {
   icon: IconName;
   title: string;
   body: string;
+  /** Short muted caption under the step — sets the time/effort expectation. */
+  meta?: string;
   /** Flat-geometric layered graphic (with parallax) shown instead of the line icon. */
   gfx?: ProcessGfx;
 }
@@ -100,6 +102,7 @@ export const OFFER_PROCESS: OfferStep[] = [
     icon: "phone",
     title: "Ein Gespräch",
     body: "Du erzählst mir dein Ziel – per Telefon oder bei dir vor Ort.",
+    meta: "ca. 30 Min · kostenlos",
     gfx: "talk",
   },
   {
@@ -107,6 +110,7 @@ export const OFFER_PROCESS: OfferStep[] = [
     icon: "pen",
     title: "Ein klickbarer Entwurf",
     body: "Du siehst & klickst deine Seite, bevor irgendwas final ist.",
+    meta: "in wenigen Tagen",
     gfx: "plan",
   },
   {
@@ -114,6 +118,7 @@ export const OFFER_PROCESS: OfferStep[] = [
     icon: "layout",
     title: "Deine Live-Seite",
     body: "Fertig online – für Handy optimiert und bei Google zu finden.",
+    meta: "meist in 2–3 Wochen live",
     gfx: "build",
   },
 ];
