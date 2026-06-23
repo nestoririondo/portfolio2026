@@ -49,6 +49,7 @@ function Portrait({ wide }: { wide?: boolean }) {
             }}
           >
             <span
+              className="avail-dot"
               style={{
                 width: 9,
                 height: 9,

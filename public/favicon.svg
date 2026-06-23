@@ -1,0 +1,16 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="22" fill="#f3f2ef"/>
+  <g fill="#bf7050">
+    <!-- left stem -->
+    <rect x="29.5" y="29" width="6.5" height="42"/>
+    <!-- right stem -->
+    <rect x="64" y="29" width="6.5" height="42"/>
+    <!-- thick diagonal -->
+    <polygon points="30,29 43,29 70.5,71 57.5,71"/>
+    <!-- serifs -->
+    <rect x="25" y="29" width="16" height="3.4"/>
+    <rect x="25" y="67.6" width="16" height="3.4"/>
+    <rect x="59" y="29" width="16" height="3.4"/>
+    <rect x="59" y="67.6" width="16" height="3.4"/>
+  </g>
+</svg>

@@ -193,12 +193,29 @@ section {
   animation-delay: -3s; /* desync hero vs about */
 }
 
+@keyframes avail-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, #5db469 38%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px color-mix(in oklab, #5db469 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, #5db469 0%, transparent);
+  }
+}
+
+.avail-dot {
+  animation: avail-pulse 2.4s ease-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .confirm,
   .confirm-badge,
   .confirm-item,
   .spinner,
-  .photo-float {
+  .photo-float,
+  .avail-dot {
     animation: none;
   }
 }
