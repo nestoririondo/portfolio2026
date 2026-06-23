@@ -805,10 +805,10 @@ textarea {
   content: "";
   position: absolute;
   z-index: 0;
-  top: -14%;
+  top: -10%;
   left: -10%;
   width: clamp(420px, 50vw, 800px);
-  height: clamp(420px, 50vw, 800px);
+  height: clamp(500px, 58vw, 920px);
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -828,8 +828,18 @@ textarea {
   opacity: 0.4;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 68%,
+    rgba(0, 0, 0, 0.45) 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 68%,
+    rgba(0, 0, 0, 0.45) 88%,
+    transparent 100%
+  );
 }
 .hero-band > .wrap {
   position: relative;

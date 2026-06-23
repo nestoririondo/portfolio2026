@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LANGUAGES, NAV_LINKS, type Language } from "../../data/content";
 import { useScrolled } from "../../hooks/useScrolled";
 import { useActiveSection } from "../../hooks/useActiveSection";
 
 const NAV_IDS = NAV_LINKS.map((l) => l.href.replace(/^#/, ""));
+const HEADER_HIDE_SCROLL_Y = 260;
 
 function LangSwitch({
   lang,
@@ -75,9 +76,28 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<Language>("DE");
   const [hidden, setHidden] = useState(false);
-  const scrolled = useScrolled();
+  const scrolled = useScrolled(24);
   const active = useActiveSection(NAV_IDS);
   const headerRef = useRef<HTMLElement>(null);
+  const hideTimerRef = useRef<number | null>(null);
+  const isInteractingRef = useRef(false);
+
+  const clearAutoHide = useCallback(() => {
+    if (hideTimerRef.current === null) return;
+    window.clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = null;
+  }, []);
+
+  const scheduleAutoHide = useCallback(() => {
+    clearAutoHide();
+    if (open || isInteractingRef.current || window.scrollY <= HEADER_HIDE_SCROLL_Y) return;
+    hideTimerRef.current = window.setTimeout(() => {
+      if (!isInteractingRef.current && !open && window.scrollY > HEADER_HIDE_SCROLL_Y) {
+        setHidden(true);
+      }
+      hideTimerRef.current = null;
+    }, 2200);
+  }, [clearAutoHide, open]);
 
   // auto-hide: slide the nav away when scrolling down, reveal it scrolling up
   useEffect(() => {
@@ -85,17 +105,29 @@ export function Header() {
     const onScroll = () => {
       const y = window.scrollY;
       if (open) {
+        clearAutoHide();
         setHidden(false);
-      } else if (y > last && y > 120) {
+      } else if (y > last && y > HEADER_HIDE_SCROLL_Y) {
+        clearAutoHide();
         setHidden(true);
       } else if (y < last) {
+        setHidden(false);
+        scheduleAutoHide();
+      } else if (y <= HEADER_HIDE_SCROLL_Y) {
+        clearAutoHide();
         setHidden(false);
       }
       last = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [open]);
+  }, [
+    clearAutoHide,
+    open,
+    scheduleAutoHide,
+  ]);
+
+  useEffect(() => clearAutoHide, [clearAutoHide]);
 
   // close the mobile menu when clicking/tapping anywhere outside the header,
   // or pressing Escape
@@ -118,19 +150,41 @@ export function Header() {
   return (
     <header
       ref={headerRef}
+      onMouseEnter={() => {
+        isInteractingRef.current = true;
+        clearAutoHide();
+        setHidden(false);
+      }}
+      onMouseLeave={() => {
+        isInteractingRef.current = false;
+        scheduleAutoHide();
+      }}
+      onFocus={() => {
+        isInteractingRef.current = true;
+        clearAutoHide();
+        setHidden(false);
+      }}
+      onBlur={(e) => {
+        if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
+        isInteractingRef.current = false;
+        scheduleAutoHide();
+      }}
       style={{
-        position: "sticky",
+        position: "fixed",
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 50,
         background: scrolled
-          ? "color-mix(in oklab, var(--bg) 86%, transparent)"
+          ? "color-mix(in oklab, var(--bg) 78%, transparent)"
           : "transparent",
         backdropFilter: scrolled ? "saturate(1.4) blur(10px)" : "none",
+        WebkitBackdropFilter: scrolled ? "saturate(1.4) blur(10px)" : "none",
         borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
         transform: hidden ? "translateY(-100%)" : "translateY(0)",
         // explicit props only — never `all`, so the dropdown menu mounts instantly
         transition:
-          "transform .3s ease, background .3s ease, border-color .3s ease, backdrop-filter .3s ease",
+          "transform .3s ease, background .3s ease, border-color .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease",
       }}
     >
       <div
@@ -140,8 +194,6 @@ export function Header() {
         <a
           href="#top"
           onClick={(e) => {
-            // the hero (#top) begins below the header in flow, so the anchor
-            // lands a few px down — send the logo to the true page top instead
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
             history.replaceState(null, "", " ");
