@@ -46,14 +46,14 @@ export const OUTCOMES: Outcome[] = [
     n: "01",
     gfx: "booking",
     title: "Termine online buchen",
-    body: "Kund:innen buchen freie Zeiten direkt online – auch nach Feierabend.",
+    body: "Kund:innen buchen freie Zeiten selbst – rund um die Uhr, ganz ohne Telefon.",
     px: 0.03,
   },
   {
     n: "02",
     gfx: "sync",
     title: "Immer aktuelle Inhalte",
-    body: "Angebote, Termine oder Objekte aktualisieren sich automatisch aus deinen Tools – ganz ohne Doppelarbeit.",
+    body: "Angebote, Preise oder Verfügbarkeiten aktualisieren sich automatisch – du pflegst sie nur an einer Stelle.",
     px: 0.03,
   },
   {
@@ -67,7 +67,7 @@ export const OUTCOMES: Outcome[] = [
     n: "04",
     gfx: "ai",
     title: "KI-Assistent, auf Wunsch",
-    body: "Beantwortet rund um die Uhr die häufigsten Fragen deiner Kund:innen.",
+    body: "Beantwortet rund um die Uhr die häufigsten Fragen – und leitet echte Anfragen direkt an dich weiter.",
     px: 0.08,
   },
 ];

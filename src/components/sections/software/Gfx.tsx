@@ -65,7 +65,29 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
   if (type === "booking")
     return (
       <Screen fullWidth={fullWidth}>
-        <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>FREIE TERMINE · DO</div>
+        <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>FREIE TERMINE</div>
+        <div style={{ display: "flex", gap: 4 }}>
+          {["Mo", "Di", "Mi", "Do", "Fr"].map((d) => {
+            const active = d === "Do";
+            return (
+              <span
+                key={d}
+                style={{
+                  ...mono,
+                  flex: 1,
+                  textAlign: "center",
+                  fontSize: 9.5,
+                  padding: "5px 0",
+                  borderRadius: 6,
+                  color: active ? "#fff" : "#a3978a",
+                  background: active ? A : "#f3ece1",
+                }}
+              >
+                {d}
+              </span>
+            );
+          })}
+        </div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {["09:00", "10:30"].map((t) => (
             <span
@@ -122,7 +144,36 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
     );
 
   if (type === "sync") {
-    const Row = ({ w }: { w: string }) => (
+    const StatusChip = ({ label, color }: { label: string; color: string }) => (
+      <span
+        style={{
+          ...mono,
+          fontSize: 9,
+          color,
+          background: `color-mix(in oklab,${color} 14%,#fff)`,
+          borderRadius: 6,
+          padding: "3px 7px",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          flex: "0 0 auto",
+        }}
+      >
+        <i style={{ width: 5, height: 5, borderRadius: 9, background: color }} />
+        {label}
+      </span>
+    );
+    const ListRow = ({
+      labelW,
+      status,
+      color,
+      isNew = false,
+    }: {
+      labelW: string;
+      status: string;
+      color: string;
+      isNew?: boolean;
+    }) => (
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <div
           style={{
@@ -134,25 +185,30 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
           }}
         />
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
-          <Bar w={w} />
-          <Bar w="50%" c="#f0e8dd" />
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <Bar w={labelW} />
+            {isNew && (
+              <span style={{ ...mono, fontSize: 8, color: A, background: "color-mix(in oklab,var(--accent) 14%,#fff)", borderRadius: 5, padding: "1px 5px" }}>
+                neu
+              </span>
+            )}
+          </div>
+          <Bar w="48%" c="#f0e8dd" />
         </div>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={GRN} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="4 12 9 17 20 6" />
-        </svg>
+        <StatusChip label={status} color={color} />
       </div>
     );
     return (
       <Screen fullWidth={fullWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>DEINE INHALTE</span>
+          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>VERFÜGBARKEIT</span>
           <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
             <i style={{ width: 6, height: 6, borderRadius: 9, background: GRN }} />
             LIVE
           </span>
         </div>
-        <Row w="82%" />
-        <Row w="68%" />
+        <ListRow labelW="56%" status="frei" color={GRN} isNew />
+        <ListRow labelW="68%" status="reserviert" color="#c98a1e" />
         <div style={{ height: 1, background: "#f0e8dd", margin: "1px 0" }} />
         <div style={{ display: "flex", alignItems: "center", gap: 6, ...mono, fontSize: 9.5, color: A }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={A} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -215,11 +271,11 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
           </span>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <Bar w={58} c="#dccfbe" />
+              <span style={{ ...mono, fontSize: 10, color: "#5b5147", fontWeight: 700 }}>Sandra K.</span>
               <Stars size={9} />
             </div>
             <Bar w="92%" c="#efe7db" />
-            <Bar w="70%" c="#efe7db" />
+            <Bar w="68%" c="#efe7db" />
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, ...mono, fontSize: 9.5, color: GRN }}>
@@ -232,48 +288,57 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
     );
   }
 
+  const Spark = ({ size = 11, c = "#fff" }: { size?: number; c?: string }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={c} style={{ flex: "0 0 auto" }}>
+      <path d="M12 2l2.2 6.3L21 10l-5.4 3.7L17 21l-5-3.6L7 21l1.4-7.3L3 10l6.8-1.7z" />
+    </svg>
+  );
   return (
     <Screen fullWidth={fullWidth}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ ...mono, fontSize: 9, color: "#a3978a", display: "inline-flex", alignItems: "center", gap: 5 }}>
+          <Spark size={10} c={A} />
+          KI-ASSISTENT
+        </span>
+        <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
+          <i style={{ width: 6, height: 6, borderRadius: 9, background: GRN }} />
+          ONLINE
+        </span>
+      </div>
       <div
         style={{
           alignSelf: "flex-start",
-          maxWidth: "78%",
+          maxWidth: "86%",
           background: "#f1e9dd",
           borderRadius: "12px 12px 12px 3px",
-          padding: "7px 9px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
+          padding: "7px 10px",
+          fontSize: 11.5,
+          lineHeight: 1.35,
+          color: "#6b6055",
         }}
       >
-        <Bar w={70} c="#d8cbb9" />
-        <Bar w={44} c="#e2d6c6" />
+        Was kostet eine Beratung?
       </div>
       <div
         style={{
           alignSelf: "flex-end",
-          maxWidth: "82%",
+          maxWidth: "86%",
           background: A,
           borderRadius: "12px 12px 3px 12px",
-          padding: "7px 9px",
+          padding: "7px 10px",
           display: "flex",
           alignItems: "center",
           gap: 6,
+          fontSize: 11.5,
+          lineHeight: 1.35,
+          color: "#fff",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
-          <Bar w={64} c="rgba(255,255,255,.9)" />
-          <Bar w={40} c="rgba(255,255,255,.6)" />
-        </div>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff">
-          <path d="M12 2l2.2 6.3L21 10l-5.4 3.7L17 21l-5-3.6L7 21l1.4-7.3L3 10l6.8-1.7z" />
-        </svg>
+        <Spark size={12} />
+        Die erste ist kostenlos 😊 Soll ich einen Termin vorschlagen?
       </div>
-      <div style={{ display: "flex", gap: 4, alignItems: "center", ...mono, fontSize: 9, color: "#a3978a" }}>
-        <i style={{ width: 5, height: 5, borderRadius: 9, background: A }} />
-        <i style={{ width: 5, height: 5, borderRadius: 9, background: "color-mix(in oklab,var(--accent) 55%,#fff)" }} />
-        <i style={{ width: 5, height: 5, borderRadius: 9, background: "color-mix(in oklab,var(--accent) 30%,#fff)" }} />
-        <span style={{ marginLeft: 3 }}>Assistent antwortet…</span>
+      <div style={{ ...mono, fontSize: 9, color: "#a3978a", textAlign: "right" }}>
+        Sofort beantwortet
       </div>
     </Screen>
   );
