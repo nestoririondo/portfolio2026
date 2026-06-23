@@ -79,7 +79,7 @@ CTA: **Projekt anfragen**
 
 ## Software / Funktionen
 
-- **Eyebrow:** Funktion, nicht nur Design
+- **Eyebrow:** Design UND Funktion
 - **H2:** Funktionen, die im Alltag wirklich helfen.
 
 1. **Online-Terminbuchung** — Kund:innen sehen freie Zeiten und buchen direkt

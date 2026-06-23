@@ -31,7 +31,7 @@ export const CONTACT = {
 };
 
 /** Software → Outcomes section. `gfx` selects the mini-UI; `px` is parallax speed. */
-export type OutcomeGfx = "booking" | "sync" | "inbox" | "ai";
+export type OutcomeGfx = "booking" | "sync" | "reviews" | "ai";
 
 export interface Outcome {
   n: string;
@@ -47,28 +47,28 @@ export const OUTCOMES: Outcome[] = [
     gfx: "booking",
     title: "Termine online buchen",
     body: "Kund:innen buchen freie Zeiten direkt online – auch nach Feierabend.",
-    px: 0.05,
+    px: 0.03,
   },
   {
     n: "02",
     gfx: "sync",
     title: "Immer aktuelle Inhalte",
     body: "Angebote, Termine oder Objekte aktualisieren sich automatisch aus deinen Tools – ganz ohne Doppelarbeit.",
-    px: -0.06,
+    px: 0.03,
   },
   {
     n: "03",
-    gfx: "inbox",
-    title: "Anfragen, die ankommen",
-    body: "Ein Kontaktformular, dessen Nachrichten zuverlässig bei dir landen.",
-    px: -0.05,
+    gfx: "reviews",
+    title: "Bewertungen, die überzeugen",
+    body: "Deine besten Google-Bewertungen erscheinen automatisch – und schaffen Vertrauen, noch bevor jemand anruft.",
+    px: 0.08,
   },
   {
     n: "04",
     gfx: "ai",
     title: "KI-Assistent, auf Wunsch",
     body: "Beantwortet rund um die Uhr die häufigsten Fragen deiner Kund:innen.",
-    px: 0.06,
+    px: 0.08,
   },
 ];
 

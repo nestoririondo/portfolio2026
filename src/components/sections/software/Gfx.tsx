@@ -2,12 +2,20 @@ import type { CSSProperties, ReactNode } from "react";
 import type { OutcomeGfx } from "../../../data/content";
 
 /** Little browser-window shell that frames each outcome's mini-UI. */
-function Screen({ children, w = 268 }: { children: ReactNode; w?: number }) {
+function Screen({
+  children,
+  w = 268,
+  fullWidth = false,
+}: {
+  children: ReactNode;
+  w?: number;
+  fullWidth?: boolean;
+}) {
   return (
     <div
       style={{
-        width: w,
-        borderRadius: 16,
+        width: fullWidth ? "100%" : w,
+        borderRadius: 14,
         background: "#fffdf9",
         overflow: "hidden",
         border: "1px solid rgba(0,0,0,.07)",
@@ -49,14 +57,14 @@ const Bar = ({ w = "100%", c = "#ece3d7", h = 7 }: { w?: number | string; c?: st
 );
 
 /** The mini-UI for a given outcome. */
-export function Gfx({ type }: { type: OutcomeGfx }) {
+export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean }) {
   const A = "var(--accent)";
   const GRN = "#3fa96b";
   const mono: CSSProperties = { fontFamily: "var(--mono)", letterSpacing: ".04em" };
 
   if (type === "booking")
     return (
-      <Screen>
+      <Screen fullWidth={fullWidth}>
         <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>FREIE TERMINE · DO</div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {["09:00", "10:30"].map((t) => (
@@ -135,7 +143,7 @@ export function Gfx({ type }: { type: OutcomeGfx }) {
       </div>
     );
     return (
-      <Screen>
+      <Screen fullWidth={fullWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>DEINE INHALTE</span>
           <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -157,15 +165,31 @@ export function Gfx({ type }: { type: OutcomeGfx }) {
     );
   }
 
-  if (type === "inbox")
+  if (type === "reviews") {
+    const GOLD = "#e8b34a";
+    const Stars = ({ n = 5, size = 11 }: { n?: number; size?: number }) => (
+      <span style={{ display: "inline-flex", gap: 1.5 }}>
+        {Array.from({ length: n }).map((_, i) => (
+          <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill={GOLD}>
+            <path d="M12 2l2.6 7.2L22 9.6l-5.6 4.4L18 21l-6-3.9L6 21l1.6-7L2 9.6l7.4-.4z" />
+          </svg>
+        ))}
+      </span>
+    );
     return (
-      <Screen>
-        <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>POSTEINGANG</div>
+      <Screen fullWidth={fullWidth}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>BEWERTUNGEN</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+            <span style={{ ...mono, fontSize: 10.5, color: "#5b5147", fontWeight: 700 }}>4,9</span>
+            <Stars size={10} />
+          </span>
+        </div>
         <div
           style={{
             display: "flex",
             gap: 8,
-            alignItems: "center",
+            alignItems: "flex-start",
             background: "color-mix(in oklab,var(--accent) 9%,#fff)",
             border: "1px solid color-mix(in oklab,var(--accent) 22%,#fff)",
             borderRadius: 9,
@@ -177,7 +201,7 @@ export function Gfx({ type }: { type: OutcomeGfx }) {
               width: 24,
               height: 24,
               flex: "0 0 auto",
-              borderRadius: 8,
+              borderRadius: 9,
               background: A,
               color: "#fff",
               display: "grid",
@@ -187,25 +211,29 @@ export function Gfx({ type }: { type: OutcomeGfx }) {
               fontFamily: "var(--font-head)",
             }}
           >
-            M
+            S
           </span>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
-            <Bar w="62%" c="#dccfbe" />
-            <Bar w="90%" c="#efe7db" />
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Bar w={58} c="#dccfbe" />
+              <Stars size={9} />
+            </div>
+            <Bar w="92%" c="#efe7db" />
+            <Bar w="70%" c="#efe7db" />
           </div>
-          <span style={{ width: 8, height: 8, borderRadius: 9, background: GRN, flex: "0 0 auto" }} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, ...mono, fontSize: 9.5, color: GRN }}>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={GRN} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="4 12 9 17 20 6" />
           </svg>
-          Zugestellt · 1 Min.
+          87 Bewertungen · Google
         </div>
       </Screen>
     );
+  }
 
   return (
-    <Screen>
+    <Screen fullWidth={fullWidth}>
       <div
         style={{
           alignSelf: "flex-start",

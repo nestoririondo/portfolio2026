@@ -805,12 +805,31 @@ textarea {
   animation: firework-burst 1.35s 1.3s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
 }
 
+/* horizontal outcome cards need full row width before they get cramped */
+@media (max-width: 980px) {
+  .outcome-grid {
+    grid-template-columns: 1fr !important;
+    /* extra room so the over-scaled mockups don't lap onto the next card */
+    row-gap: clamp(54px, 8vw, 74px) !important;
+  }
+}
+
+/* stack the mockup above the copy on phones */
+@media (max-width: 560px) {
+  .oc-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .oc-media {
+    flex: 0 0 auto !important;
+    max-width: 300px;
+    margin: 0 !important;
+  }
+}
+
 @media (max-width: 720px) {
   body {
     font-size: 16px;
-  }
-  .outcome-grid {
-    grid-template-columns: 1fr !important;
   }
   .process-flow {
     flex-direction: column;

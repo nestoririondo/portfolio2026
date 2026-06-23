@@ -22,7 +22,10 @@ export function Software() {
       }}
     >
       {/* parallax orbs */}
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      <div
+        aria-hidden="true"
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+      >
         <div
           data-px="0.16"
           style={{
@@ -81,7 +84,7 @@ export function Software() {
           <SectionHeading
             onDark
             align="left"
-            eyebrow="Funktion, nicht nur Design"
+            eyebrow="Design UND Funktion"
             title="Funktionen, die im Alltag wirklich helfen."
             sub="Vier Beispiele dafür, was deine Website alles kann – weit über eine digitale Visitenkarte hinaus."
           />

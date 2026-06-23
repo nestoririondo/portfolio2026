@@ -30,7 +30,10 @@ export function Angebot() {
         </div>
 
         {/* 1 → 2 → 3 deliverable timeline */}
-        <div className="reveal process-flow" style={{ marginBottom: "clamp(40px,6vw,64px)" }}>
+        <div
+          className="reveal process-flow"
+          style={{ margin: "clamp(56px,8vw,96px) 0" }}
+        >
           {OFFER_PROCESS.map((step, i) => (
             <div className="process-step" key={step.n}>
               <span className="process-num">{step.n}</span>
