@@ -3,6 +3,7 @@ import { useTheme } from "./theme/useTheme";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { ThemeSwitcher } from "./components/ui/ThemeSwitcher";
+import { ScrollHint } from "./components/ui/ScrollHint";
 import { Hero } from "./components/sections/Hero";
 import { Arbeiten } from "./components/sections/arbeiten/Arbeiten";
 import { Software } from "./components/sections/software/Software";
@@ -26,6 +27,7 @@ export default function App() {
         <Ueber />
         <Kontakt />
       </main>
+      <ScrollHint />
       <Footer />
 
       <ThemeSwitcher

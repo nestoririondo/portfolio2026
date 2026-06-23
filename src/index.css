@@ -86,6 +86,17 @@ section {
   scroll-margin-top: 84px;
 }
 
+/* every top-level section fills at least the viewport, content vertically
+   centered; sections taller than the viewport simply grow (centering is a
+   no-op, so no clipping or scroll-trap) */
+main > section {
+  min-height: 100vh; /* fallback */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* buttons */
 .btn {
   display: inline-flex;
@@ -193,6 +204,59 @@ section {
   animation-delay: -3s; /* desync hero vs about */
 }
 
+/* scroll affordance — thin track with a dot drifting downward */
+.scroll-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 30;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-hint[data-hidden="true"] {
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+}
+
+.scroll-hint__track {
+  display: block;
+  position: relative;
+  width: 1px;
+  height: 40px;
+  background: color-mix(in oklab, var(--ink) 16%, transparent);
+}
+
+.scroll-hint__dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 99px;
+  background: var(--accent);
+  animation: scroll-hint-dot 2s cubic-bezier(0.6, 0.05, 0.3, 1) infinite;
+}
+
+@keyframes scroll-hint-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+}
+
 @keyframes avail-pulse {
   0% {
     box-shadow: 0 0 0 0 color-mix(in oklab, #5db469 38%, transparent);
@@ -215,8 +279,13 @@ section {
   .confirm-item,
   .spinner,
   .photo-float,
-  .avail-dot {
+  .avail-dot,
+  .scroll-hint__dot {
     animation: none;
+  }
+  .scroll-hint__dot {
+    top: 4px;
+    opacity: 0.9;
   }
 }
 
