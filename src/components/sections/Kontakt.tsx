@@ -73,8 +73,14 @@ function TrustPoint({ icon, children }: { icon: IconName; children: string }) {
 
 type SubmitStatus = "idle" | "sending" | "sent" | "error";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function Kontakt() {
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const isValid = name.trim() !== "" && EMAIL_RE.test(email.trim());
 
   const submitRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,6 +102,8 @@ export function Kontakt() {
       });
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
       form.reset();
+      setName("");
+      setEmail("");
       setStatus("sent");
     } catch {
       setStatus("error");
@@ -241,6 +249,8 @@ export function Kontakt() {
                       required
                       name="name"
                       autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       style={fieldStyle}
                       onFocus={onFieldFocus}
                       onBlur={onFieldBlur}
@@ -256,6 +266,8 @@ export function Kontakt() {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       style={fieldStyle}
                       onFocus={onFieldFocus}
                       onBlur={onFieldBlur}
@@ -298,14 +310,19 @@ export function Kontakt() {
                   <button
                     type="submit"
                     className="btn btn-primary"
-                    disabled={status === "sending"}
+                    disabled={status === "sending" || !isValid}
                     aria-busy={status === "sending"}
                     style={{
                       justifyContent: "center",
                       padding: "15px",
                       marginTop: 4,
-                      opacity: status === "sending" ? 0.65 : 1,
-                      cursor: status === "sending" ? "wait" : "pointer",
+                      opacity: status === "sending" ? 0.65 : !isValid ? 0.5 : 1,
+                      cursor:
+                        status === "sending"
+                          ? "wait"
+                          : !isValid
+                            ? "not-allowed"
+                            : "pointer",
                     }}
                   >
                     {status === "sending" ? (
