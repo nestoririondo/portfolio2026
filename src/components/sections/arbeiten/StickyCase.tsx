@@ -393,7 +393,7 @@ export function StickyCase() {
         <div style={{ ...layer(active === 2), display: "grid", placeItems: "center" }}>
           <Celebration p={tail} />
           <div style={{ position: "relative", zIndex: 2 }}>
-            <PhoneFrame width={mobile ? 196 : 208}>
+            <PhoneFrame width={mobile ? 216 : 252}>
               <RebMobile />
             </PhoneFrame>
           </div>

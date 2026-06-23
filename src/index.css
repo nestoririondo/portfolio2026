@@ -455,12 +455,15 @@ main > section {
   border: 1px solid transparent;
   opacity: 0.45;
   transition: opacity 0.45s ease, background 0.45s ease, border-color 0.45s ease,
-    transform 0.45s ease;
+    transform 0.45s ease, box-shadow 0.45s ease;
 }
 .case-step.is-active {
   opacity: 1;
   background: var(--accent-tint);
   border-color: color-mix(in oklab, var(--accent) 22%, var(--line));
+  /* resting drop shadow; the animation's end state matches this so it doesn't
+     snap away when the 0.7s glow finishes */
+  box-shadow: 0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
   animation: step-glow 0.7s ease;
 }
 .case-step__num {
@@ -501,15 +504,18 @@ main > section {
 .case-step.is-active .case-step__num::after {
   background: color-mix(in oklab, var(--accent) 45%, var(--line));
 }
+/* one clean pulse: the ring (first shadow) expands and fades out while the
+   resting drop shadow (second shadow) fades in — no mid-animation gap, so it
+   reads as a single glow instead of flashing twice. Both keyframes carry the
+   same two shadow layers so CSS interpolates them position-for-position. */
 @keyframes step-glow {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 38%, transparent);
-  }
-  60% {
-    box-shadow: 0 0 0 9px color-mix(in oklab, var(--accent) 0%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 38%, transparent),
+      0 14px 30px -20px color-mix(in oklab, var(--accent) 0%, transparent);
   }
   100% {
-    box-shadow: 0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
+    box-shadow: 0 0 0 9px color-mix(in oklab, var(--accent) 0%, transparent),
+      0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
   }
 }
 @media (prefers-reduced-motion: reduce) {
