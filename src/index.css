@@ -819,11 +819,13 @@ textarea {
   .oc-card {
     flex-direction: column !important;
     align-items: stretch !important;
+    /* generous gap so the mockup's parallax drift never laps onto the headline */
+    gap: clamp(40px, 9vw, 56px) !important;
   }
   .oc-media {
     flex: 0 0 auto !important;
     max-width: 300px;
-    margin: 0 !important;
+    margin: 0 0 clamp(8px, 2vw, 14px) !important;
   }
 }
 
