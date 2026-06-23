@@ -10,11 +10,39 @@ import { Software } from "./components/sections/software/Software";
 import { Angebot } from "./components/sections/Angebot";
 import { Ueber } from "./components/sections/Ueber";
 import { Kontakt } from "./components/sections/Kontakt";
+import { Legal } from "./components/sections/Legal";
 
 export default function App() {
   const { state, setPalette, setAccent2, setFontPair, setHeroLayout } =
     useTheme();
   useReveal();
+  const pathname = window.location.pathname.replace(/\/$/, "") || "/";
+  const legalPage =
+    pathname === "/impressum"
+      ? "impressum"
+      : pathname === "/datenschutz"
+        ? "datenschutz"
+        : null;
+
+  if (legalPage) {
+    return (
+      <>
+        <Header />
+        <main>
+          <Legal page={legalPage} />
+        </main>
+        <Footer />
+
+        <ThemeSwitcher
+          state={state}
+          setPalette={setPalette}
+          setAccent2={setAccent2}
+          setFontPair={setFontPair}
+          setHeroLayout={setHeroLayout}
+        />
+      </>
+    );
+  }
 
   return (
     <>

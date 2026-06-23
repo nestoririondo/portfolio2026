@@ -76,6 +76,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<Language>("DE");
   const [hidden, setHidden] = useState(false);
+  const isHome = window.location.pathname === "/";
   const scrolled = useScrolled(24);
   const active = useActiveSection(NAV_IDS);
   const headerRef = useRef<HTMLElement>(null);
@@ -195,6 +196,10 @@ export function Header() {
           href="#top"
           onClick={(e) => {
             e.preventDefault();
+            if (!isHome) {
+              window.location.href = "/";
+              return;
+            }
             window.scrollTo({ top: 0, behavior: "smooth" });
             history.replaceState(null, "", " ");
           }}
@@ -260,7 +265,7 @@ export function Header() {
           {NAV_LINKS.map(({ label, href }) => (
             <a
               key={href}
-              href={href}
+              href={isHome ? href : `/${href}`}
               className="nav-link"
               data-active={active === href.replace(/^#/, "") || undefined}
               style={{
@@ -282,7 +287,7 @@ export function Header() {
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
         <a
-          href="#kontakt"
+          href={isHome ? "#kontakt" : "/#kontakt"}
           className="btn btn-primary desk-nav"
           style={{ padding: "11px 19px", fontSize: 15 }}
         >
@@ -351,7 +356,7 @@ export function Header() {
               return (
                 <a
                   key={href}
-                  href={href}
+                  href={isHome ? href : `/${href}`}
                   onClick={() => setOpen(false)}
                   style={{
                     padding: "12px 4px",
@@ -368,7 +373,7 @@ export function Header() {
             <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 12 }}>
               <LangSwitch lang={lang} setLang={setLang} />
               <a
-                href="#kontakt"
+                href={isHome ? "#kontakt" : "/#kontakt"}
                 onClick={() => setOpen(false)}
                 className="btn btn-primary"
                 style={{ flex: 1, justifyContent: "center" }}

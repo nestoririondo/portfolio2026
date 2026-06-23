@@ -166,14 +166,9 @@ export const REB_CHAPTERS: CaseChapter[] = [
 ];
 
 /** Footer link groups. */
-export const FOOTER_LINKS: NavLink[] = [
-  { label: "Arbeiten", href: "#arbeiten" },
-  { label: "Software", href: "#software" },
-  { label: "Angebot", href: "#angebot" },
-  { label: "Kontakt", href: "#kontakt" },
-];
+export const FOOTER_LINKS: NavLink[] = NAV_LINKS;
 
 export const FOOTER_LEGAL: NavLink[] = [
-  { label: "Impressum", href: "#" },
-  { label: "Datenschutz", href: "#" },
+  { label: "Impressum", href: "/impressum" },
+  { label: "Datenschutz", href: "/datenschutz" },
 ];

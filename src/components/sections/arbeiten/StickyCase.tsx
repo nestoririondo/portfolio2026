@@ -10,9 +10,9 @@ import { CaseLabel } from "./CaseParts";
  * Scroll-through case study (REB). Narrative and visual pin together while the
  * user scrolls a tall wrapper:
  *   - the active chapter is driven by scroll *progress* (monotonic → no flicker),
- *   - step 02 owns the long middle and the live desktop browser scrolls through
+ *   - step 02 owns the long middle and the long screenshot scrolls through
  *     its full page while staying in view,
- *   - step 03 cross-fades to the mobile view, celebrated with parallax confetti.
+ *   - step 03 cross-fades to the mobile view over a soft ambient backdrop.
  *
  * On narrow screens the steps collapse to a compact header that swaps as you
  * scroll, with the visual stacked below.
@@ -21,97 +21,60 @@ import { CaseLabel } from "./CaseParts";
 const TRAVEL = 3.2; // wrapper height in viewport heights
 const FRAME_H = "min(600px, 68vh)";
 // segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short
-const SEG = [0.16, 0.78];
+const SEG = [0.16, 0.88];
+const SCREENSHOT_SCROLL_HOLD = 0.22;
+const SCREENSHOT_END_HOLD = 0.22;
 const MOBILE_Q = "(max-width: 920px)";
 // mobile pin offset — small now that the nav auto-hides on scroll-down, so the
 // content sits high and the visual gets the reclaimed height
 const M_TOP = "20px";
 
-/** Parallax celebration shapes behind the phone, layered by depth. */
-const DECOS: {
-  x: string;
-  y: string;
-  kind: "ring" | "dot" | "spark" | "star";
-  size: number;
-  depth: number;
-  color: string;
-}[] = [
-  { x: "12%", y: "16%", kind: "ring", size: 44, depth: 0.9, color: "var(--accent)" },
-  { x: "84%", y: "18%", kind: "spark", size: 30, depth: 1.2, color: "var(--accent)" },
-  { x: "80%", y: "62%", kind: "dot", size: 14, depth: 0.5, color: "#e8b94c" },
-  { x: "13%", y: "58%", kind: "star", size: 26, depth: 0.75, color: "#e8b94c" },
-  { x: "90%", y: "40%", kind: "dot", size: 9, depth: 0.35, color: "var(--accent)" },
-  { x: "6%", y: "34%", kind: "dot", size: 12, depth: 0.4, color: "#5db469" },
-  { x: "72%", y: "84%", kind: "ring", size: 20, depth: 0.6, color: "var(--accent)" },
-  { x: "22%", y: "84%", kind: "spark", size: 20, depth: 0.5, color: "var(--accent)" },
-];
-
-function decoShape(kind: string, size: number, color: string): ReactNode {
-  if (kind === "spark") return <Icon name="spark" size={size} />;
-  if (kind === "star") return <Icon name="star" size={size} />;
-  if (kind === "ring")
-    return (
-      <span
-        style={{
-          display: "block",
-          width: size,
-          height: size,
-          borderRadius: "50%",
-          border: `3px solid ${color}`,
-        }}
-      />
-    );
-  return (
-    <span
-      style={{ display: "block", width: size, height: size, borderRadius: "50%", background: color }}
-    />
-  );
-}
-
-/** p = local progress through step 03 (0..1); 0 also used as a static rest. */
-function Celebration({ p }: { p: number }) {
-  // ramp in quickly so the sprites clearly appear as soon as step 03 begins
-  const enter = Math.min(1, p / 0.12);
+function MobileAmbientBackdrop() {
   const blob = (
-    x: string,
-    y: string,
-    s: number,
-    c: string,
-    depth: number,
+    left: string,
+    top: string,
+    size: string,
+    color: string,
+    opacity: number,
   ): CSSProperties => ({
     position: "absolute",
-    left: x,
-    top: y,
-    width: s,
-    height: s,
+    left,
+    top,
+    width: size,
+    height: size,
     borderRadius: "50%",
-    background: c,
-    filter: "blur(46px)",
-    opacity: enter * 0.16,
-    transform: `translate(-50%,-50%) translateY(${-p * 34 * depth}px)`,
+    background: color,
+    filter: "blur(58px)",
+    opacity,
+    transform: "translate(-50%, -50%)",
   });
+
   return (
-    <div aria-hidden style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-      <span style={blob("30%", "32%", 190, "var(--accent)", 0.4)} />
-      <span style={blob("74%", "66%", 160, "#e8b94c", 0.6)} />
-      {DECOS.map((d, i) => {
-        const y = (1 - enter) * 26 - p * 62 * d.depth;
-        return (
-          <span
-            key={i}
-            style={{
-              position: "absolute",
-              left: d.x,
-              top: d.y,
-              color: d.color,
-              opacity: enter,
-              transform: `translate(-50%,-50%) translateY(${y}px) scale(${0.3 + enter * 0.7})`,
-            }}
-          >
-            {decoShape(d.kind, d.size, d.color)}
-          </span>
-        );
-      })}
+    <div
+      aria-hidden
+      style={{
+        position: "absolute",
+        inset: "-30%",
+        pointerEvents: "none",
+      }}
+    >
+      <span style={blob("28%", "28%", "42%", "#bf7050", 0.2)} />
+      <span style={blob("72%", "62%", "38%", "#3b6ea0", 0.16)} />
+      <span style={blob("56%", "78%", "32%", "#bd8a2c", 0.16)} />
+      <span
+        style={{
+          position: "absolute",
+          inset: "10%",
+          opacity: 0.24,
+          mixBlendMode: "multiply",
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.7) 42%, transparent 72%)",
+          maskImage:
+            "radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.7) 42%, transparent 72%)",
+        }}
+      />
     </div>
   );
 }
@@ -120,7 +83,6 @@ export function StickyCase() {
   const [active, setActive] = useState(0);
   const [y, setY] = useState(0); // desktop inner scroll
   const [sub, setSub] = useState(0); // progress inside step 02
-  const [tail, setTail] = useState(0); // progress inside step 03 (celebration)
   const [headFade, setHeadFade] = useState(1); // mobile header: dips to 0 at boundaries
   const [reduced, setReduced] = useState(false);
   const [mobile, setMobile] = useState(
@@ -152,17 +114,15 @@ export function StickyCase() {
 
       let idx = 0;
       let s = 0;
-      let t = 0;
       if (p >= SEG[1]) {
         idx = 2;
-        t = (p - SEG[1]) / (1 - SEG[1]);
+        s = 1;
       } else if (p >= SEG[0]) {
         idx = 1;
         s = (p - SEG[0]) / (SEG[1] - SEG[0]);
       }
       setActive(idx);
       setSub(s);
-      setTail(t);
       // fade the compact header to 0 right at a step boundary, so the swapped
       // text fades out then back in instead of hard-cutting
       const band = 0.045;
@@ -173,7 +133,15 @@ export function StickyCase() {
       const body = bodyRef.current;
       if (inner && body) {
         const maxShift = Math.max(0, inner.scrollHeight - body.clientHeight);
-        setY(-s * maxShift);
+        const imageScroll =
+          s <= SCREENSHOT_SCROLL_HOLD
+            ? 0
+            : Math.min(
+                1,
+                (s - SCREENSHOT_SCROLL_HOLD) /
+                  (1 - SCREENSHOT_SCROLL_HOLD - SCREENSHOT_END_HOLD),
+              );
+        setY(-imageScroll * maxShift);
       }
     };
     const onScroll = () => {
@@ -233,7 +201,7 @@ export function StickyCase() {
 
   const liveBtn = (
     <a
-      href="https://realestateinberlin.com"
+      href="https://realestateinberlin.nestoririondo.com"
       target="_blank"
       rel="noopener noreferrer"
       style={{
@@ -269,7 +237,7 @@ export function StickyCase() {
         }}
       >
         <span style={{ fontFamily: "var(--mono)", fontSize: 13, color: "var(--muted)" }}>
-          Immobilien · realestateinberlin.com
+          Immobilien · realestateinberlin.nestoririondo.com
         </span>
         {liveBtn}
       </div>
@@ -328,10 +296,7 @@ export function StickyCase() {
           />
         ))}
       </div>
-      <div
-        className="case-step is-active"
-        style={{ padding: "12px 14px", minHeight: 122, alignItems: "flex-start" }}
-      >
+      <div className="case-step case-step--compact is-active">
         <div
           style={{
             display: "flex",
@@ -348,6 +313,14 @@ export function StickyCase() {
   );
 
   const stage = (frameH: string): ReactNode => {
+    const screenshotProgress =
+      sub <= SCREENSHOT_SCROLL_HOLD
+        ? 0
+        : Math.min(
+            1,
+            (sub - SCREENSHOT_SCROLL_HOLD) /
+              (1 - SCREENSHOT_SCROLL_HOLD - SCREENSHOT_END_HOLD),
+          );
     const layer = (show: boolean): CSSProperties => ({
       position: "absolute",
       inset: 0,
@@ -365,15 +338,15 @@ export function StickyCase() {
           </div>
         </div>
 
-        {/* 02 — Jetzt, live über Propstack (scrolls through the full page) */}
+        {/* 02 — Jetzt, long screenshot (scrolls through the full page) */}
         <div style={layer(active === 1)}>
           <div style={{ ...cardStyle, height: "100%", display: "flex", flexDirection: "column" }}>
-            {chromeBar("realestateinberlin.com")}
+            {chromeBar("realestateinberlin.nestoririondo.com")}
             <div style={{ height: 3, background: "var(--line)", flex: "0 0 auto" }}>
               <div
                 style={{
                   height: "100%",
-                  width: `${sub * 100}%`,
+                  width: `${screenshotProgress * 100}%`,
                   background: "var(--accent)",
                   transition: "width .08s linear",
                 }}
@@ -387,12 +360,13 @@ export function StickyCase() {
           </div>
         </div>
 
-        {/* 03 — Mobil, with parallax celebration.
-            No overflow:hidden here — Celebration clips its own decorations, and
-            clipping would chop the phone's drop shadow. */}
+        {/* 03 — Mobil, with a soft ambient backdrop behind the phone. */}
         <div style={{ ...layer(active === 2), display: "grid", placeItems: "center" }}>
-          <Celebration p={tail} />
-          <div style={{ position: "relative", zIndex: 2 }}>
+          <MobileAmbientBackdrop />
+          <div
+            className={"case-phone-rise" + (active === 2 ? " is-active" : "")}
+            style={{ position: "relative", zIndex: 2 }}
+          >
             <PhoneFrame width={mobile ? 216 : 252}>
               <RebMobile />
             </PhoneFrame>
@@ -426,11 +400,11 @@ export function StickyCase() {
         <div style={{ display: "grid", gap: 32 }}>
           {narrative}
           <div style={cardStyle}>
-            {chromeBar("realestateinberlin.com")}
+            {chromeBar("realestateinberlin.nestoririondo.com")}
             <RebDesktop />
           </div>
           <div style={{ position: "relative", display: "grid", placeItems: "center", padding: "32px 0" }}>
-            <Celebration p={0.4} />
+            <MobileAmbientBackdrop />
             <div style={{ position: "relative", zIndex: 2 }}>
               <PhoneFrame width={208}>
                 <RebMobile />
