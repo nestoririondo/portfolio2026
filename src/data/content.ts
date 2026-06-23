@@ -39,6 +39,8 @@ export interface Outcome {
   title: string;
   body: string;
   px: number;
+  screenTilt: number;
+  screenRotateSpeed: number;
 }
 
 export const OUTCOMES: Outcome[] = [
@@ -48,6 +50,8 @@ export const OUTCOMES: Outcome[] = [
     title: "Termine online buchen",
     body: "Kund:innen buchen freie Zeiten selbst – rund um die Uhr, ganz ohne Telefon.",
     px: 0.03,
+    screenTilt: -2.5,
+    screenRotateSpeed: 0.006,
   },
   {
     n: "02",
@@ -55,6 +59,8 @@ export const OUTCOMES: Outcome[] = [
     title: "Immer aktuelle Inhalte",
     body: "Angebote, Preise oder Verfügbarkeiten aktualisieren sich automatisch – du pflegst sie nur an einer Stelle.",
     px: 0.03,
+    screenTilt: -2,
+    screenRotateSpeed: -0.0045,
   },
   {
     n: "03",
@@ -62,6 +68,8 @@ export const OUTCOMES: Outcome[] = [
     title: "Bewertungen, die überzeugen",
     body: "Deine besten Google-Bewertungen erscheinen automatisch – und schaffen Vertrauen, noch bevor jemand anruft.",
     px: 0.08,
+    screenTilt: -3.25,
+    screenRotateSpeed: 0.0075,
   },
   {
     n: "04",
@@ -69,6 +77,8 @@ export const OUTCOMES: Outcome[] = [
     title: "KI-Assistent, auf Wunsch",
     body: "Beantwortet rund um die Uhr die häufigsten Fragen – und leitet echte Anfragen direkt an dich weiter.",
     px: 0.08,
+    screenTilt: -1.75,
+    screenRotateSpeed: -0.006,
   },
 ];
 

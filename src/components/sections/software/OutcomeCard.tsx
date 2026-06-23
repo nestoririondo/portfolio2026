@@ -40,11 +40,13 @@ export function OutcomeCard({ o }: { o: Outcome }) {
         >
           <div data-px="0.05" className="px-layer">
             <div
+              data-px-rotate={o.screenRotateSpeed}
+              data-px-rotate-max="5"
               style={{
                 transition: "transform .45s cubic-bezier(.2,.7,.2,1)",
                 transform: hov
-                  ? "rotate(-1deg) translateY(-10px) scale(1.1)"
-                  : "rotate(-3deg) scale(1.06)",
+                  ? `rotate(calc(${o.screenTilt}deg + var(--px-rotate, 0deg))) translateY(-10px) scale(1.1)`
+                  : `rotate(calc(${o.screenTilt}deg + var(--px-rotate, 0deg))) scale(1.06)`,
                 willChange: "transform",
               }}
             >

@@ -75,6 +75,8 @@ recurring income beats chasing new projects.
 
 ## Documents you need, in order
 
+Templates live in `freelance-ops/templates/`.
+
 | # | Document | When | Job |
 |---|----------|------|-----|
 | 1 | Discovery questionnaire | Before quoting | Goals, scope, deadline, budget, examples they like |
@@ -100,6 +102,123 @@ recurring income beats chasing new projects.
 - **Bigger projects (3+ months) → thirds:** 33% upfront / 33% at midpoint milestone /
   34% on completion, so you never carry too much unpaid work.
 - **Everything in writing**, even just an email reply saying "agreed."
+
+---
+
+## Website offer
+
+### Komplett-Website
+
+**ab 2.500 €**
+
+Einmaliger Festpreis, nach dem Erstgespräch klar festgelegt.
+
+**1. Jahr Betreuung inklusive.** Danach **50 €/Monat** für Hosting, Domain,
+technische Updates und kleine Inhaltsänderungen.
+
+### Enthalten
+
+Use these short labels on the site:
+
+- Individuelles Design
+- Mobil optimiert
+- Schnelle Ladezeiten
+- SEO-Grundlagen
+- Google Business
+- Text-Hilfe
+- Kontaktformular
+- Rechtstexte
+
+Internal meaning:
+
+- **Individuelles Design** — no generic template look; designed around the business.
+- **Mobil optimiert** — works cleanly on phone, tablet and desktop.
+- **Schnelle Ladezeiten** — lightweight build, compressed assets, performance basics.
+- **SEO-Grundlagen** — titles, descriptions, headings, structure and indexability. No ranking promise.
+- **Google Business** — setup or improvement of their Google Business Profile.
+- **Text-Hilfe** — you help shape the copy; this is not unlimited copywriting.
+- **Kontaktformular** — simple lead form connected to email.
+- **Rechtstexte** — Impressum and Datenschutz are added if supplied or generated via agreed provider. No legal guarantee.
+
+Good public wording:
+
+> Alles Wichtige ist dabei: Design, mobile Optimierung, schnelle Ladezeiten,
+> SEO-Grundlagen, Google Business, Text-Hilfe, Kontaktformular und Rechtstexte.
+
+Avoid these phrases:
+
+- **Bei Google gefunden** — sounds like a ranking promise.
+- **Rechtssicher** — sounds like legal advice or a legal guarantee.
+- **Texte inklusive** — can sound like unlimited copywriting.
+- **Kleine Änderungen** without limits — define what counts as small.
+
+Small changes definition:
+
+> Kleine Inhaltsänderungen sind z. B. Texte, Bilder, Preise, Öffnungszeiten oder
+> Kontaktdaten. Neue Seiten, neue Designs oder neue Funktionen werden separat
+> angeboten.
+
+### Extras
+
+| Extra | Price |
+|-------|------:|
+| Zweite Sprache | +600-1.200 € |
+| Jede weitere Sprache | +300-700 € |
+| CMS / Inhalte selbst bearbeiten | +1.200-2.500 € |
+| Blog / Newsbereich | +800-1.800 € |
+| Terminbuchung | +700-1.800 € |
+| Erweiterter Anfrage-Flow | +500-1.200 € |
+| Animationen / Motion-Polish | +400-1.200 € |
+| Projekt- oder Case-Study-System | +700-1.600 € |
+| Filter / Suche / dynamische Listen | +900-2.200 € |
+| Mehrere Standorte / Filialseiten | +600-1.500 € |
+| Newsletter-Anbindung | +400-1.000 € |
+| Mehr Formularlogik / Datei-Upload | +500-1.500 € |
+| Einfache Automationen | +700-2.000 € |
+| E-Commerce basic | +2.000-5.000 € |
+| Zahlungs- oder Checkout-Logik | +1.500-4.000 € |
+| Login / Kundenbereich / Dashboard | ab +3.000 € |
+| Zusätzliche Unterseite | +250-600 € |
+| Zusätzliche Landingpage | +700-1.500 € |
+| Copywriting-Paket | +400-1.200 € |
+| SEO-Content-Struktur | +500-1.500 € |
+| Technischer SEO-/Performance-Pass | +400-1.000 € |
+
+### Monthly care after year 1
+
+**50 €/Monat** includes:
+
+- Hosting
+- Domain
+- SSL
+- Technical updates
+- Backups
+- Basic uptime checks
+- Small content changes
+
+Not included:
+
+- New pages
+- New features
+- Full redesigns
+- Ongoing marketing
+- SEO rankings
+- Legal advice
+
+### Package framing
+
+Use this when talking to clients:
+
+| Package | Price | Fit |
+|---------|------:|-----|
+| Starter | ab 2.500 € | Clear business website with the essentials |
+| Professional | 4.000-6.500 € | More content, more polish, languages, CMS or booking |
+| Custom | ab 7.500 € | Software-like features, integrations, dashboards or complex logic |
+
+Short positioning line:
+
+> Websites starten bei 2.500 €. Die meisten vollständigen Projekte liegen
+> zwischen 4.000 und 7.000 €, je nach Inhalt, Sprachen und Funktionen.
 
 ---
 
