@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { LANGUAGES, NAV_LINKS, type Language } from "../../data/content";
 import { useScrolled } from "../../hooks/useScrolled";
+import { useActiveSection } from "../../hooks/useActiveSection";
+
+const NAV_IDS = NAV_LINKS.map((l) => l.href.replace(/^#/, ""));
 
 function LangSwitch({
   lang,
@@ -73,6 +76,7 @@ export function Header() {
   const [lang, setLang] = useState<Language>("DE");
   const [hidden, setHidden] = useState(false);
   const scrolled = useScrolled();
+  const active = useActiveSection(NAV_IDS);
   const headerRef = useRef<HTMLElement>(null);
 
   // auto-hide: slide the nav away when scrolling down, reveal it scrolling up
@@ -135,6 +139,13 @@ export function Header() {
       >
         <a
           href="#top"
+          onClick={(e) => {
+            // the hero (#top) begins below the header in flow, so the anchor
+            // lands a few px down — send the logo to the true page top instead
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            history.replaceState(null, "", " ");
+          }}
           style={{
             fontFamily: "var(--font-head)",
             fontSize: 22,
@@ -142,20 +153,47 @@ export function Header() {
             letterSpacing: "-.02em",
             display: "flex",
             alignItems: "center",
-            gap: 9,
+            gap: 11,
             whiteSpace: "nowrap",
             flex: "0 0 auto",
           }}
         >
           <span
+            className="brand-tile"
+            aria-hidden="true"
             style={{
-              width: 9,
-              height: 9,
-              borderRadius: 99,
+              width: 30,
+              height: 30,
+              borderRadius: 8,
               background: "var(--accent)",
-              display: "inline-block",
+              display: "grid",
+              placeItems: "center",
+              flex: "0 0 auto",
+              boxShadow:
+                "0 10px 24px -14px color-mix(in oklab, var(--accent) 80%, transparent)",
             }}
-          />
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g fill="var(--paper)">
+                {/* left stem */}
+                <rect x="29.5" y="29" width="6.5" height="42" />
+                {/* right stem */}
+                <rect x="64" y="29" width="6.5" height="42" />
+                {/* thick diagonal */}
+                <polygon points="30,29 43,29 70.5,71 57.5,71" />
+                {/* serifs */}
+                <rect x="25" y="29" width="16" height="3.4" />
+                <rect x="25" y="67.6" width="16" height="3.4" />
+                <rect x="59" y="29" width="16" height="3.4" />
+                <rect x="59" y="67.6" width="16" height="3.4" />
+              </g>
+            </svg>
+          </span>
           Néstor Iriondo
         </a>
         <nav
@@ -163,7 +201,7 @@ export function Header() {
           style={{
             marginLeft: "auto",
             display: "flex",
-            gap: 30,
+            gap: 26,
             alignItems: "center",
           }}
         >
@@ -171,15 +209,18 @@ export function Header() {
             <a
               key={href}
               href={href}
+              className="nav-link"
+              data-active={active === href.replace(/^#/, "") || undefined}
               style={{
-                fontSize: 15.5,
-                color: "var(--muted)",
+                position: "relative",
+                fontFamily: "var(--mono)",
+                fontSize: 12.5,
                 fontWeight: 500,
-                transition: "color .2s",
+                letterSpacing: ".08em",
+                textTransform: "uppercase",
                 whiteSpace: "nowrap",
+                paddingBottom: 3,
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ink)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
             >
               {label}
             </a>
@@ -253,21 +294,25 @@ export function Header() {
             className="wrap"
             style={{ display: "flex", flexDirection: "column", gap: 4 }}
           >
-            {NAV_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={() => setOpen(false)}
-                style={{
-                  padding: "12px 4px",
-                  fontSize: 18,
-                  fontFamily: "var(--font-head)",
-                  borderBottom: "1px solid var(--line)",
-                }}
-              >
-                {label}
-              </a>
-            ))}
+            {NAV_LINKS.map(({ label, href }) => {
+              const isActive = active === href.replace(/^#/, "");
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    padding: "12px 4px",
+                    fontSize: 18,
+                    fontFamily: "var(--font-head)",
+                    color: isActive ? "var(--accent)" : undefined,
+                    borderBottom: "1px solid var(--line)",
+                  }}
+                >
+                  {label}
+                </a>
+              );
+            })}
             <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 12 }}>
               <LangSwitch lang={lang} setLang={setLang} />
               <a

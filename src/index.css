@@ -83,7 +83,11 @@ p {
   opacity: 0.55;
 }
 section {
-  scroll-margin-top: 84px;
+  /* sections are full-height with vertically-centered content (see rule below),
+     and the header auto-hides on scroll — so anchored jumps shouldn't reserve
+     header space at the top, which would push the centered content low. Land the
+     section flush with the viewport so its content sits in the true centre. */
+  scroll-margin-top: 0;
 }
 
 /* every top-level section fills at least the viewport, content vertically
@@ -309,6 +313,55 @@ main > section {
   transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+.nav-link {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.nav-link:hover {
+  color: var(--ink);
+}
+.nav-link:hover::after,
+.nav-link[data-active]::after {
+  transform: scaleX(1);
+}
+.nav-link[data-active] {
+  color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-link::after {
+    transition: none;
+  }
+}
+
+.brand-tile {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+a:hover > .brand-tile {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px -12px color-mix(in oklab, var(--accent) 85%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-tile {
+    transition: none;
+  }
+  a:hover > .brand-tile {
+    transform: none;
+  }
+}
+
 .contact-trust {
   display: grid;
   gap: 11px;
@@ -430,6 +483,10 @@ main > section {
   .process-step:last-child .process-icon::after {
     animation: none !important;
     opacity: 0 !important;
+  }
+  .kontakt-band::before,
+  .hero-band::before {
+    animation: none;
   }
   html {
     scroll-behavior: auto;
@@ -685,14 +742,106 @@ textarea {
 
 .kontakt-band {
   position: relative;
+  overflow: clip;
   background:
-    radial-gradient(120% 90% at 85% 0%, var(--accent-tint), transparent 60%),
     linear-gradient(
       180deg,
       color-mix(in oklab, var(--accent) 5%, var(--bg)),
       var(--bg)
     );
   border-top: 1px solid var(--line);
+}
+/* soft ambient glow that drifts slowly behind the form — not a blob, a light source */
+.kontakt-band::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -10%;
+  right: -8%;
+  width: clamp(380px, 46vw, 720px);
+  height: clamp(380px, 46vw, 720px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--accent) 16%, transparent),
+    transparent 68%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+  animation: kontakt-drift 22s ease-in-out infinite alternate;
+}
+/* fine film grain for tactile depth — invisible until removed */
+.kontakt-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+}
+.kontakt-band > .wrap {
+  position: relative;
+  z-index: 1;
+}
+@keyframes kontakt-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-5%, 6%) scale(1.08);
+  }
+}
+
+/* Hero — same ambient treatment: a soft glow lighting the headline + film grain */
+.hero-band {
+  position: relative;
+  overflow: clip;
+}
+.hero-band::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -14%;
+  left: -10%;
+  width: clamp(420px, 50vw, 800px);
+  height: clamp(420px, 50vw, 800px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--accent) 13%, transparent),
+    transparent 68%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+  animation: hero-drift 26s ease-in-out infinite alternate;
+}
+.hero-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+}
+.hero-band > .wrap {
+  position: relative;
+  z-index: 1;
+}
+@keyframes hero-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6%, 5%) scale(1.07);
+  }
 }
 
 .appointment-card {

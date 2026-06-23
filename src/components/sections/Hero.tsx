@@ -136,6 +136,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
     <section
       ref={secRef}
       id="top"
+      className="hero-band"
       style={{
         paddingTop: "clamp(30px,5vw,64px)",
         paddingBottom: "clamp(40px,6vw,86px)",
