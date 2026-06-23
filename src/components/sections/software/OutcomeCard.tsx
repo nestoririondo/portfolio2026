@@ -29,20 +29,28 @@ export function OutcomeCard({ o }: { o: Outcome }) {
             "transform .4s cubic-bezier(.2,.7,.2,1), background .35s, box-shadow .35s",
         }}
       >
-        {/* mockup — tilted + breaking past the card edge so it floats above it */}
+        {/* mockup — tilted + breaking past the card edge so it floats above it.
+            Its own [data-px] layer drifts faster than the card, for depth. */}
         <div
           className="oc-media"
           style={{
             flex: "0 0 clamp(200px,42%,270px)",
             margin: "clamp(-30px,-3.4vw,-20px) 0 clamp(-30px,-3.4vw,-20px) clamp(-44px,-4.4vw,-26px)",
-            transition: "transform .45s cubic-bezier(.2,.7,.2,1)",
-            transform: hov
-              ? "rotate(-1deg) translateY(-10px) scale(1.1)"
-              : "rotate(-3deg) scale(1.06)",
-            willChange: "transform",
           }}
         >
-          <Gfx type={o.gfx} fullWidth />
+          <div data-px="0.05" className="px-layer">
+            <div
+              style={{
+                transition: "transform .45s cubic-bezier(.2,.7,.2,1)",
+                transform: hov
+                  ? "rotate(-1deg) translateY(-10px) scale(1.1)"
+                  : "rotate(-3deg) scale(1.06)",
+                willChange: "transform",
+              }}
+            >
+              <Gfx type={o.gfx} fullWidth />
+            </div>
+          </div>
         </div>
 
         {/* copy */}
