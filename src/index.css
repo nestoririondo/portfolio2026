@@ -578,11 +578,25 @@ a:hover > .brand-tile {
 /* continuous progress through the three chapters, sitting above the stepper */
 .case-progress {
   position: relative;
-  height: 5px;
+  height: 6px;
   margin-bottom: 16px;
   border-radius: 99px;
   background: color-mix(in oklab, var(--line) 70%, transparent);
-  overflow: hidden;
+  cursor: pointer;
+  touch-action: none;
+}
+/* invisible padding so the thin bar is easy to hit / drag */
+.case-progress::after {
+  content: "";
+  position: absolute;
+  inset: -9px 0;
+}
+.case-progress:hover {
+  background: color-mix(in oklab, var(--line) 90%, transparent);
+}
+.case-progress:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent) 60%, transparent);
+  outline-offset: 3px;
 }
 .case-progress__fill {
   position: absolute;
@@ -605,10 +619,74 @@ a:hover > .brand-tile {
   transform: translateX(-50%);
   background: var(--bg);
 }
+/* playback controls: play/pause · seek dots · replay */
+.case-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.case-ctrl {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.case-ctrl:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--line));
+  color: var(--accent);
+}
+.case-ctrl svg {
+  width: 15px;
+  height: 15px;
+}
+.case-dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-right: auto;
+}
+.case-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--line) 85%, transparent);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.case-dot:hover {
+  background: color-mix(in oklab, var(--accent) 55%, var(--line));
+}
+.case-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
 .case-step {
   position: relative;
   display: flex;
   gap: 16px;
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
   padding: 16px 18px;
   border-radius: 16px;
   border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
@@ -627,6 +705,54 @@ a:hover > .brand-tile {
      snap away when the 0.7s glow finishes */
   box-shadow: 0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
   animation: step-glow 0.7s ease;
+}
+/* compact header swaps one chapter at a time; each mounts with a clean fade-in
+   so the outgoing text is gone before the incoming appears — never doubled */
+.case-step__swap {
+  animation: case-step-swap-in 0.34s ease both;
+}
+@keyframes case-step-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* "Anfrage gesendet" toast — eases in once when it mounts (centred on its anchor
+   via translate(-50%,-50%)); the check pops a beat after the card settles */
+.reb-confirm {
+  transform: translate(-50%, -50%);
+  animation: reb-confirm-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes reb-confirm-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -34%) scale(0.82);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.reb-confirm__check {
+  animation: reb-check-pop 0.42s 0.16s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes reb-check-pop {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reb-confirm,
+  .reb-confirm__check {
+    animation: none;
+  }
 }
 .case-step--compact {
   padding: 12px 14px;
@@ -847,7 +973,8 @@ a:hover > .brand-tile {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .case-step.is-active {
+  .case-step.is-active,
+  .case-step__swap {
     animation: none;
   }
   .case-phone-rise {

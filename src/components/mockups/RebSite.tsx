@@ -48,7 +48,7 @@ const EMAIL_TEXT = "anna@example.de";
 const MSG_TEXT = "Interesse an dieser Wohnung – bitte um Rückruf.";
 
 const CLICK_1 = 0.15; // open properties
-const CLICK_2 = 0.4; // click 7th property after scroll + pause
+const CLICK_2 = 0.46; // click 7th property after scroll + a long hover
 const CLICK_3 = 0.983; // send message after form-filled pause + move to button + wait
 
 interface Key {
@@ -63,13 +63,13 @@ const PRE_KEYS: Key[] = [
   { at: 0.04, x: 16, y: 92 },
   { at: 0.1, x: BROWSE.x, y: BROWSE.y }, // arrive at "Immobilien durchsuchen"
   { at: 0.2, x: BROWSE.x, y: BROWSE.y }, // pause (click at 0.15)
-  { at: 0.26, x: LIST_CARD.x, y: LIST_CARD.y }, // move to where the 7th card lands
-  { at: 0.34, x: LIST_CARD.x, y: LIST_CARD.y }, // settle as the list finishes scrolling
-  { at: 0.4, x: LIST_CARD.x, y: LIST_CARD.y },
+  { at: 0.29, x: BROWSE.x, y: BROWSE.y }, // hold on the full property list before it scrolls
+  { at: 0.35, x: LIST_CARD.x, y: LIST_CARD.y }, // follow the list down to where the 7th card lands
+  { at: 0.46, x: LIST_CARD.x, y: LIST_CARD.y }, // long hover on the property, then click at CLICK_2
 ];
 
 const FORM_KEYS: Key[] = [
-  { at: 0.4, x: LIST_CARD.x, y: LIST_CARD.y },
+  { at: 0.46, x: LIST_CARD.x, y: LIST_CARD.y },
   { at: 0.56, x: LIST_CARD.x, y: LIST_CARD.y }, // long linger on the detail page before reacting
   { at: 0.6, x: 58, y: 43 }, // arc toward the form as the zoom kicks in
   { at: 0.63, x: NAME_FIELD.x, y: NAME_FIELD.y }, // arrive at the name field
@@ -158,9 +158,9 @@ const Caret = () => (
 
 export function RebInteraction({ progress: p }: { progress: number }) {
   const heroOp = 1 - ramp(p, 0.16, 0.22);
-  const listOp = ramp(p, 0.16, 0.22) * (1 - ramp(p, 0.4, 0.46));
-  const detailOp = ramp(p, 0.4, 0.46);
-  const listScroll = ramp(p, 0.22, 0.32);
+  const listOp = ramp(p, 0.16, 0.22) * (1 - ramp(p, 0.46, 0.52));
+  const detailOp = ramp(p, 0.46, 0.52);
+  const listScroll = ramp(p, 0.29, 0.35); // list rests (full list visible) before scrolling to the 7th
 
   // Linger on the selected property page, then push higher/right into the form.
   const zoom = 1 + (ZOOM_MAX - 1) * ramp(p, 0.56, 0.63);
@@ -175,7 +175,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
   const nameActive = p > 0.63 && p < 0.71;
   const emailActive = p > 0.73 && p < 0.81;
   const msgActive = p > 0.83 && p < 0.91;
-  const confirm = ramp(p, 0.986, 0.998);
+  const showConfirm = p > 0.984; // the toast animates itself in via CSS on mount
 
   // map a detail-page point through the zoom.
   const zxD = (x: number) => ZOOM_ORIGIN.x + (x - ZOOM_ORIGIN.x) * zoom;
@@ -184,7 +184,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
   // cursor: frame coords on the hero/listing leg, image→frame on the form leg
   let cx: number;
   let cy: number;
-  if (p <= 0.4) {
+  if (p <= CLICK_2) {
     const f = interp(PRE_KEYS, p);
     cx = f.x;
     cy = f.y;
@@ -334,14 +334,13 @@ export function RebInteraction({ progress: p }: { progress: number }) {
           {msgActive && <Caret />}
         </div>
 
-        {confirm > 0 && (
+        {showConfirm && (
           <div
+            className="reb-confirm"
             style={{
               position: "absolute",
               left: "83%",
               top: "56%",
-              transform: `translate(-50%,-50%) scale(${0.9 + 0.1 * confirm})`,
-              opacity: confirm,
               display: "flex",
               alignItems: "center",
               gap: 5,
@@ -357,6 +356,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
             }}
           >
             <span
+              className="reb-confirm__check"
               style={{
                 display: "inline-flex",
                 alignItems: "center",

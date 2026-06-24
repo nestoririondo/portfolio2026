@@ -5,41 +5,114 @@ import { PhoneFrame } from "../../mockups/Frames";
 import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
 
 /**
- * Scroll-through case study (REB). Narrative and visual pin together while the
- * user scrolls a tall wrapper:
- *   - the active chapter is driven by scroll *progress* (monotonic → no flicker),
- *   - step 02 owns the long middle and the click-through plays through as the
- *     long screenshot scrolls while staying in view,
- *   - step 03 cross-fades to the mobile view over a soft ambient backdrop.
+ * Autoplaying case study (REB). The story plays itself on its own timeline the
+ * first time the section scrolls into view — no scroll-pinning, so pacing and
+ * responsiveness are fully under our control:
+ *   - 01 Vorher: the old website rests,
+ *   - 02 Nachher: the click-through plays the path (Start → Properties → Objekt)
+ *     and the "Anfrage gesendet" confirmation lands on the desktop view,
+ *   - 03 Das Ergebnis: the phone rises over a soft backdrop and the inbox banner
+ *     drops in.
+ * A small control bar (play/pause · step dots · replay) lets the viewer pause,
+ * jump to a chapter, or rewatch.
  *
- * On narrow screens the steps collapse to a compact header that swaps as you
- * scroll, with the visual stacked below.
- *
- * Performance: the scroll handler runs every frame, but it must NOT re-render
- * this whole component each time — reconciling MiniSite, the narrative and the
- * phone 60×/s is what made the click-through choppy on mobile. So the only
- * thing that updates per frame is the small `<ClickThrough>` child (via a
- * registered setter) plus an imperative opacity write on the mobile header.
- * Everything else here is driven by *discrete* state (active chapter, the
- * desktop→phone hand-off, the inbox banner) that changes only a handful of
- * times across the entire scroll.
+ * Performance: the timeline ticks every frame, but it must NOT re-render this
+ * whole component each time. Per frame it only writes the progress-bar width and
+ * pushes the click-through value through a registered setter (small subtree);
+ * the discrete state (active chapter, desktop→phone hand-off, the banner) is
+ * committed to React only on an actual transition — a handful of times per play.
  */
 
-const TRAVEL = 28; // wrapper height in viewport heights
-const FRAME_H = "min(600px, 68vh)";
-// segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short.
-// 03 is kept tight so there's only a brief rest after the inbox banner drops.
+const FRAME_H = "min(600px, 68vh)"; // desktop stage height
+const M_FRAME_H = "min(72vh, 520px)"; // mobile stage height
+// boundaries on 0..1 progress `p`: 01 short, 02 long, 03 short
 const SEG = [0.08, 0.86];
-const HANDOFF = 0.35; // within step 03: desktop view rests, then the phone rises
-const NOTIFY_AT = 0.4; // within step 03: the inbox banner drops, just after the phone lands
-// scroll progress at which the phone actually rises in. Until here the "Anfrage
-// gesendet" confirmation still rests on the desktop view — the climax of step 02
-// — so the stepper/progress must keep reading 02, not jump to 03.
+const HANDOFF = 0.35; // within step 03's p-range: desktop view rests, then phone rises
+const NOTIFY_AT = 0.4; // within step 03's p-range: the inbox banner drops
+// progress at which the phone rises in. Until here the "Anfrage gesendet"
+// confirmation rests on the desktop view — the climax of step 02 — so the
+// stepper/progress keep reading 02, not 03.
 const PHONE_AT = SEG[1] + HANDOFF * (1 - SEG[1]);
 const MOBILE_Q = "(max-width: 920px)";
-// mobile pin offset — small now that the nav auto-hides on scroll-down, so the
-// content sits high and the visual gets the reclaimed height
-const M_TOP = "20px";
+
+// Autoplay timeline: each story beat gets its OWN duration, decoupled from how
+// much p-space it spans — so chapter 02 gets room to breathe and chapter 03
+// never flies by. Each window maps an elapsed slice to a slice of progress `p`,
+// which drives exactly the same visual state machine throughout.
+const BEATS = [
+  { p0: 0, p1: SEG[0], ms: 1500 }, // 01 Vorher holds
+  { p0: SEG[0], p1: SEG[0], ms: 1300 }, // 02 opens on the homepage hero — holds before the cursor moves
+  { p0: SEG[0], p1: SEG[1], ms: 5000 }, // 02 click-through plays the path
+  { p0: SEG[1], p1: PHONE_AT, ms: 1400 }, //   "Anfrage gesendet" rests on desktop
+  { p0: PHONE_AT, p1: 1, ms: 3200 }, // 03 phone rises, banner drops, holds
+];
+const TOTAL = BEATS.reduce((a, b) => a + b.ms, 0);
+// cumulative start time of each window; STARTS[i] = start of BEATS[i], last = TOTAL
+const STARTS = BEATS.reduce<number[]>((a, b) => [...a, a[a.length - 1] + b.ms], [0]);
+// the three narrative chapters begin at the Vorher beat, the hero-hold beat, and
+// the final Ergebnis beat — used by the seek dots
+const CHAPTER_STARTS = [STARTS[0], STARTS[1], STARTS[BEATS.length - 1]];
+
+function timeToP(t: number): number {
+  let acc = 0;
+  for (const b of BEATS) {
+    if (t < acc + b.ms) return b.p0 + ((t - acc) / b.ms) * (b.p1 - b.p0);
+    acc += b.ms;
+  }
+  return 1;
+}
+
+// invert progress `p` back to an elapsed time — for scrubbing the bar
+function pToTime(p: number): number {
+  p = Math.min(Math.max(p, 0), 1);
+  let acc = 0;
+  for (const b of BEATS) {
+    if (p <= b.p1) {
+      const span = b.p1 - b.p0;
+      return acc + (span > 0 ? (p - b.p0) / span : 0) * b.ms;
+    }
+    acc += b.ms;
+  }
+  return TOTAL;
+}
+
+// the bar shows each chapter as an even third (with notches at 1/3, 2/3); map a
+// clicked fraction of the bar back to progress `p`, then to a time
+function fractionToTime(f: number): number {
+  f = Math.min(Math.max(f, 0), 1);
+  const n = REB_CHAPTERS.length; // 3 chapters
+  let p: number;
+  if (f < 1 / n) p = f * n * SEG[0];
+  else if (f < 2 / n) p = SEG[0] + (f * n - 1) * (PHONE_AT - SEG[0]);
+  else p = PHONE_AT + (f * n - 2) * (1 - PHONE_AT);
+  return pToTime(p);
+}
+
+const PlayIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden fill="currentColor">
+    <path d="M8 5.5v13a1 1 0 0 0 1.54.84l9.5-6.5a1 1 0 0 0 0-1.68l-9.5-6.5A1 1 0 0 0 8 5.5z" />
+  </svg>
+);
+const PauseIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden fill="currentColor">
+    <rect x="6" y="5" width="4" height="14" rx="1" />
+    <rect x="14" y="5" width="4" height="14" rx="1" />
+  </svg>
+);
+const ReplayIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1" />
+    <path d="M3 4v5h5" />
+  </svg>
+);
 
 function MobileAmbientBackdrop() {
   const blob = (
@@ -92,10 +165,10 @@ function MobileAmbientBackdrop() {
 }
 
 /**
- * The step-02 visual. Owns the continuous scroll progress in its own state and
+ * The step-02 visual. Owns the click-through progress in its own state and
  * exposes a setter through `register`, so per-frame updates re-render only this
- * small subtree (chrome bar + progress bar + the click-through) — never the
- * parent. Memoised so the parent's discrete re-renders don't reset it.
+ * small subtree — never the parent. Memoised so the parent's discrete
+ * re-renders don't reset it.
  */
 const ClickThrough = memo(function ClickThrough({
   register,
@@ -117,17 +190,23 @@ export function StickyCase() {
   const [showPhone, setShowPhone] = useState(false); // step 03: phone has risen in
   const [notify, setNotify] = useState(false); // step 03: inbox banner visible
   const [reduced, setReduced] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const [mobile, setMobile] = useState(
     () => typeof window !== "undefined" && !!window.matchMedia?.(MOBILE_Q).matches,
   );
 
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const mHeadRef = useRef<HTMLDivElement>(null); // mobile header: opacity driven imperatively
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null); // the scrub track
   const barRef = useRef<HTMLDivElement>(null); // steps-banner progress fill: width driven imperatively
   const setProgressRef = useRef<((p: number) => void) | null>(null);
-  // mirror the discrete state in refs so the scroll handler can setState only on
-  // an actual transition instead of every frame
-  const lastIdxRef = useRef(0);
+  // timeline bookkeeping
+  const rafRef = useRef(0);
+  const startRef = useRef(0); // performance.now() − elapsed, while playing
+  const elapsedRef = useRef(0); // current position in ms
+  const playingRef = useRef(false);
+  // mirror the discrete state in refs so the tick can setState only on an actual
+  // transition instead of every frame
+  const lastPhaseRef = useRef(0);
   const showPhoneRef = useRef(false);
   const notifyRef = useRef(false);
 
@@ -135,21 +214,16 @@ export function StickyCase() {
     setProgressRef.current = set;
   }, []);
 
-  // Warm the case-study screenshots during browser idle time so they are
-  // decoded and cached before the user scrolls into this (below-the-fold)
-  // section — no visible wait once the scrollytelling starts.
+  // Warm the case-study screenshots during browser idle time so they are decoded
+  // and cached before the user reaches this (below-the-fold) section.
   useEffect(() => {
-    const srcs = [
-      "/img/reb/1.webp",
-      "/img/reb/2.webp",
-      "/img/reb/3.webp",
-      "/img/reb/smart.webp",
-    ];
-    const warm = () => srcs.forEach((s) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = s;
-    });
+    const srcs = ["/img/reb/1.webp", "/img/reb/2.webp", "/img/reb/3.webp", "/img/reb/smart.webp"];
+    const warm = () =>
+      srcs.forEach((s) => {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = s;
+      });
     const hasRic = typeof window.requestIdleCallback === "function";
     const id = hasRic
       ? window.requestIdleCallback(warm, { timeout: 2500 })
@@ -157,90 +231,177 @@ export function StickyCase() {
     return () => (hasRic ? window.cancelIdleCallback?.(id as number) : clearTimeout(id as number));
   }, []);
 
+  // media queries: mobile layout + reduced-motion (static fallback)
   useEffect(() => {
     const mq = window.matchMedia?.(MOBILE_Q);
     const onMq = () => setMobile(!!mq?.matches);
     mq?.addEventListener?.("change", onMq);
-
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      setReduced(true);
-      return () => mq?.removeEventListener?.("change", onMq);
-    }
-    const wrap = wrapRef.current;
-    if (!wrap) return () => mq?.removeEventListener?.("change", onMq);
-
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const total = wrap.offsetHeight - window.innerHeight;
-      const passed = Math.min(Math.max(-wrap.getBoundingClientRect().top, 0), Math.max(total, 1));
-      const p = total > 0 ? passed / total : 0;
-
-      let idx = 0;
-      let s = 0;
-      if (p >= SEG[1]) {
-        idx = 2;
-        s = (p - SEG[1]) / (1 - SEG[1]);
-      } else if (p >= SEG[0]) {
-        idx = 1;
-        s = (p - SEG[0]) / (SEG[1] - SEG[0]);
-      }
-
-      // The narrative/progress phases track what's on screen, not the raw scroll
-      // segments: step 02 owns everything up to the phone hand-off (incl. the
-      // confirmation resting on the desktop view); step 03 begins as it rises.
-      const phase = p >= PHONE_AT ? 2 : p >= SEG[0] ? 1 : 0;
-
-      // --- continuous (per-frame) — isolated to the small subtrees ----------
-      // click-through progress; once on step 03 it rests at its final state
-      setProgressRef.current?.(idx === 2 ? 1 : s);
-      // steps-banner progress: each chapter owns a third of the bar, the
-      // within-chapter position fills it smoothly → shows exactly where you are
-      if (barRef.current) {
-        let local = 0;
-        if (phase === 2) local = (p - PHONE_AT) / (1 - PHONE_AT);
-        else if (phase === 1) local = (p - SEG[0]) / (PHONE_AT - SEG[0]);
-        else local = SEG[0] > 0 ? p / SEG[0] : 0;
-        const overall = (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
-        barRef.current.style.width = `${overall * 100}%`;
-      }
-      // mobile header fade: dip to 0 right at a phase boundary so the swapped
-      // text fades out then back in instead of hard-cutting
-      if (mHeadRef.current) {
-        const band = 0.045;
-        const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - PHONE_AT));
-        mHeadRef.current.style.opacity = String(Math.min(1, dist / band));
-      }
-
-      // --- discrete — commit to React state only when it actually changes ---
-      if (phase !== lastIdxRef.current) {
-        lastIdxRef.current = phase;
-        setActive(phase);
-      }
-      const wantPhone = idx === 2 && s >= HANDOFF;
-      if (wantPhone !== showPhoneRef.current) {
-        showPhoneRef.current = wantPhone;
-        setShowPhone(wantPhone);
-      }
-      const wantNotify = idx === 2 && s > NOTIFY_AT;
-      if (wantNotify !== notifyRef.current) {
-        notifyRef.current = wantNotify;
-        setNotify(wantNotify);
-      }
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      mq?.removeEventListener?.("change", onMq);
-      cancelAnimationFrame(raf);
-    };
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) setReduced(true);
+    return () => mq?.removeEventListener?.("change", onMq);
   }, []);
+
+  // Apply a progress value 0..1 to the visual state machine. Per-frame writes
+  // (bar width, click-through) stay imperative; chapter/hand-off/banner commit to
+  // React state only on a real change.
+  const applyP = useCallback((p: number) => {
+    let idx = 0;
+    let s = 0;
+    if (p >= SEG[1]) {
+      idx = 2;
+      s = (p - SEG[1]) / (1 - SEG[1]);
+    } else if (p >= SEG[0]) {
+      idx = 1;
+      s = (p - SEG[0]) / (SEG[1] - SEG[0]);
+    }
+    // narrative phase tracks what's on screen, not the raw segments
+    const phase = p >= PHONE_AT ? 2 : p >= SEG[0] ? 1 : 0;
+
+    setProgressRef.current?.(idx === 2 ? 1 : s);
+    if (barRef.current) {
+      let local = 0;
+      if (phase === 2) local = (p - PHONE_AT) / (1 - PHONE_AT);
+      else if (phase === 1) local = (p - SEG[0]) / (PHONE_AT - SEG[0]);
+      else local = SEG[0] > 0 ? p / SEG[0] : 0;
+      const overall = (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
+      barRef.current.style.width = `${overall * 100}%`;
+      progressRef.current?.setAttribute("aria-valuenow", String(Math.round(overall * 100)));
+    }
+    if (phase !== lastPhaseRef.current) {
+      lastPhaseRef.current = phase;
+      setActive(phase);
+    }
+    const wantPhone = idx === 2 && s >= HANDOFF;
+    if (wantPhone !== showPhoneRef.current) {
+      showPhoneRef.current = wantPhone;
+      setShowPhone(wantPhone);
+    }
+    const wantNotify = idx === 2 && s > NOTIFY_AT;
+    if (wantNotify !== notifyRef.current) {
+      notifyRef.current = wantNotify;
+      setNotify(wantNotify);
+    }
+  }, []);
+
+  const stop = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+  }, []);
+
+  const tick = useCallback(() => {
+    const t = Math.min(performance.now() - startRef.current, TOTAL);
+    elapsedRef.current = t;
+    applyP(timeToP(t));
+    if (t >= TOTAL) {
+      playingRef.current = false;
+      rafRef.current = 0;
+      setPlaying(false);
+      return;
+    }
+    rafRef.current = requestAnimationFrame(tick);
+  }, [applyP]);
+
+  // (re)start the timeline from a given elapsed position
+  const startFrom = useCallback(
+    (t: number) => {
+      stop();
+      elapsedRef.current = t;
+      applyP(timeToP(t));
+      startRef.current = performance.now() - t;
+      playingRef.current = true;
+      setPlaying(true);
+      rafRef.current = requestAnimationFrame(tick);
+    },
+    [applyP, stop, tick],
+  );
+
+  const play = useCallback(() => {
+    if (playingRef.current) return;
+    startFrom(elapsedRef.current >= TOTAL ? 0 : elapsedRef.current);
+  }, [startFrom]);
+
+  const pause = useCallback(() => {
+    if (!playingRef.current) return;
+    playingRef.current = false;
+    setPlaying(false);
+    stop();
+  }, [stop]);
+
+  const toggle = useCallback(() => {
+    if (playingRef.current) pause();
+    else play();
+  }, [pause, play]);
+
+  const replay = useCallback(() => startFrom(0), [startFrom]);
+  const seek = useCallback((chapter: number) => startFrom(CHAPTER_STARTS[chapter] ?? 0), [startFrom]);
+
+  // click / drag anywhere on the progress bar to scrub to that point. While
+  // dragging we just paint the frame (no playback churn); on release we resume.
+  const beginScrub = useCallback(
+    (e: React.PointerEvent) => {
+      const el = progressRef.current;
+      if (!el) return;
+      e.preventDefault();
+      const paint = (clientX: number) => {
+        const r = el.getBoundingClientRect();
+        const f = (clientX - r.left) / r.width;
+        const t = fractionToTime(f);
+        elapsedRef.current = t;
+        applyP(timeToP(t));
+      };
+      playingRef.current = false;
+      setPlaying(false);
+      stop();
+      paint(e.clientX);
+      const move = (ev: PointerEvent) => paint(ev.clientX);
+      const up = () => {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+        startFrom(elapsedRef.current); // resume playing from where it was dropped
+      };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    },
+    [applyP, stop, startFrom],
+  );
+
+  // keyboard scrubbing for the focused bar
+  const onBarKey = useCallback(
+    (e: React.KeyboardEvent) => {
+      let t = elapsedRef.current;
+      if (e.key === "ArrowRight") t = Math.min(TOTAL, t + 800);
+      else if (e.key === "ArrowLeft") t = Math.max(0, t - 800);
+      else if (e.key === "Home") t = 0;
+      else if (e.key === "End") t = TOTAL;
+      else return;
+      e.preventDefault();
+      startFrom(t);
+    },
+    [startFrom],
+  );
+
+  // autoplay once when the section first scrolls into view; show the Vorher
+  // poster frame until then
+  useEffect(() => {
+    if (reduced) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    applyP(timeToP(0));
+    let fired = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !fired) {
+          fired = true;
+          play();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reduced, applyP, play]);
+
+  // stop the timeline on unmount
+  useEffect(() => () => stop(), [stop]);
 
   // --- shared bits -----------------------------------------------------------
 
@@ -328,11 +489,21 @@ export function StickyCase() {
     </>
   );
 
-  // continuous progress through the three chapters — driven imperatively via
-  // barRef so it updates every frame without re-rendering the parent. Notches
-  // mark the chapter boundaries so the fill reads against the 01/02/03 phases.
+  // progress through the three chapters — fill width driven imperatively via
+  // barRef. Notches mark the chapter boundaries so the fill reads against 01/02/03.
   const progressBar = (
-    <div className="case-progress" aria-hidden>
+    <div
+      ref={progressRef}
+      className="case-progress"
+      role="slider"
+      tabIndex={0}
+      aria-label="Fortschritt – klicken oder ziehen zum Springen"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={0}
+      onPointerDown={beginScrub}
+      onKeyDown={onBarKey}
+    >
       <div ref={barRef} className="case-progress__fill" />
       {REB_CHAPTERS.slice(1).map((_, i) => (
         <span
@@ -344,29 +515,61 @@ export function StickyCase() {
     </div>
   );
 
+  // play/pause · seek dots · replay
+  const controls = (
+    <div className="case-controls">
+      <button
+        type="button"
+        className="case-ctrl"
+        onClick={toggle}
+        aria-label={playing ? "Pause" : "Abspielen"}
+      >
+        {playing ? <PauseIcon /> : <PlayIcon />}
+      </button>
+      <div className="case-dots">
+        {REB_CHAPTERS.map((c, i) => (
+          <button
+            key={i}
+            type="button"
+            className={"case-dot" + (active === i ? " is-active" : "")}
+            onClick={() => seek(i)}
+            aria-label={`${c.k} · ${c.title}`}
+            aria-current={active === i ? "step" : undefined}
+          />
+        ))}
+      </div>
+      <button type="button" className="case-ctrl" onClick={replay} aria-label="Wiederholen">
+        <ReplayIcon />
+      </button>
+    </div>
+  );
+
   const narrative = (
     <div className="case-left">
       {intro}
-      <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 22 }}>
+      <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 }}>
         Statt die Immobilien nur über teure Portale zu zeigen, präsentiert REB
         sie jetzt auf der eigenen Website — live aus der Maklersoftware.
       </p>
-      {!reduced && progressBar}
+      {progressBar}
+      {controls}
       <div className="case-steps">
         {REB_CHAPTERS.map((c, i) => (
-          <div
+          <button
             key={i}
+            type="button"
+            onClick={() => seek(i)}
             className={"case-step" + (active === i ? " is-active" : "")}
             aria-current={active === i ? "step" : undefined}
           >
             {step(c, active === i)}
-          </div>
+          </button>
         ))}
       </div>
     </div>
   );
 
-  // compact header for narrow screens — one step, swaps as you scroll
+  // compact header for narrow screens — one chapter at a time
   const mobileHead = (
     <div style={{ flex: "0 0 auto" }}>
       <div
@@ -384,15 +587,14 @@ export function StickyCase() {
         {liveBtn}
       </div>
       {progressBar}
+      {controls}
       <div className="case-step case-step--compact is-active">
+        {/* keyed so each chapter mounts fresh and fades in — the previous one is
+            fully gone before the next appears, so the text is never doubled */}
         <div
-          ref={mHeadRef}
-          style={{
-            display: "flex",
-            gap: 16,
-            width: "100%",
-            transition: "opacity .1s linear",
-          }}
+          key={active}
+          className="case-step__swap"
+          style={{ display: "flex", gap: 16, width: "100%" }}
         >
           {step(REB_CHAPTERS[active], true, true)}
         </div>
@@ -401,16 +603,20 @@ export function StickyCase() {
   );
 
   const stage = (frameH: string): ReactNode => {
-    const layer = (show: boolean): CSSProperties => ({
+    // `enter` delays the fade-in only, so an outgoing layer leads and the
+    // incoming one follows a beat later — a soft hand-off instead of a hard cut.
+    const layer = (show: boolean, enter = 0): CSSProperties => ({
       position: "absolute",
       inset: 0,
       opacity: show ? 1 : 0,
       transform: show ? "none" : "scale(.985)",
-      transition: "opacity .55s ease, transform .55s ease",
+      transition: show
+        ? `opacity .6s ease ${enter}s, transform .7s cubic-bezier(.2,.7,.2,1) ${enter}s`
+        : "opacity .5s ease, transform .5s ease",
       pointerEvents: show ? "auto" : "none",
     });
-    // Let the "Anfrage gesendet" confirmation rest on the desktop view, then
-    // fade it out before the phone rises in — a clean hand-off, no overlap.
+    // Let the "Anfrage gesendet" confirmation rest on the desktop view, then fade
+    // it out before the phone rises in — a clean hand-off, no overlap.
     const showDesktop = active === 1 || (active === 2 && !showPhone);
     return (
       <div style={{ position: "relative", height: frameH }}>
@@ -426,8 +632,9 @@ export function StickyCase() {
           <ClickThrough register={register} />
         </div>
 
-        {/* 03 — Mobil, with a soft ambient backdrop behind the phone. */}
-        <div style={{ ...layer(showPhone), display: "grid", placeItems: "center" }}>
+        {/* 03 — Mobil, with a soft ambient backdrop behind the phone. The
+            phone fades in a beat after the desktop view starts clearing. */}
+        <div style={{ ...layer(showPhone, 0.18), display: "grid", placeItems: "center" }}>
           <MobileAmbientBackdrop />
           <div
             className={"case-phone-rise" + (showPhone ? " is-active" : "")}
@@ -447,7 +654,20 @@ export function StickyCase() {
     return (
       <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
         <div className="reveal" style={{ display: "grid", gap: 32, transitionDelay: ".16s" }}>
-          {narrative}
+          <div className="case-left">
+            {intro}
+            <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 22 }}>
+              Statt die Immobilien nur über teure Portale zu zeigen, präsentiert
+              REB sie jetzt auf der eigenen Website — live aus der Maklersoftware.
+            </p>
+            <div className="case-steps">
+              {REB_CHAPTERS.map((c, i) => (
+                <div key={i} className="case-step is-active">
+                  {step(c, true)}
+                </div>
+              ))}
+            </div>
+          </div>
           <div style={cardStyle}>
             {chromeBar("realestateinberlin.nestoririondo.com/properties/2-zimmer-mariendorf")}
             <RebShot />
@@ -465,35 +685,29 @@ export function StickyCase() {
     );
   }
 
-  // --- pinned scrollytelling -------------------------------------------------
+  // --- autoplaying case study ------------------------------------------------
   return (
-    <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-      <div ref={wrapRef} style={{ height: `${TRAVEL * 100}vh`, position: "relative" }}>
-        {mobile ? (
-          <div className="case-pin reveal" style={{ position: "sticky", top: M_TOP, transitionDelay: ".16s" }}>
-            {mobileHead}
-            <div style={{ marginTop: 14 }}>
-              {stage(`calc(100dvh - ${M_TOP} - 210px)`)}
-            </div>
-          </div>
-        ) : (
-          <div
-            className="case-pin reveal"
-            style={{
-              position: "sticky",
-              transitionDelay: ".16s",
-              top: "clamp(88px, 10vh, 128px)",
-              display: "grid",
-              gridTemplateColumns: "minmax(280px,.9fr) minmax(0,1.1fr)",
-              gap: "clamp(28px,5vw,68px)",
-              alignItems: "center",
-            }}
-          >
-            {narrative}
-            {stage(FRAME_H)}
-          </div>
-        )}
-      </div>
+    <div ref={sectionRef} style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
+      {mobile ? (
+        <div className="reveal" style={{ transitionDelay: ".16s" }}>
+          {mobileHead}
+          <div style={{ marginTop: 14 }}>{stage(M_FRAME_H)}</div>
+        </div>
+      ) : (
+        <div
+          className="reveal"
+          style={{
+            transitionDelay: ".16s",
+            display: "grid",
+            gridTemplateColumns: "minmax(280px,.9fr) minmax(0,1.1fr)",
+            gap: "clamp(28px,5vw,68px)",
+            alignItems: "center",
+          }}
+        >
+          {narrative}
+          {stage(FRAME_H)}
+        </div>
+      )}
     </div>
   );
 }
