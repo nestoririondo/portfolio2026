@@ -1,7 +1,6 @@
 import { Icon } from "../../ui/Icon";
-import { SectionHeading } from "../../ui/SectionHeading";
 import { PhysioDesktop } from "../../mockups/PhysioSite";
-import { CaseLabel, TechChips } from "./CaseParts";
+import { TechChips } from "./CaseParts";
 import { ScrollThrough } from "./ScrollThrough";
 import { StickyCase } from "./StickyCase";
 
@@ -9,28 +8,16 @@ export function Arbeiten() {
   return (
     <section id="arbeiten" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
       <div className="wrap">
-        <div className="reveal">
-          <SectionHeading
-            align="left"
-            eyebrow="Arbeiten"
-            title="Echte Projekte, die mitarbeiten."
-            sub="Ein laufendes Kundenprojekt und ein Beispiel-Konzept — und was so eine Website jeden Tag erledigt."
-          />
+        {/* quiet section identity — the first case is the section opener */}
+        <div className="reveal" style={{ marginBottom: "clamp(24px,3.5vw,40px)" }}>
+          <span className="eyebrow">Arbeiten</span>
         </div>
 
-        {/* CASE 1 — REB (scroll-through) */}
+        {/* CASE 1 — REB (scroll-through, doubles as the section opener) */}
         <StickyCase />
 
         {/* CASE 2 — Physio */}
         <div className="reveal">
-          <CaseLabel n="Fallstudie 02">
-            <span className="chip" style={{ fontWeight: 600 }}>
-              <Icon name="layout" size={14} /> Beispiel-Konzept
-            </span>
-            <span className="chip">
-              <Icon name="spark" size={14} /> Online-Terminbuchung
-            </span>
-          </CaseLabel>
           <div
             className="case-grid"
             style={{
@@ -52,7 +39,7 @@ export function Arbeiten() {
                   marginBottom: 24,
                 }}
               >
-                Physiotherapie · Alt-Treptow
+                Physiotherapie · Alt-Treptow · Beispiel-Konzept
               </div>
               <p style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6 }}>
                 Klarer Auftritt mit eingebauter Terminbuchung. Patient:innen

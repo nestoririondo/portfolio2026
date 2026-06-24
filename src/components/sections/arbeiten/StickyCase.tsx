@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { REB_CHAPTERS } from "../../../data/content";
-import { Icon } from "../../ui/Icon";
 import { MiniSite } from "../../mockups/MiniSite";
 import { PhoneFrame } from "../../mockups/Frames";
 import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
-import { CaseLabel } from "./CaseParts";
 
 /**
  * Scroll-through case study (REB). Narrative and visual pin together while the
@@ -239,7 +237,7 @@ export function StickyCase() {
         }}
       >
         <span style={{ fontFamily: "var(--mono)", fontSize: 13, color: "var(--muted)" }}>
-          Immobilien · realestateinberlin.nestoririondo.com
+          Immobilien · Echter Kunde
         </span>
         {liveBtn}
       </div>
@@ -280,7 +278,7 @@ export function StickyCase() {
         }}
       >
         <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--muted)" }}>
-          REB Consulting · Immobilien
+          REB Consulting · Echter Kunde
         </span>
         {liveBtn}
       </div>
@@ -370,27 +368,10 @@ export function StickyCase() {
     );
   };
 
-  const label = (
-    <CaseLabel n="Fallstudie 01">
-      <span
-        className="chip"
-        style={{
-          background: "var(--accent-soft)",
-          borderColor: "color-mix(in oklab,var(--accent) 22%,var(--line))",
-          color: "var(--accent)",
-          fontWeight: 600,
-        }}
-      >
-        <Icon name="star" size={14} /> Echter Kunde
-      </span>
-    </CaseLabel>
-  );
-
   // --- reduced motion fallback: static stacked shots -------------------------
   if (reduced) {
     return (
       <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-        <div className="reveal" style={{ transitionDelay: ".08s" }}>{label}</div>
         <div className="reveal" style={{ display: "grid", gap: 32, transitionDelay: ".16s" }}>
           {narrative}
           <div style={cardStyle}>
@@ -413,7 +394,6 @@ export function StickyCase() {
   // --- pinned scrollytelling -------------------------------------------------
   return (
     <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-      <div className="reveal" style={{ transitionDelay: ".08s" }}>{label}</div>
       <div ref={wrapRef} style={{ height: `${TRAVEL * 100}vh`, position: "relative" }}>
         {mobile ? (
           <div className="case-pin reveal" style={{ position: "sticky", top: M_TOP, transitionDelay: ".16s" }}>

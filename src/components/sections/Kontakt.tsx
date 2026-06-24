@@ -142,9 +142,8 @@ export function Kontakt() {
                 Lass uns reden.
               </h2>
               <p style={{ fontSize: 18.5, color: "var(--muted)", maxWidth: 430, lineHeight: 1.6 }}>
-                Du brauchst kein fertiges Konzept – eine grobe Idee reicht. Im
-                kostenlosen Erstgespräch sage ich dir ehrlich, ob und wie ich
-                helfen kann.
+                Du brauchst kein fertiges Konzept. Eine grobe Idee reicht. Im
+                kostenlosen Erstgespräch sage ich dir ehrlich, was sinnvoll ist.
               </p>
             </div>
 
@@ -163,7 +162,7 @@ export function Kontakt() {
                   marginBottom: 12,
                 }}
               >
-                Lieber direkt schreiben oder anrufen?
+                Oder direkt:
               </div>
               <div className="contact-methods">
                 <ContactMethod
@@ -228,7 +227,7 @@ export function Kontakt() {
               {status !== "sent" ? (
                 <form onSubmit={submitRequest} style={{ display: "grid", gap: 14 }}>
                   <h3 style={{ fontSize: 23, marginBottom: 2 }}>
-                    Schreib mir kurz.
+                    Erzähl mir kurz davon.
                   </h3>
                   {/* Honeypot — hidden from users, catches bots. */}
                   <input

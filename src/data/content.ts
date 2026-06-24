@@ -65,7 +65,7 @@ export const OUTCOMES: Outcome[] = [
   {
     n: "03",
     gfx: "reviews",
-    title: "Bewertungen, die überzeugen",
+    title: "Google-Bewertungen zeigen",
     body: "Deine besten Google-Bewertungen erscheinen automatisch – und schaffen Vertrauen, noch bevor jemand anruft.",
     px: 0.08,
     screenTilt: -3.25,
@@ -74,8 +74,8 @@ export const OUTCOMES: Outcome[] = [
   {
     n: "04",
     gfx: "ai",
-    title: "KI-Assistent, auf Wunsch",
-    body: "Beantwortet rund um die Uhr die häufigsten Fragen – und leitet echte Anfragen direkt an dich weiter.",
+    title: "Fragen automatisch beantworten",
+    body: "Ein KI-Assistent beantwortet häufige Fragen rund um die Uhr – und leitet echte Anfragen direkt an dich weiter.",
     px: 0.08,
     screenTilt: -1.75,
     screenRotateSpeed: -0.006,
@@ -142,8 +142,8 @@ export interface AboutChip {
 export const ABOUT_CHIPS: AboutChip[] = [
   { icon: "pin", label: "Alt-Treptow, Berlin" },
   { icon: "globe", label: "DE · EN · ES" },
-  { icon: "phoneDevice", label: "Web, Apps & Tools" },
-  { icon: "spark", label: "KI-Integration" },
+  { icon: "phoneDevice", label: "Websites & Tools" },
+  { icon: "check", label: "Betreuung nach Launch" },
 ];
 
 /** Sticky case study (REB) chapters. */

@@ -64,11 +64,13 @@ export function Ueber() {
                 lineHeight: 1.6,
               }}
             >
-              Hauptberuflich entwickle ich Software – und mit derselben Technik
-              baue ich deine Website: schnell, zuverlässig und darauf ausgelegt,
-              dir Anfragen zu bringen. Um die Technik kümmere ich mich, du
-              behältst den Kopf frei fürs Geschäft. Ich erkläre alles
-              verständlich und bin auch nach dem Launch für dich da.
+              Ich entwickle hauptberuflich Software und baue Websites mit
+              demselben Anspruch: schnell, stabil und verständlich.
+              <br />
+              <br />
+              Du musst dich nicht mit Technik beschäftigen. Ich übersetze deine
+              Idee in eine Website, die gut aussieht, funktioniert und dir
+              Anfragen bringt.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {ABOUT_CHIPS.map(({ icon, label }) => (
