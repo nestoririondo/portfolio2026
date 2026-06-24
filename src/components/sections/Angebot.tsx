@@ -86,7 +86,7 @@ export function Angebot() {
         <div className="reveal">
           <SectionHeading
             eyebrow="So läuft’s"
-            title="Erst verstehen, dann bauen."
+            title="Von der Idee zur fertigen Website."
             sub="Du bekommst eine klare Website zum Festpreis. Zusätzliche Funktionen planen wir nur, wenn sie für dein Geschäft wirklich sinnvoll sind."
           />
         </div>
