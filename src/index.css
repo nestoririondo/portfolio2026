@@ -561,6 +561,11 @@ a:hover > .brand-tile {
   .lang-switch-indicator {
     transition: none;
   }
+  .ios-mail-banner--phone {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 /* sticky-case stepper (REB) — numbered steps with a connecting rail and a
@@ -620,6 +625,131 @@ a:hover > .brand-tile {
 .case-phone-rise.is-active {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+.ios-mail-banner {
+  position: absolute;
+  z-index: 5;
+  top: clamp(10px, 2.2vh, 22px);
+  left: 50%;
+  width: min(380px, 88%);
+  padding: 10px 13px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  background: rgba(248, 248, 248, 0.88);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 24px 58px -34px rgba(23, 20, 16, 0.55);
+  color: #252525;
+  transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  backdrop-filter: blur(22px) saturate(1.35);
+}
+.ios-mail-banner--phone {
+  top: 12px;
+  width: calc(100% - 12px);
+  padding: 10px 10px 11px;
+  border-radius: 15px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 18px 34px -22px rgba(23, 20, 16, 0.62);
+  opacity: 0;
+  transform: translate(-50%, -128%);
+  animation: ios-banner-drop 0.72s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.ios-mail-banner__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.ios-mail-banner__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(35, 35, 35, 0.58);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ios-mail-banner--phone .ios-mail-banner__head {
+  gap: 5px;
+  margin-bottom: 5px;
+  font-size: 8px;
+}
+.ios-mail-banner__head span:last-child {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+.ios-mail-banner__icon {
+  width: 21px;
+  height: 21px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(180deg, #3fa8ff, #0878ff);
+}
+.ios-mail-banner--phone .ios-mail-banner__icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+}
+.ios-mail-banner__icon svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ios-mail-banner__title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.18;
+}
+.ios-mail-banner--phone .ios-mail-banner__title {
+  font-size: 13px;
+  line-height: 1.16;
+}
+.ios-mail-banner__meta {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(35, 35, 35, 0.62);
+}
+.ios-mail-banner--phone .ios-mail-banner__meta {
+  margin-top: 2px;
+  font-size: 10px;
+}
+.ios-mail-banner__body {
+  margin-top: 5px;
+  font-size: 12.5px;
+  line-height: 1.28;
+  color: rgba(35, 35, 35, 0.76);
+}
+.ios-mail-banner--phone .ios-mail-banner__body {
+  margin-top: 7px;
+  font-size: 10px;
+  line-height: 1.22;
+}
+@keyframes ios-banner-drop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -128%);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 .case-step__num {
   position: relative;

@@ -3,7 +3,7 @@ import { REB_CHAPTERS } from "../../../data/content";
 import { Icon } from "../../ui/Icon";
 import { MiniSite } from "../../mockups/MiniSite";
 import { PhoneFrame } from "../../mockups/Frames";
-import { RebDesktop, RebMobile } from "../../mockups/RebSite";
+import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
 import { CaseLabel } from "./CaseParts";
 
 /**
@@ -18,12 +18,10 @@ import { CaseLabel } from "./CaseParts";
  * scroll, with the visual stacked below.
  */
 
-const TRAVEL = 3.2; // wrapper height in viewport heights
+const TRAVEL = 34; // wrapper height in viewport heights
 const FRAME_H = "min(600px, 68vh)";
 // segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short
-const SEG = [0.16, 0.88];
-const SCREENSHOT_SCROLL_HOLD = 0.22;
-const SCREENSHOT_END_HOLD = 0.22;
+const SEG = [0.08, 0.8];
 const MOBILE_Q = "(max-width: 920px)";
 // mobile pin offset — small now that the nav auto-hides on scroll-down, so the
 // content sits high and the visual gets the reclaimed height
@@ -81,7 +79,6 @@ function MobileAmbientBackdrop() {
 
 export function StickyCase() {
   const [active, setActive] = useState(0);
-  const [y, setY] = useState(0); // desktop inner scroll
   const [sub, setSub] = useState(0); // progress inside step 02
   const [headFade, setHeadFade] = useState(1); // mobile header: dips to 0 at boundaries
   const [reduced, setReduced] = useState(false);
@@ -90,8 +87,28 @@ export function StickyCase() {
   );
 
   const wrapRef = useRef<HTMLDivElement>(null);
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
+
+  // Warm the case-study screenshots during browser idle time so they are
+  // decoded and cached before the user scrolls into this (below-the-fold)
+  // section — no visible wait once the scrollytelling starts.
+  useEffect(() => {
+    const srcs = [
+      "/img/reb/1.webp",
+      "/img/reb/2.webp",
+      "/img/reb/3.webp",
+      "/img/reb/smart.webp",
+    ];
+    const warm = () => srcs.forEach((s) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = s;
+    });
+    const hasRic = typeof window.requestIdleCallback === "function";
+    const id = hasRic
+      ? window.requestIdleCallback(warm, { timeout: 2500 })
+      : window.setTimeout(warm, 1200);
+    return () => (hasRic ? window.cancelIdleCallback?.(id as number) : clearTimeout(id as number));
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia?.(MOBILE_Q);
@@ -116,7 +133,7 @@ export function StickyCase() {
       let s = 0;
       if (p >= SEG[1]) {
         idx = 2;
-        s = 1;
+        s = (p - SEG[1]) / (1 - SEG[1]);
       } else if (p >= SEG[0]) {
         idx = 1;
         s = (p - SEG[0]) / (SEG[1] - SEG[0]);
@@ -128,21 +145,6 @@ export function StickyCase() {
       const band = 0.045;
       const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - SEG[1]));
       setHeadFade(Math.min(1, dist / band));
-
-      const inner = innerRef.current;
-      const body = bodyRef.current;
-      if (inner && body) {
-        const maxShift = Math.max(0, inner.scrollHeight - body.clientHeight);
-        const imageScroll =
-          s <= SCREENSHOT_SCROLL_HOLD
-            ? 0
-            : Math.min(
-                1,
-                (s - SCREENSHOT_SCROLL_HOLD) /
-                  (1 - SCREENSHOT_SCROLL_HOLD - SCREENSHOT_END_HOLD),
-              );
-        setY(-imageScroll * maxShift);
-      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -313,14 +315,6 @@ export function StickyCase() {
   );
 
   const stage = (frameH: string): ReactNode => {
-    const screenshotProgress =
-      sub <= SCREENSHOT_SCROLL_HOLD
-        ? 0
-        : Math.min(
-            1,
-            (sub - SCREENSHOT_SCROLL_HOLD) /
-              (1 - SCREENSHOT_SCROLL_HOLD - SCREENSHOT_END_HOLD),
-          );
     const layer = (show: boolean): CSSProperties => ({
       position: "absolute",
       inset: 0,
@@ -329,6 +323,10 @@ export function StickyCase() {
       transition: "opacity .55s ease, transform .55s ease",
       pointerEvents: show ? "auto" : "none",
     });
+    // Let the "Anfrage gesendet" confirmation rest on the desktop view, then
+    // fade it out before the phone rises in — a clean hand-off, no overlap.
+    const holdDesktop = active === 2 && sub < 0.35;
+    const showPhone = active === 2 && sub >= 0.35;
     return (
       <div style={{ position: "relative", height: frameH }}>
         {/* 01 — Vorher (MiniSite brings its own dated browser chrome) */}
@@ -338,37 +336,33 @@ export function StickyCase() {
           </div>
         </div>
 
-        {/* 02 — Jetzt, long screenshot (scrolls through the full page) */}
-        <div style={layer(active === 1)}>
-          <div style={{ ...cardStyle, height: "100%", display: "flex", flexDirection: "column" }}>
+        {/* 02 — Jetzt: simulierter Klickpfad (Start → Properties → Objekt) */}
+        <div style={{ ...layer(active === 1 || holdDesktop), display: "grid", placeItems: "center" }}>
+          <div style={{ ...cardStyle, width: "100%" }}>
             {chromeBar("realestateinberlin.nestoririondo.com")}
             <div style={{ height: 3, background: "var(--line)", flex: "0 0 auto" }}>
               <div
                 style={{
                   height: "100%",
-                  width: `${screenshotProgress * 100}%`,
+                  width: `${(active === 2 ? 1 : sub) * 100}%`,
                   background: "var(--accent)",
                   transition: "width .08s linear",
                 }}
               />
             </div>
-            <div ref={bodyRef} style={{ position: "relative", flex: 1, overflow: "hidden" }}>
-              <div ref={innerRef} style={{ transform: `translateY(${y}px)`, willChange: "transform" }}>
-                <RebDesktop />
-              </div>
-            </div>
+            <RebInteraction progress={active === 2 ? 1 : sub} />
           </div>
         </div>
 
         {/* 03 — Mobil, with a soft ambient backdrop behind the phone. */}
-        <div style={{ ...layer(active === 2), display: "grid", placeItems: "center" }}>
+        <div style={{ ...layer(showPhone), display: "grid", placeItems: "center" }}>
           <MobileAmbientBackdrop />
           <div
-            className={"case-phone-rise" + (active === 2 ? " is-active" : "")}
+            className={"case-phone-rise" + (showPhone ? " is-active" : "")}
             style={{ position: "relative", zIndex: 2 }}
           >
             <PhoneFrame width={mobile ? 216 : 252}>
-              <RebMobile />
+              <RebMobile showNotification={sub > 0.5} />
             </PhoneFrame>
           </div>
         </div>
@@ -395,19 +389,19 @@ export function StickyCase() {
   // --- reduced motion fallback: static stacked shots -------------------------
   if (reduced) {
     return (
-      <div className="reveal" style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-        {label}
-        <div style={{ display: "grid", gap: 32 }}>
+      <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
+        <div className="reveal" style={{ transitionDelay: ".08s" }}>{label}</div>
+        <div className="reveal" style={{ display: "grid", gap: 32, transitionDelay: ".16s" }}>
           {narrative}
           <div style={cardStyle}>
-            {chromeBar("realestateinberlin.nestoririondo.com")}
-            <RebDesktop />
+            {chromeBar("realestateinberlin.nestoririondo.com/properties/2-zimmer-mariendorf")}
+            <RebShot />
           </div>
           <div style={{ position: "relative", display: "grid", placeItems: "center", padding: "32px 0" }}>
             <MobileAmbientBackdrop />
             <div style={{ position: "relative", zIndex: 2 }}>
               <PhoneFrame width={208}>
-                <RebMobile />
+                <RebMobile showNotification />
               </PhoneFrame>
             </div>
           </div>
@@ -418,11 +412,11 @@ export function StickyCase() {
 
   // --- pinned scrollytelling -------------------------------------------------
   return (
-    <div className="reveal" style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-      {label}
+    <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
+      <div className="reveal" style={{ transitionDelay: ".08s" }}>{label}</div>
       <div ref={wrapRef} style={{ height: `${TRAVEL * 100}vh`, position: "relative" }}>
         {mobile ? (
-          <div className="case-pin" style={{ position: "sticky", top: M_TOP }}>
+          <div className="case-pin reveal" style={{ position: "sticky", top: M_TOP, transitionDelay: ".16s" }}>
             {mobileHead}
             <div style={{ marginTop: 14 }}>
               {stage(`calc(100dvh - ${M_TOP} - 210px)`)}
@@ -430,9 +424,10 @@ export function StickyCase() {
           </div>
         ) : (
           <div
-            className="case-pin"
+            className="case-pin reveal"
             style={{
               position: "sticky",
+              transitionDelay: ".16s",
               top: "clamp(88px, 10vh, 128px)",
               display: "grid",
               gridTemplateColumns: "minmax(280px,.9fr) minmax(0,1.1fr)",
