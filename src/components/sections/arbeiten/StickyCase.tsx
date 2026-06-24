@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { REB_CHAPTERS } from "../../../data/content";
 import { MiniSite } from "../../mockups/MiniSite";
 import { PhoneFrame } from "../../mockups/Frames";
@@ -8,18 +8,29 @@ import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
  * Scroll-through case study (REB). Narrative and visual pin together while the
  * user scrolls a tall wrapper:
  *   - the active chapter is driven by scroll *progress* (monotonic → no flicker),
- *   - step 02 owns the long middle and the long screenshot scrolls through
- *     its full page while staying in view,
+ *   - step 02 owns the long middle and the click-through plays through as the
+ *     long screenshot scrolls while staying in view,
  *   - step 03 cross-fades to the mobile view over a soft ambient backdrop.
  *
  * On narrow screens the steps collapse to a compact header that swaps as you
  * scroll, with the visual stacked below.
+ *
+ * Performance: the scroll handler runs every frame, but it must NOT re-render
+ * this whole component each time — reconciling MiniSite, the narrative and the
+ * phone 60×/s is what made the click-through choppy on mobile. So the only
+ * thing that updates per frame is the small `<ClickThrough>` child (via a
+ * registered setter) plus an imperative opacity write on the mobile header.
+ * Everything else here is driven by *discrete* state (active chapter, the
+ * desktop→phone hand-off, the inbox banner) that changes only a handful of
+ * times across the entire scroll.
  */
 
 const TRAVEL = 34; // wrapper height in viewport heights
 const FRAME_H = "min(600px, 68vh)";
 // segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short
 const SEG = [0.08, 0.8];
+const HANDOFF = 0.35; // within step 03: desktop view rests, then the phone rises
+const NOTIFY_AT = 0.5; // within step 03: the inbox banner appears
 const MOBILE_Q = "(max-width: 920px)";
 // mobile pin offset — small now that the nav auto-hides on scroll-down, so the
 // content sits high and the visual gets the reclaimed height
@@ -75,16 +86,58 @@ function MobileAmbientBackdrop() {
   );
 }
 
+/**
+ * The step-02 visual. Owns the continuous scroll progress in its own state and
+ * exposes a setter through `register`, so per-frame updates re-render only this
+ * small subtree (chrome bar + progress bar + the click-through) — never the
+ * parent. Memoised so the parent's discrete re-renders don't reset it.
+ */
+const ClickThrough = memo(function ClickThrough({
+  register,
+}: {
+  register: (set: (p: number) => void) => void;
+}) {
+  const [p, setP] = useState(0);
+  useEffect(() => register(setP), [register]);
+  return (
+    <div style={{ ...cardStyle, width: "100%" }}>
+      {chromeBar("realestateinberlin.nestoririondo.com")}
+      <div style={{ height: 3, background: "var(--line)", flex: "0 0 auto" }}>
+        <div
+          style={{
+            height: "100%",
+            width: `${p * 100}%`,
+            background: "var(--accent)",
+            transition: "width .08s linear",
+          }}
+        />
+      </div>
+      <RebInteraction progress={p} />
+    </div>
+  );
+});
+
 export function StickyCase() {
   const [active, setActive] = useState(0);
-  const [sub, setSub] = useState(0); // progress inside step 02
-  const [headFade, setHeadFade] = useState(1); // mobile header: dips to 0 at boundaries
+  const [showPhone, setShowPhone] = useState(false); // step 03: phone has risen in
+  const [notify, setNotify] = useState(false); // step 03: inbox banner visible
   const [reduced, setReduced] = useState(false);
   const [mobile, setMobile] = useState(
     () => typeof window !== "undefined" && !!window.matchMedia?.(MOBILE_Q).matches,
   );
 
   const wrapRef = useRef<HTMLDivElement>(null);
+  const mHeadRef = useRef<HTMLDivElement>(null); // mobile header: opacity driven imperatively
+  const setProgressRef = useRef<((p: number) => void) | null>(null);
+  // mirror the discrete state in refs so the scroll handler can setState only on
+  // an actual transition instead of every frame
+  const lastIdxRef = useRef(0);
+  const showPhoneRef = useRef(false);
+  const notifyRef = useRef(false);
+
+  const register = useCallback((set: (p: number) => void) => {
+    setProgressRef.current = set;
+  }, []);
 
   // Warm the case-study screenshots during browser idle time so they are
   // decoded and cached before the user scrolls into this (below-the-fold)
@@ -136,13 +189,33 @@ export function StickyCase() {
         idx = 1;
         s = (p - SEG[0]) / (SEG[1] - SEG[0]);
       }
-      setActive(idx);
-      setSub(s);
-      // fade the compact header to 0 right at a step boundary, so the swapped
+
+      // --- continuous (per-frame) — isolated to the small subtrees ----------
+      // click-through progress; once on step 03 it rests at its final state
+      setProgressRef.current?.(idx === 2 ? 1 : s);
+      // mobile header fade: dip to 0 right at a step boundary so the swapped
       // text fades out then back in instead of hard-cutting
-      const band = 0.045;
-      const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - SEG[1]));
-      setHeadFade(Math.min(1, dist / band));
+      if (mHeadRef.current) {
+        const band = 0.045;
+        const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - SEG[1]));
+        mHeadRef.current.style.opacity = String(Math.min(1, dist / band));
+      }
+
+      // --- discrete — commit to React state only when it actually changes ---
+      if (idx !== lastIdxRef.current) {
+        lastIdxRef.current = idx;
+        setActive(idx);
+      }
+      const wantPhone = idx === 2 && s >= HANDOFF;
+      if (wantPhone !== showPhoneRef.current) {
+        showPhoneRef.current = wantPhone;
+        setShowPhone(wantPhone);
+      }
+      const wantNotify = idx === 2 && s > NOTIFY_AT;
+      if (wantNotify !== notifyRef.current) {
+        notifyRef.current = wantNotify;
+        setNotify(wantNotify);
+      }
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -298,11 +371,11 @@ export function StickyCase() {
       </div>
       <div className="case-step case-step--compact is-active">
         <div
+          ref={mHeadRef}
           style={{
             display: "flex",
             gap: 16,
             width: "100%",
-            opacity: headFade,
             transition: "opacity .1s linear",
           }}
         >
@@ -323,8 +396,7 @@ export function StickyCase() {
     });
     // Let the "Anfrage gesendet" confirmation rest on the desktop view, then
     // fade it out before the phone rises in — a clean hand-off, no overlap.
-    const holdDesktop = active === 2 && sub < 0.35;
-    const showPhone = active === 2 && sub >= 0.35;
+    const showDesktop = active === 1 || (active === 2 && !showPhone);
     return (
       <div style={{ position: "relative", height: frameH }}>
         {/* 01 — Vorher (MiniSite brings its own dated browser chrome) */}
@@ -335,21 +407,8 @@ export function StickyCase() {
         </div>
 
         {/* 02 — Jetzt: simulierter Klickpfad (Start → Properties → Objekt) */}
-        <div style={{ ...layer(active === 1 || holdDesktop), display: "grid", placeItems: "center" }}>
-          <div style={{ ...cardStyle, width: "100%" }}>
-            {chromeBar("realestateinberlin.nestoririondo.com")}
-            <div style={{ height: 3, background: "var(--line)", flex: "0 0 auto" }}>
-              <div
-                style={{
-                  height: "100%",
-                  width: `${(active === 2 ? 1 : sub) * 100}%`,
-                  background: "var(--accent)",
-                  transition: "width .08s linear",
-                }}
-              />
-            </div>
-            <RebInteraction progress={active === 2 ? 1 : sub} />
-          </div>
+        <div style={{ ...layer(showDesktop), display: "grid", placeItems: "center" }}>
+          <ClickThrough register={register} />
         </div>
 
         {/* 03 — Mobil, with a soft ambient backdrop behind the phone. */}
@@ -360,7 +419,7 @@ export function StickyCase() {
             style={{ position: "relative", zIndex: 2 }}
           >
             <PhoneFrame width={mobile ? 216 : 252}>
-              <RebMobile showNotification={sub > 0.5} />
+              <RebMobile showNotification={notify} />
             </PhoneFrame>
           </div>
         </div>

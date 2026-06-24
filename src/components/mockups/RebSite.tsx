@@ -285,8 +285,11 @@ export function RebInteraction({ progress: p }: { progress: number }) {
           width: "100%",
           height: "auto",
           opacity: listOp,
-          transform: `translateY(${-LIST_SEVENTH_SHIFT * listScroll}%)`,
-          transition: "opacity .12s linear, transform .08s linear",
+          // translateZ(0) keeps this on its own compositor layer; no transform
+          // transition since progress already advances it smoothly each frame
+          // (a transform transition here just fights the per-frame update).
+          transform: `translate3d(0, ${-LIST_SEVENTH_SHIFT * listScroll}%, 0)`,
+          transition: "opacity .12s linear",
           willChange: "transform",
         }}
       />
@@ -298,8 +301,9 @@ export function RebInteraction({ progress: p }: { progress: number }) {
           inset: 0,
           opacity: detailOp,
           transformOrigin: `${ZOOM_ORIGIN.x}% ${ZOOM_ORIGIN.y}%`,
-          transform: `scale(${zoom})`,
-          transition: "opacity .12s linear, transform .15s linear",
+          transform: `scale(${zoom}) translateZ(0)`,
+          transition: "opacity .12s linear",
+          willChange: "transform",
         }}
       >
         <img
