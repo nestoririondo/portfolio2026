@@ -436,20 +436,18 @@ export function RebMobile({ showNotification = false }: { showNotification?: boo
       />
       {showNotification && (
         <div className="ios-mail-banner ios-mail-banner--phone" aria-label="E-Mail-Benachrichtigung">
-          <div className="ios-mail-banner__row">
-            <span className="ios-mail-banner__icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="3" />
-                <path d="M4.5 7.2 12 12.8l7.5-5.6" />
-              </svg>
-            </span>
-            <div>
-              <div className="ios-mail-banner__title">Neue Anfrage von Anna Schäfer</div>
-              <div className="ios-mail-banner__meta">anna@example.de</div>
+          <span className="ios-mail-banner__icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="3" />
+              <path d="M4.5 7.2 12 12.8l7.5-5.6" />
+            </svg>
+          </span>
+          <div className="ios-mail-banner__text">
+            <div className="ios-mail-banner__title">Neue Anfrage von Anna Schäfer</div>
+            <div className="ios-mail-banner__meta">anna@example.de</div>
+            <div className="ios-mail-banner__body">
+              Interesse an dieser Wohnung – bitte um Rückruf.
             </div>
-          </div>
-          <div className="ios-mail-banner__body">
-            Interesse an dieser Wohnung - bitte um Rückruf.
           </div>
         </div>
       )}

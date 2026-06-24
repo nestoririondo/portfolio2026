@@ -25,12 +25,17 @@ import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
  * times across the entire scroll.
  */
 
-const TRAVEL = 34; // wrapper height in viewport heights
+const TRAVEL = 28; // wrapper height in viewport heights
 const FRAME_H = "min(600px, 68vh)";
-// segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short
-const SEG = [0.08, 0.8];
+// segment boundaries on 0..1 scroll progress: 01 short, 02 long, 03 short.
+// 03 is kept tight so there's only a brief rest after the inbox banner drops.
+const SEG = [0.08, 0.86];
 const HANDOFF = 0.35; // within step 03: desktop view rests, then the phone rises
-const NOTIFY_AT = 0.5; // within step 03: the inbox banner appears
+const NOTIFY_AT = 0.4; // within step 03: the inbox banner drops, just after the phone lands
+// scroll progress at which the phone actually rises in. Until here the "Anfrage
+// gesendet" confirmation still rests on the desktop view — the climax of step 02
+// — so the stepper/progress must keep reading 02, not jump to 03.
+const PHONE_AT = SEG[1] + HANDOFF * (1 - SEG[1]);
 const MOBILE_Q = "(max-width: 920px)";
 // mobile pin offset — small now that the nav auto-hides on scroll-down, so the
 // content sits high and the visual gets the reclaimed height
@@ -102,16 +107,6 @@ const ClickThrough = memo(function ClickThrough({
   return (
     <div style={{ ...cardStyle, width: "100%" }}>
       {chromeBar("realestateinberlin.nestoririondo.com")}
-      <div style={{ height: 3, background: "var(--line)", flex: "0 0 auto" }}>
-        <div
-          style={{
-            height: "100%",
-            width: `${p * 100}%`,
-            background: "var(--accent)",
-            transition: "width .08s linear",
-          }}
-        />
-      </div>
       <RebInteraction progress={p} />
     </div>
   );
@@ -128,6 +123,7 @@ export function StickyCase() {
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const mHeadRef = useRef<HTMLDivElement>(null); // mobile header: opacity driven imperatively
+  const barRef = useRef<HTMLDivElement>(null); // steps-banner progress fill: width driven imperatively
   const setProgressRef = useRef<((p: number) => void) | null>(null);
   // mirror the discrete state in refs so the scroll handler can setState only on
   // an actual transition instead of every frame
@@ -190,21 +186,36 @@ export function StickyCase() {
         s = (p - SEG[0]) / (SEG[1] - SEG[0]);
       }
 
+      // The narrative/progress phases track what's on screen, not the raw scroll
+      // segments: step 02 owns everything up to the phone hand-off (incl. the
+      // confirmation resting on the desktop view); step 03 begins as it rises.
+      const phase = p >= PHONE_AT ? 2 : p >= SEG[0] ? 1 : 0;
+
       // --- continuous (per-frame) — isolated to the small subtrees ----------
       // click-through progress; once on step 03 it rests at its final state
       setProgressRef.current?.(idx === 2 ? 1 : s);
-      // mobile header fade: dip to 0 right at a step boundary so the swapped
+      // steps-banner progress: each chapter owns a third of the bar, the
+      // within-chapter position fills it smoothly → shows exactly where you are
+      if (barRef.current) {
+        let local = 0;
+        if (phase === 2) local = (p - PHONE_AT) / (1 - PHONE_AT);
+        else if (phase === 1) local = (p - SEG[0]) / (PHONE_AT - SEG[0]);
+        else local = SEG[0] > 0 ? p / SEG[0] : 0;
+        const overall = (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
+        barRef.current.style.width = `${overall * 100}%`;
+      }
+      // mobile header fade: dip to 0 right at a phase boundary so the swapped
       // text fades out then back in instead of hard-cutting
       if (mHeadRef.current) {
         const band = 0.045;
-        const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - SEG[1]));
+        const dist = Math.min(Math.abs(p - SEG[0]), Math.abs(p - PHONE_AT));
         mHeadRef.current.style.opacity = String(Math.min(1, dist / band));
       }
 
       // --- discrete — commit to React state only when it actually changes ---
-      if (idx !== lastIdxRef.current) {
-        lastIdxRef.current = idx;
-        setActive(idx);
+      if (phase !== lastIdxRef.current) {
+        lastIdxRef.current = phase;
+        setActive(phase);
       }
       const wantPhone = idx === 2 && s >= HANDOFF;
       if (wantPhone !== showPhoneRef.current) {
@@ -317,13 +328,30 @@ export function StickyCase() {
     </>
   );
 
+  // continuous progress through the three chapters — driven imperatively via
+  // barRef so it updates every frame without re-rendering the parent. Notches
+  // mark the chapter boundaries so the fill reads against the 01/02/03 phases.
+  const progressBar = (
+    <div className="case-progress" aria-hidden>
+      <div ref={barRef} className="case-progress__fill" />
+      {REB_CHAPTERS.slice(1).map((_, i) => (
+        <span
+          key={i}
+          className="case-progress__tick"
+          style={{ left: `${((i + 1) / REB_CHAPTERS.length) * 100}%` }}
+        />
+      ))}
+    </div>
+  );
+
   const narrative = (
     <div className="case-left">
       {intro}
-      <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 26 }}>
+      <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 22 }}>
         Statt die Immobilien nur über teure Portale zu zeigen, präsentiert REB
         sie jetzt auf der eigenen Website — live aus der Maklersoftware.
       </p>
+      {!reduced && progressBar}
       <div className="case-steps">
         {REB_CHAPTERS.map((c, i) => (
           <div
@@ -355,20 +383,7 @@ export function StickyCase() {
         </span>
         {liveBtn}
       </div>
-      <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
-        {REB_CHAPTERS.map((_, i) => (
-          <span
-            key={i}
-            style={{
-              height: 4,
-              flex: 1,
-              borderRadius: 99,
-              background: i <= active ? "var(--accent)" : "var(--line)",
-              transition: "background .4s ease",
-            }}
-          />
-        ))}
-      </div>
+      {progressBar}
       <div className="case-step case-step--compact is-active">
         <div
           ref={mHeadRef}
