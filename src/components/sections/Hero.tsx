@@ -90,9 +90,8 @@ export function Hero({ layout }: { layout: HeroLayout }) {
         lineHeight: 1.55,
       }}
     >
-      Die meisten Websites stehen nur da. Deine arbeitet mit: Sie nimmt
-      Termine an, hält sich selbst aktuell und bringt dir Anfragen – auch
-      dann, wenn du längst Feierabend hast.
+      Viele Websites stehen nur da. Deine kann Termine annehmen, Inhalte
+      aktuell halten und Anfragen bringen – auch nach Feierabend.
     </p>
   );
   const ctas = (
@@ -138,7 +137,8 @@ export function Hero({ layout }: { layout: HeroLayout }) {
       id="top"
       className="hero-band"
       style={{
-        paddingTop: "clamp(30px,5vw,64px)",
+        /* clear the fixed 72px header before the hero content begins */
+        paddingTop: "calc(72px + clamp(24px,5vw,64px))",
         paddingBottom: "clamp(40px,6vw,86px)",
       }}
     >

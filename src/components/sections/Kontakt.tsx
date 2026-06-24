@@ -152,7 +152,6 @@ export function Kontakt() {
               <TrustPoint icon="check">Antwort innerhalb von 24 Stunden</TrustPoint>
               <TrustPoint icon="phone">30 Minuten, unverbindlich</TrustPoint>
               <TrustPoint icon="pin">Berlin & remote</TrustPoint>
-              <TrustPoint icon="spark">Kein Vorwissen nötig – ich führe dich durch alles</TrustPoint>
             </div>
 
             <div>

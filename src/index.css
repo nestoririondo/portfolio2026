@@ -541,7 +541,7 @@ a:hover > .brand-tile {
   .reveal,
   .kontakt-intro > *,
   .kontakt-pop,
-  .process-flow > * {
+  .process-step {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1197,13 +1197,9 @@ textarea {
   white-space: nowrap;
 }
 
-/* staggered 1 → 2 → 3 build-in on scroll */
-.process-flow.reveal {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-.process-flow > * {
+/* staggered 1 → 2 → 3 build-in on scroll — each step reveals on its own, so in
+   the vertical (mobile) layout a step only pops once it's actually in view */
+.process-step.reveal {
   opacity: 0;
   transform: translateY(30px) scale(0.78);
   transition:
@@ -1211,18 +1207,19 @@ textarea {
     /* back-out overshoot → a pronounced "pop" as each step lands */ transform
       0.85s cubic-bezier(0.34, 1.7, 0.5, 1);
 }
-.process-flow.in > * {
+.process-step.reveal.in {
   opacity: 1;
   transform: none;
 }
-/* slower, more deliberate 1 → 2 → 3 cadence */
-.process-flow.in > *:nth-child(1) {
+/* slower, more deliberate 1 → 2 → 3 cadence — on desktop the three steps cross
+   into view together, so these delays choreograph the sequence */
+.process-step.reveal.in:nth-child(1) {
   transition-delay: 0.1s;
 }
-.process-flow.in > *:nth-child(2) {
+.process-step.reveal.in:nth-child(2) {
   transition-delay: 0.5s;
 }
-.process-flow.in > *:nth-child(3) {
+.process-step.reveal.in:nth-child(3) {
   transition-delay: 0.9s;
 }
 
@@ -1282,11 +1279,13 @@ textarea {
     4px 38px 0 #d8a24a,
     32px 22px 0 var(--accent);
 }
-.process-flow.in .process-step:last-child .process-icon::before {
-  animation: firework-burst 1.15s 1.05s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
+/* delay roughly tracks step 3's reveal (0.9s cadence delay) so the burst fires
+   as the icon lands */
+.process-step.reveal.in:last-child .process-icon::before {
+  animation: firework-burst 1.15s 0.85s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
 }
-.process-flow.in .process-step:last-child .process-icon::after {
-  animation: firework-burst 1.35s 1.3s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
+.process-step.reveal.in:last-child .process-icon::after {
+  animation: firework-burst 1.35s 1.05s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
 }
 
 /* horizontal outcome cards need full row width before they get cramped */
@@ -1321,6 +1320,20 @@ textarea {
     flex-direction: column;
     align-items: center;
     gap: 44px;
+  }
+  /* stacked layout: each step reveals as it's scrolled into view, so drop the
+     1 → 2 → 3 cadence delays — otherwise a visible step waits up to 0.9s */
+  .process-step.reveal.in:nth-child(1),
+  .process-step.reveal.in:nth-child(2),
+  .process-step.reveal.in:nth-child(3) {
+    transition-delay: 0s;
+  }
+  /* step 3 pops immediately here, so fire the burst sooner to match it */
+  .process-step.reveal.in:last-child .process-icon::before {
+    animation-delay: 0.4s;
+  }
+  .process-step.reveal.in:last-child .process-icon::after {
+    animation-delay: 0.6s;
   }
   .process-step {
     max-width: 340px;

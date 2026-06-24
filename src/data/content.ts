@@ -85,13 +85,13 @@ export const OUTCOMES: Outcome[] = [
 /** Angebot section. */
 export const OFFER_INCLUDED: string[] = [
   "Individuelles Design",
-  "Für Handy optimiert",
+  "Mobil optimiert",
   "Schnelle Ladezeiten",
-  "Bei Google gefunden (SEO)",
-  "Google-Business-Profil",
-  "Texte inklusive",
+  "SEO-Grundlagen",
+  "Google Business",
+  "Text & Struktur",
   "Kontaktformular",
-  "Rechtssicher: Impressum & Datenschutz",
+  "Rechtstexte",
 ];
 
 /** The 3-step way of working — short, scannable. Each body is one phrase. */
@@ -127,7 +127,7 @@ export const OFFER_PROCESS: OfferStep[] = [
     n: "3",
     icon: "layout",
     title: "Deine Live-Seite",
-    body: "Fertig online – für Handy optimiert und bei Google zu finden.",
+    body: "Fertig online – schnell, mobil optimiert und bereit für neue Anfragen.",
     meta: "meist in 2–3 Wochen live",
     gfx: "build",
   },
@@ -158,20 +158,20 @@ export const REB_CHAPTERS: CaseChapter[] = [
   {
     k: "01",
     label: "Vorher",
-    title: "Eine Seite ohne Objekte",
-    body: "Ein älteres WordPress-Theme: viel Text, ein paar Fotos — aber keine Immobilien.",
+    title: "Eine Website ohne Immobilien",
+    body: "Ein in die Jahre gekommenes WordPress-Theme — viel Text, ein paar Fotos, aber kein einziges Objekt zu sehen.",
   },
   {
     k: "02",
-    label: "Die Arbeit",
-    title: "Die Objekte auf der eigenen Seite",
-    body: "Jetzt zieht die Website die Immobilien live aus der Maklersoftware — immer aktuell, ganz ohne Handarbeit.",
+    label: "Nachher",
+    title: "Alle Objekte auf der eigenen Seite",
+    body: "Jetzt spielt die Website die Immobilien live aus der Maklersoftware aus — immer aktuell, ganz ohne Handarbeit.",
   },
   {
     k: "03",
     label: "Das Ergebnis",
     title: "Unabhängig und immer aktuell",
-    body: "Anfragen kommen direkt über die eigene Seite — unabhängig und auf jedem Gerät gut lesbar.",
+    body: "Anfragen kommen direkt über die eigene Seite — kein Umweg über Portale, auf jedem Gerät gut lesbar.",
   },
 ];
 

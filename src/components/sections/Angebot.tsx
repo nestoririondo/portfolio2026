@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { OFFER_INCLUDED, OFFER_PROCESS } from "../../data/content";
 import { useParallax } from "../../hooks/useParallax";
 import { ProcessGraphic } from "./ProcessGraphic";
@@ -7,7 +7,69 @@ import { SectionHeading } from "../ui/SectionHeading";
 
 export function Angebot() {
   const secRef = useRef<HTMLElement>(null);
+  const flowRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  // The price card holds back until the 3-step sequence has finished building
+  // in (stepsDone) *and* the card itself is in view (cardInView).
+  const [stepsDone, setStepsDone] = useState(false);
+  const [cardInView, setCardInView] = useState(false);
   useParallax(secRef);
+
+  // Mark the step sequence "done" once the last step finishes its pop-in.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setStepsDone(true);
+      return;
+    }
+    const last = flowRef.current?.querySelector<HTMLElement>(
+      ".process-step:last-child",
+    );
+    if (!last) {
+      setStepsDone(true);
+      return;
+    }
+    let fallback: number | undefined;
+    const onEnd = (e: TransitionEvent) => {
+      if (e.target === last && e.propertyName === "transform") {
+        setStepsDone(true);
+      }
+    };
+    last.addEventListener("transitionend", onEnd);
+    // Safety net in case transitionend is missed: once the last step is in
+    // view, allow the card after the longest possible step animation.
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fallback = window.setTimeout(() => setStepsDone(true), 2200);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(last);
+    return () => {
+      last.removeEventListener("transitionend", onEnd);
+      io.disconnect();
+      if (fallback) window.clearTimeout(fallback);
+    };
+  }, []);
+
+  // Track whether the price card has scrolled into view.
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setCardInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(card);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section
@@ -25,17 +87,18 @@ export function Angebot() {
           <SectionHeading
             eyebrow="So läuft’s"
             title="Erst verstehen, dann bauen."
-            sub="Von der Idee zur fertigen Website – bei jedem Schritt siehst du ein echtes Zwischenergebnis und sagst, was passt. Wir feilen so lange daran, bis es wirklich sitzt und du zufrieden bist."
+            sub="Du bekommst eine klare Website zum Festpreis. Zusätzliche Funktionen planen wir nur, wenn sie für dein Geschäft wirklich sinnvoll sind."
           />
         </div>
 
         {/* 1 → 2 → 3 deliverable timeline */}
         <div
-          className="reveal process-flow"
+          ref={flowRef}
+          className="process-flow"
           style={{ margin: "clamp(56px,8vw,96px) 0" }}
         >
           {OFFER_PROCESS.map((step, i) => (
-            <div className="process-step" key={step.n}>
+            <div className="reveal process-step" key={step.n}>
               <span className="process-num">{step.n}</span>
               <div className={`process-icon${step.gfx ? " process-icon--gfx" : ""}`}>
                 {step.gfx ? (
@@ -52,7 +115,11 @@ export function Angebot() {
         </div>
 
         {/* one consolidated price card */}
-        <div className="reveal price-card">
+        <div
+          ref={cardRef}
+          data-reveal-defer
+          className={`reveal price-card${stepsDone && cardInView ? " in" : ""}`}
+        >
           <div className="price-card-head">
             <span className="price-tag">
               <Icon name="spark" size={14} color="var(--accent)" /> Komplett-Website
@@ -87,7 +154,7 @@ export function Angebot() {
             </div>
           </div>
 
-          <div className="price-included-label">Alles dabei:</div>
+          <div className="price-included-label">Im Grundpreis enthalten:</div>
           <div className="price-included">
             {OFFER_INCLUDED.map((t) => (
               <div key={t} className="price-included-item">
