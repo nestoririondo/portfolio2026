@@ -43,12 +43,17 @@ const SUBMIT = { x: 83, y: 62 };
 const ZOOM_ORIGIN = { x: 88, y: 34 }; // higher/right, toward the top of the form
 const ZOOM_MAX = 1.65;
 
+// overlaid text (typed fields + the confirmation toast) sizes against the
+// click-through card via container units, so it never overflows on a small
+// (mobile) frame; capped at 9px so the desktop size is unchanged.
+const OVERLAY_FS = "clamp(5px, 1.7cqw, 9px)";
+
 const NAME_TEXT = "Anna Schäfer";
 const EMAIL_TEXT = "anna@example.de";
 const MSG_TEXT = "Interesse an dieser Wohnung – bitte um Rückruf.";
 
 const CLICK_1 = 0.15; // open properties
-const CLICK_2 = 0.46; // click 7th property after scroll + a long hover
+const CLICK_2 = 0.55; // click 7th property after a slow scroll + a long hover
 const CLICK_3 = 0.983; // send message after form-filled pause + move to button + wait
 
 interface Key {
@@ -64,20 +69,20 @@ const PRE_KEYS: Key[] = [
   { at: 0.1, x: BROWSE.x, y: BROWSE.y }, // arrive at "Immobilien durchsuchen"
   { at: 0.2, x: BROWSE.x, y: BROWSE.y }, // pause (click at 0.15)
   { at: 0.29, x: BROWSE.x, y: BROWSE.y }, // hold on the full property list before it scrolls
-  { at: 0.35, x: LIST_CARD.x, y: LIST_CARD.y }, // follow the list down to where the 7th card lands
-  { at: 0.46, x: LIST_CARD.x, y: LIST_CARD.y }, // long hover on the property, then click at CLICK_2
+  { at: 0.45, x: LIST_CARD.x, y: LIST_CARD.y }, // follow the list down (slow scroll 0.29→0.45)
+  { at: 0.55, x: LIST_CARD.x, y: LIST_CARD.y }, // long hover on the property, then click at CLICK_2
 ];
 
 const FORM_KEYS: Key[] = [
-  { at: 0.46, x: LIST_CARD.x, y: LIST_CARD.y },
-  { at: 0.56, x: LIST_CARD.x, y: LIST_CARD.y }, // long linger on the detail page before reacting
+  { at: 0.55, x: LIST_CARD.x, y: LIST_CARD.y },
+  { at: 0.58, x: LIST_CARD.x, y: LIST_CARD.y }, // brief linger on the detail page before reacting
   { at: 0.6, x: 58, y: 43 }, // arc toward the form as the zoom kicks in
-  { at: 0.63, x: NAME_FIELD.x, y: NAME_FIELD.y }, // arrive at the name field
-  { at: 0.71, x: NAME_FIELD.x, y: NAME_FIELD.y }, // typing the name
-  { at: 0.73, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // move to email
-  { at: 0.81, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // typing the email
-  { at: 0.83, x: MSG_FIELD.x, y: MSG_FIELD.y }, // move to message
-  { at: 0.91, x: MSG_FIELD.x, y: MSG_FIELD.y }, // typing the message
+  { at: 0.67, x: NAME_FIELD.x, y: NAME_FIELD.y }, // arrive at the name field (after the longer zoom)
+  { at: 0.75, x: NAME_FIELD.x, y: NAME_FIELD.y }, // typing the name
+  { at: 0.77, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // move to email
+  { at: 0.84, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // typing the email
+  { at: 0.86, x: MSG_FIELD.x, y: MSG_FIELD.y }, // move to message
+  { at: 0.92, x: MSG_FIELD.x, y: MSG_FIELD.y }, // typing the message
   { at: 0.94, x: MSG_FIELD.x, y: MSG_FIELD.y }, // pause, form complete
   { at: 0.96, x: SUBMIT.x, y: SUBMIT.y }, // move to the button, then wait before clicking
   { at: 1, x: SUBMIT.x, y: SUBMIT.y },
@@ -158,23 +163,23 @@ const Caret = () => (
 
 export function RebInteraction({ progress: p }: { progress: number }) {
   const heroOp = 1 - ramp(p, 0.16, 0.22);
-  const listOp = ramp(p, 0.16, 0.22) * (1 - ramp(p, 0.46, 0.52));
-  const detailOp = ramp(p, 0.46, 0.52);
-  const listScroll = ramp(p, 0.29, 0.35); // list rests (full list visible) before scrolling to the 7th
+  const listOp = ramp(p, 0.16, 0.22) * (1 - ramp(p, 0.55, 0.61));
+  const detailOp = ramp(p, 0.55, 0.61);
+  const listScroll = ramp(p, 0.29, 0.45); // list rests, then scrolls slowly to the 7th
 
   // Linger on the selected property page, then push higher/right into the form.
-  const zoom = 1 + (ZOOM_MAX - 1) * ramp(p, 0.56, 0.63);
+  const zoom = 1 + (ZOOM_MAX - 1) * ramp(p, 0.56, 0.69);
 
   // Keep the landing page fully readable before the cursor starts moving.
   const heroScale = 1;
   const heroShift = 0; // %
 
-  const typedName = typeText(NAME_TEXT, p, 0.63, 0.71);
-  const typedEmail = typeText(EMAIL_TEXT, p, 0.73, 0.81);
-  const typedMsg = typeText(MSG_TEXT, p, 0.83, 0.91);
-  const nameActive = p > 0.63 && p < 0.71;
-  const emailActive = p > 0.73 && p < 0.81;
-  const msgActive = p > 0.83 && p < 0.91;
+  const typedName = typeText(NAME_TEXT, p, 0.67, 0.75);
+  const typedEmail = typeText(EMAIL_TEXT, p, 0.77, 0.84);
+  const typedMsg = typeText(MSG_TEXT, p, 0.86, 0.92);
+  const nameActive = p > 0.67 && p < 0.75;
+  const emailActive = p > 0.77 && p < 0.84;
+  const msgActive = p > 0.86 && p < 0.92;
   const showConfirm = p > 0.984; // the toast animates itself in via CSS on mount
 
   // map a detail-page point through the zoom.
@@ -227,7 +232,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
     width: "22%",
     maxHeight: "8%",
     overflow: "hidden",
-    fontSize: 9,
+    fontSize: OVERLAY_FS,
     lineHeight: 1.35,
     color: "#2b2b2b",
     background: "#f2f0ec",
@@ -242,6 +247,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
         aspectRatio: SHOT_RATIO,
         overflow: "hidden",
         background: "#f2f0ec",
+        containerType: "inline-size", // overlays size against this card (see OVERLAY_FS)
       }}
     >
       {/* hero — crop away the screenshot canvas padding so the site fills the frame */}
@@ -343,13 +349,13 @@ export function RebInteraction({ progress: p }: { progress: number }) {
               top: "56%",
               display: "flex",
               alignItems: "center",
-              gap: 5,
-              padding: "5px 9px",
-              borderRadius: 7,
+              gap: "0.55em",
+              padding: "0.55em 1em",
+              borderRadius: "0.78em",
               background: "#fff",
               border: "1px solid #dfe7da",
               boxShadow: "0 6px 18px -8px rgba(40,60,40,.5)",
-              fontSize: 9,
+              fontSize: OVERLAY_FS,
               fontWeight: 600,
               color: "#2f7d4f",
               whiteSpace: "nowrap",
@@ -361,12 +367,12 @@ export function RebInteraction({ progress: p }: { progress: number }) {
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: 13,
-                height: 13,
+                width: "1.45em",
+                height: "1.45em",
                 borderRadius: "50%",
                 background: "#2f7d4f",
                 color: "#fff",
-                fontSize: 9,
+                fontSize: "1em",
               }}
             >
               ✓

@@ -40,10 +40,10 @@ const MOBILE_Q = "(max-width: 920px)";
 // never flies by. Each window maps an elapsed slice to a slice of progress `p`,
 // which drives exactly the same visual state machine throughout.
 const BEATS = [
-  { p0: 0, p1: SEG[0], ms: 1500 }, // 01 Vorher holds
+  { p0: 0, p1: SEG[0], ms: 2500 }, // 01 Vorher holds
   { p0: SEG[0], p1: SEG[0], ms: 1300 }, // 02 opens on the homepage hero — holds before the cursor moves
   { p0: SEG[0], p1: SEG[1], ms: 5000 }, // 02 click-through plays the path
-  { p0: SEG[1], p1: PHONE_AT, ms: 1400 }, //   "Anfrage gesendet" rests on desktop
+  { p0: SEG[1], p1: PHONE_AT, ms: 900 }, //    "Anfrage gesendet" rests on desktop
   { p0: PHONE_AT, p1: 1, ms: 3200 }, // 03 phone rises, banner drops, holds
 ];
 const TOTAL = BEATS.reduce((a, b) => a + b.ms, 0);
