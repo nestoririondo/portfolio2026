@@ -1,7 +1,7 @@
 {
   "nav": {
     "links": ["Trabajos", "Software", "Oferta", "Sobre mí", "Contacto"],
-    "cta": "Pedir proyecto",
+    "cta": "Consultar proyecto",
     "menu": "Menú"
   },
   "footer": {
@@ -145,13 +145,13 @@
   "angebot": {
     "heading": {
       "eyebrow": "Cómo funciona",
-      "title": "De una idea inicial a una web online.",
-      "sub": "Tienes una web clara con precio fijo. Las funciones extra solo entran en el plan cuando realmente ayudan a tu negocio."
+      "title": "De una idea inicial a una web lista.",
+      "sub": "Recibes una web con un mensaje claro a precio fijo. Las funciones extra solo entran en el plan si realmente ayudan a tu negocio."
     },
     "steps": [
       {
         "title": "Primera conversación",
-        "body": "Me cuentas qué quieres conseguir, por teléfono o en persona.",
+        "body": "Me cuentas qué quieres conseguir, por mail, teléfono o en persona.",
         "meta": "aprox. 30 min · gratis"
       },
       {
@@ -178,7 +178,7 @@
       "Carga rápida",
       "SEO básico",
       "Google Business",
-      "Texto y estructura",
+      "Contenido y estructura",
       "Formulario de contacto",
       "Textos legales"
     ],
@@ -189,8 +189,8 @@
     "eyebrow": "Sobre mí",
     "title": "Hola, soy Néstor.",
     "body": [
-      "Mi trabajo principal es desarrollar software, y aplico el mismo criterio a las webs: deben ser rápidas, estables y fáciles de entender.",
-      "No tienes que resolver la parte técnica. Yo convierto tu idea en una web que se ve bien, funciona de verdad y ayuda a que te contacten."
+      "Trabajo desarrollando software y construyo webs con el mismo cuidado: rápidas, estables y fáciles de entender.",
+      "Tú no tienes que pelearte con la parte técnica. Yo convierto tu idea en una web clara, bien hecha y preparada para recibir nuevas consultas."
     ],
     "photoAlt": "Néstor en Berlin Alt-Treptow",
     "photoLabel": "Retrato · Néstor",
@@ -204,7 +204,7 @@
   "kontakt": {
     "eyebrow": "Contacto",
     "title": "Hablemos.",
-    "intro": "No necesitas un briefing perfecto. Con una idea aproximada basta. En la primera llamada gratuita te diré con honestidad qué tiene sentido.",
+    "intro": "No necesitas un briefing perfecto. Con una idea aproximada basta. En la primera llamada gratuita te diré con honestidad qué tiene sentido hacer.",
     "trust": [
       "Respuesta en 24 horas",
       "30 minutos, sin compromiso",
@@ -215,7 +215,7 @@
     "sentTitle": "Solicitud recibida.",
     "sentBody": "Gracias. Ya tengo tu mensaje y te responderé personalmente en uno o dos días.",
     "newRequest": "Enviar otro mensaje",
-    "formTitle": "Cuéntame brevemente qué tienes en mente.",
+    "formTitle": "¿Qué tienes en mente?",
     "name": "Nombre",
     "email": "Email",
     "message": "¿Qué estás pensando hacer?",
@@ -248,7 +248,13 @@
   "mockups": {
     "mini": {
       "partner": "¡Su socio desde 1998!",
-      "oldNav": ["Inicio", "Servicios", "Sobre nosotros", "Contacto", "Aviso legal"],
+      "oldNav": [
+        "Inicio",
+        "Servicios",
+        "Sobre nosotros",
+        "Contacto",
+        "Aviso legal"
+      ],
       "welcome": "¡Bienvenido!",
       "consult": "» Le asesoramos con competencia",
       "oldBody": "Ofrecemos asesoramiento integral en desarrollo empresarial. Haga clic aquí para más...",
@@ -317,7 +323,14 @@
         { "n": "Paul Weiß", "r": "Soporte" }
       ],
       "projectLead": "Dirección de proyecto",
-      "skills": ["Dirección", "Diseño", "Comunicación", "Desarrollo", "Ventas", "Contabilidad"],
+      "skills": [
+        "Dirección",
+        "Diseño",
+        "Comunicación",
+        "Desarrollo",
+        "Ventas",
+        "Contabilidad"
+      ],
       "overview": "Resumen",
       "matrix": "Matriz de competencias",
       "teamLabel": "Equipo",
