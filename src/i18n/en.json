@@ -16,7 +16,7 @@
   "hero": {
     "eyebrow": "Web developer · Berlin",
     "title": "Websites that work for you.",
-    "subtitle": "Many websites just sit there. Yours can book appointments, keep content up to date, and bring in enquiries, even after hours.",
+    "subtitle": "Most websites stop at looking presentable. Yours can book appointments, keep itself current, and bring in new enquiries while you are busy with everything else.",
     "primaryCta": "Start a project",
     "secondaryCta": "View work",
     "trust": ["DE · EN · ES", "Fixed price from €2,500"],
@@ -30,32 +30,32 @@
       "meta": "Real estate · Real client",
       "live": "View live ↗",
       "progressLabel": "Progress – click or drag to jump",
-      "reducedMotionIntro": "Instead of showing properties only on expensive portals, REB now presents them on its own website, live from the broker software.",
+      "reducedMotionIntro": "REB no longer has to rely only on expensive property portals. Their own website now shows live listings straight from the real-estate software.",
       "chapters": [
         {
           "k": "01",
           "label": "Before",
           "title": "A website without properties",
-          "body": "An ageing WordPress theme: lots of text, a few photos, but not a single property in sight."
+          "body": "An outdated WordPress theme with plenty of text, a handful of photos, and no actual listings for visitors to explore."
         },
         {
           "k": "02",
           "label": "After",
           "title": "Every property on their own site",
-          "body": "The website now displays listings live from the broker software, always current and without manual work."
+          "body": "The new site pulls listings directly from the real-estate software, so everything stays current without double entry."
         },
         {
           "k": "03",
           "label": "Result",
           "title": "Independent and always current",
-          "body": "Enquiries arrive directly through the company website, without a portal detour, and read well on every device."
+          "body": "People can enquire directly on the company’s own site, without a portal in between, on any device."
         }
       ]
     },
     "booking": {
       "title": "Online booking for service businesses",
       "meta": "Online appointments · Admin panel · Concept demo",
-      "body": "Fewer missed calls, less back-and-forth in chat. The website collects appointment wishes, contact details, and context so the next step is clear.",
+      "body": "Fewer missed calls and less messaging back and forth. The site captures preferred times, contact details, and context so the next step is obvious.",
       "phoneTitle": "Find a time",
       "phoneSub": "Studio Am Park · First call",
       "weekFree": "Free this week",
@@ -71,27 +71,27 @@
       "statusFree": "Free",
       "requestLabel": "Requested time",
       "requestTitle": "First call · Wed 10:30",
-      "requestBody": "Preferred time, contact details, and message are already together.",
+      "requestBody": "Preferred time, contact details, and notes are already in one place.",
       "accept": "Accept",
       "question": "Question",
       "steps": [
         {
           "n": "01",
           "label": "Book",
-          "title": "Interest becomes an appointment",
-          "body": "Visitors see available times and choose the right slot before the impulse fades."
+          "title": "Interest turns into a booking",
+          "body": "Visitors see open times and pick a slot while they are still ready to act."
         },
         {
           "n": "02",
           "label": "Request",
           "title": "The key details arrive together",
-          "body": "Name, contact, service, and desired time land in one place. No guessing, no back-and-forth."
+          "body": "Name, contact details, service, and preferred time arrive together. No guessing and no chasing missing information."
         },
         {
           "n": "03",
           "label": "Manage",
-          "title": "The business keeps the overview",
-          "body": "New requests arrive sorted in the admin area and can be confirmed or answered directly."
+          "title": "The team stays in control",
+          "body": "New requests are organised in the admin area and can be confirmed or answered right away."
         }
       ]
     }
@@ -99,27 +99,27 @@
   "software": {
     "heading": {
       "eyebrow": "Design AND function",
-      "title": "Features that actually help day to day.",
-      "sub": "Four examples of what your website can do beyond being a digital business card."
+      "title": "Useful features, not decoration.",
+      "sub": "A few examples of what a website can do when it is built to support your daily work, not just introduce your business."
     },
     "cta": "Which feature do you need?",
-    "note": "I’ll tell you honestly what is worth it.",
+    "note": "I’ll be honest about what is worth building.",
     "outcomes": [
       {
         "title": "Book appointments online",
-        "body": "Customers book free times themselves around the clock, without a phone call."
+        "body": "Customers choose an available time themselves, whenever it suits them, without calling first."
       },
       {
-        "title": "Always current content",
-        "body": "Offers, prices, or availability update automatically. You only maintain them in one place."
+        "title": "Content that stays up to date",
+        "body": "Offers, prices, or availability can update automatically from one source, so you do not have to maintain the same thing twice."
       },
       {
         "title": "Show Google reviews",
-        "body": "Your best Google reviews appear automatically and build trust before someone calls."
+        "body": "Your best Google reviews can appear on the site automatically, helping people trust you before they get in touch."
       },
       {
         "title": "Answer questions automatically",
-        "body": "An AI assistant answers common questions around the clock and forwards real enquiries to you."
+        "body": "An AI assistant can handle common questions at any time and pass serious enquiries on to you."
       }
     ],
     "gfx": {
@@ -145,35 +145,35 @@
   "angebot": {
     "heading": {
       "eyebrow": "How it works",
-      "title": "From idea to finished website.",
-      "sub": "You get a clear website at a fixed price. We only plan extra functions when they genuinely make sense for your business."
+      "title": "From rough idea to live website.",
+      "sub": "You get a clear website for a fixed price. Extra features only make it into the plan when they genuinely help your business."
     },
     "steps": [
       {
-        "title": "One conversation",
-        "body": "You tell me your goal, by phone or at your place.",
+        "title": "A first conversation",
+        "body": "You tell me what you want to achieve, by phone or in person.",
         "meta": "about 30 min · free"
       },
       {
         "title": "A clickable draft",
-        "body": "You see and click through your site before anything is final.",
+        "body": "You can see, click through, and comment on the site before anything is final.",
         "meta": "about 1–2 weeks"
       },
       {
-        "title": "Your live website",
-        "body": "Finished online, mobile-optimised, and ready for new enquiries.",
+        "title": "Your website goes live",
+        "body": "The finished site is online, mobile-friendly, and ready for new enquiries.",
         "meta": "usually live in 4–6 weeks"
       }
     ],
     "priceTag": "Complete website",
     "from": "from",
     "price": "€2,500",
-    "priceNote": "One-time fixed price, finalised after our call.",
+    "priceNote": "A one-time fixed price, agreed after the first conversation.",
     "recurringStrong": "1st year of support included",
     "recurringRest": "– then €50/month for hosting, domain, updates, and small changes.",
-    "includedLabel": "Included in the base price:",
+    "includedLabel": "Included as standard:",
     "included": [
-      "Individual design",
+      "Custom design",
       "Mobile optimised",
       "Fast loading",
       "SEO basics",
@@ -182,15 +182,15 @@
       "Contact form",
       "Legal pages"
     ],
-    "cta": "Free first call",
+    "cta": "Book a free first call",
     "reassure": "No obligation · no hidden costs"
   },
   "ueber": {
     "eyebrow": "About me",
     "title": "Hi, I’m Néstor.",
     "body": [
-      "I develop software professionally and build websites with the same standards: fast, stable, and understandable.",
-      "You don’t need to deal with the tech. I translate your idea into a website that looks good, works, and brings you enquiries."
+      "My day job is software development, and I bring the same standard to websites: they should be fast, reliable, and easy to understand.",
+      "You do not need to figure out the technical side. I turn your idea into a website that looks good, works properly, and helps people get in touch."
     ],
     "photoAlt": "Néstor in Berlin Alt-Treptow",
     "photoLabel": "Portrait · Néstor",
@@ -204,7 +204,7 @@
   "kontakt": {
     "eyebrow": "Contact",
     "title": "Let’s talk.",
-    "intro": "You don’t need a finished concept. A rough idea is enough. In the free first call, I’ll tell you honestly what makes sense.",
+    "intro": "You do not need a finished brief. A rough idea is enough. In the free first call, I’ll tell you honestly what makes sense.",
     "trust": [
       "Reply within 24 hours",
       "30 minutes, no obligation",
@@ -213,17 +213,17 @@
     "direct": "Or directly:",
     "methods": ["WhatsApp", "Email", "Call"],
     "sentTitle": "Request received.",
-    "sentBody": "Thank you. Your message reached me. I’ll get back to you personally in one or two days.",
-    "newRequest": "Write a new request",
-    "formTitle": "Tell me briefly.",
+    "sentBody": "Thank you. I have your message and will reply personally within the next day or two.",
+    "newRequest": "Send another message",
+    "formTitle": "Tell me briefly what you have in mind.",
     "name": "Name",
     "email": "Email",
-    "message": "What is it about?",
+    "message": "What are you planning?",
     "optional": "(optional)",
-    "errorBeforeEmail": "That did not work just now. Please try again or write to me directly at",
+    "errorBeforeEmail": "Something went wrong. Please try again or email me directly at",
     "sending": "Sending …",
-    "submit": "Request a first call",
-    "privacy": "Your message comes directly to me, personally, not to an automated system."
+    "submit": "Ask for a first call",
+    "privacy": "Your message comes straight to me. No automated funnel, no sales team."
   },
   "legal": {
     "eyebrow": "Legal",

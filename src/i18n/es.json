@@ -15,9 +15,9 @@
   },
   "hero": {
     "eyebrow": "Desarrollador web · Berlín",
-    "title": "Webs que trabajan para ti.",
-    "subtitle": "Muchas webs solo están ahí. La tuya puede aceptar citas, mantener contenidos al día y generar consultas, también fuera de horario.",
-    "primaryCta": "Pedir proyecto",
+    "title": "Una web que trabaja por ti.",
+    "subtitle": "Muchas webs se quedan en verse bien. La tuya puede reservar citas, mantenerse actualizada y traer nuevas consultas mientras tú estás a otras cosas.",
+    "primaryCta": "Consultar proyecto",
     "secondaryCta": "Ver trabajos",
     "trust": ["DE · EN · ES", "Precio fijo desde 2.500 €"],
     "availability": "Disponible para nuevos proyectos",
@@ -30,32 +30,32 @@
       "meta": "Inmobiliaria · Cliente real",
       "live": "Ver online ↗",
       "progressLabel": "Progreso – haz clic o arrastra para saltar",
-      "reducedMotionIntro": "En lugar de mostrar inmuebles solo en portales caros, REB ahora los presenta en su propia web, en vivo desde el software inmobiliario.",
+      "reducedMotionIntro": "REB ya no depende solo de portales inmobiliarios caros. Su propia web muestra ahora los inmuebles en directo desde el software de gestión.",
       "chapters": [
         {
           "k": "01",
           "label": "Antes",
           "title": "Una web sin inmuebles",
-          "body": "Un tema antiguo de WordPress: mucho texto, algunas fotos, pero ni un solo inmueble visible."
+          "body": "Un tema antiguo de WordPress, mucho texto, algunas fotos y ningún inmueble real para que la gente pudiera explorar."
         },
         {
           "k": "02",
           "label": "Después",
-          "title": "Todos los inmuebles en su propia web",
-          "body": "Ahora la web muestra los inmuebles en vivo desde el software inmobiliario, siempre actualizados y sin trabajo manual."
+          "title": "Los inmuebles, dentro de su propia web",
+          "body": "La nueva web carga los inmuebles directamente desde el software inmobiliario, siempre actualizados y sin duplicar trabajo."
         },
         {
           "k": "03",
           "label": "Resultado",
           "title": "Independiente y siempre actualizada",
-          "body": "Las consultas llegan directamente por la propia web, sin pasar por portales, y se leen bien en cualquier dispositivo."
+          "body": "Las consultas llegan por la web de la empresa, sin intermediarios, y la experiencia funciona bien en cualquier dispositivo."
         }
       ]
     },
     "booking": {
-      "title": "Reservas online para servicios",
+      "title": "Reservas online para negocios de servicios",
       "meta": "Citas online · Panel admin · Demo conceptual",
-      "body": "Menos llamadas perdidas y menos ida y vuelta por chat. La web recoge preferencias de cita, datos de contacto y contexto para que el siguiente paso esté claro.",
+      "body": "Menos llamadas perdidas y menos mensajes de ida y vuelta. La web recoge horarios preferidos, datos de contacto y contexto para que el siguiente paso sea claro.",
       "phoneTitle": "Encontrar cita",
       "phoneSub": "Studio Am Park · Primera llamada",
       "weekFree": "Libre esta semana",
@@ -71,27 +71,27 @@
       "statusFree": "Libre",
       "requestLabel": "Cita solicitada",
       "requestTitle": "Primera llamada · Mi 10:30",
-      "requestBody": "Hora deseada, datos de contacto y mensaje ya están juntos.",
+      "requestBody": "Horario preferido, datos de contacto y notas ya están en un solo sitio.",
       "accept": "Aceptar",
       "question": "Pregunta",
       "steps": [
         {
           "n": "01",
           "label": "Reservar",
-          "title": "El interés se convierte en cita",
-          "body": "Las visitas ven horarios disponibles y eligen el momento adecuado antes de que el impulso se pierda."
+          "title": "El interés acaba en una reserva",
+          "body": "Las visitas ven horarios disponibles y eligen uno mientras todavía tienen ganas de dar el paso."
         },
         {
           "n": "02",
           "label": "Solicitar",
-          "title": "La información importante llega junta",
-          "body": "Nombre, contacto, servicio y hora deseada llegan en un solo lugar. Sin adivinar, sin ida y vuelta."
+          "title": "Todo lo importante llega junto",
+          "body": "Nombre, contacto, servicio y horario preferido llegan en un solo lugar. Sin adivinar y sin perseguir datos sueltos."
         },
         {
           "n": "03",
           "label": "Gestionar",
-          "title": "El negocio mantiene el control",
-          "body": "Las nuevas solicitudes llegan ordenadas al panel admin y pueden confirmarse o responderse directamente."
+          "title": "El equipo mantiene el control",
+          "body": "Las nuevas solicitudes aparecen ordenadas en el panel y se pueden confirmar o responder al momento."
         }
       ]
     }
@@ -99,27 +99,27 @@
   "software": {
     "heading": {
       "eyebrow": "Diseño Y función",
-      "title": "Funciones que ayudan de verdad en el día a día.",
-      "sub": "Cuatro ejemplos de lo que puede hacer tu web más allá de ser una tarjeta de visita digital."
+      "title": "Funciones útiles, no solo decoración.",
+      "sub": "Algunos ejemplos de lo que puede hacer una web cuando está pensada para ayudarte en el día a día, no solo para presentar tu negocio."
     },
     "cta": "¿Qué función necesitas?",
-    "note": "Te diré honestamente qué merece la pena.",
+    "note": "Te diré con honestidad qué merece la pena construir.",
     "outcomes": [
       {
         "title": "Reservar citas online",
-        "body": "Tus clientes reservan horarios libres por su cuenta, a cualquier hora y sin llamar."
+        "body": "Tus clientes eligen un horario disponible cuando les viene bien, sin tener que llamar primero."
       },
       {
-        "title": "Contenido siempre actualizado",
-        "body": "Ofertas, precios o disponibilidad se actualizan automáticamente. Solo lo mantienes en un lugar."
+        "title": "Contenido que se mantiene al día",
+        "body": "Ofertas, precios o disponibilidad pueden actualizarse desde una sola fuente, sin mantener lo mismo en dos sitios."
       },
       {
         "title": "Mostrar reseñas de Google",
-        "body": "Tus mejores reseñas de Google aparecen automáticamente y generan confianza antes de que alguien llame."
+        "body": "Tus mejores reseñas de Google pueden aparecer en la web automáticamente y generar confianza antes del primer contacto."
       },
       {
         "title": "Responder preguntas automáticamente",
-        "body": "Un asistente de IA responde preguntas frecuentes a cualquier hora y te envía las consultas reales."
+        "body": "Un asistente de IA puede responder preguntas frecuentes a cualquier hora y pasarte las consultas que van en serio."
       }
     ],
     "gfx": {
@@ -145,35 +145,35 @@
   "angebot": {
     "heading": {
       "eyebrow": "Cómo funciona",
-      "title": "De la idea a la web terminada.",
-      "sub": "Recibes una web clara con precio fijo. Solo planificamos funciones extra cuando realmente tienen sentido para tu negocio."
+      "title": "De una idea inicial a una web online.",
+      "sub": "Tienes una web clara con precio fijo. Las funciones extra solo entran en el plan cuando realmente ayudan a tu negocio."
     },
     "steps": [
       {
-        "title": "Una conversación",
-        "body": "Me cuentas tu objetivo por teléfono o en tu local.",
+        "title": "Primera conversación",
+        "body": "Me cuentas qué quieres conseguir, por teléfono o en persona.",
         "meta": "aprox. 30 min · gratis"
       },
       {
-        "title": "Un borrador clicable",
-        "body": "Ves y pruebas tu web antes de que nada sea definitivo.",
+        "title": "Un prototipo clicable",
+        "body": "Puedes ver, probar y comentar la web antes de que nada quede cerrado.",
         "meta": "aprox. 1–2 semanas"
       },
       {
-        "title": "Tu web online",
-        "body": "Terminada, optimizada para móvil y lista para nuevas consultas.",
+        "title": "La web sale online",
+        "body": "La web terminada queda publicada, adaptada a móvil y lista para recibir nuevas consultas.",
         "meta": "normalmente online en 4–6 semanas"
       }
     ],
     "priceTag": "Web completa",
     "from": "desde",
     "price": "2.500 €",
-    "priceNote": "Precio fijo único, cerrado después de la llamada.",
+    "priceNote": "Precio fijo y único, acordado después de la primera conversación.",
     "recurringStrong": "1.er año de soporte incluido",
     "recurringRest": "– después 50 €/mes para hosting, dominio, actualizaciones y pequeños cambios.",
-    "includedLabel": "Incluido en el precio base:",
+    "includedLabel": "Incluido de serie:",
     "included": [
-      "Diseño individual",
+      "Diseño a medida",
       "Optimizada para móvil",
       "Carga rápida",
       "SEO básico",
@@ -182,15 +182,15 @@
       "Formulario de contacto",
       "Textos legales"
     ],
-    "cta": "Primera llamada gratis",
+    "cta": "Pedir primera llamada gratis",
     "reassure": "Sin compromiso · sin costes ocultos"
   },
   "ueber": {
     "eyebrow": "Sobre mí",
     "title": "Hola, soy Néstor.",
     "body": [
-      "Trabajo como desarrollador de software y construyo webs con el mismo nivel de exigencia: rápidas, estables y fáciles de entender.",
-      "No tienes que ocuparte de la técnica. Yo traduzco tu idea en una web que se ve bien, funciona y trae consultas."
+      "Mi trabajo principal es desarrollar software, y aplico el mismo criterio a las webs: deben ser rápidas, estables y fáciles de entender.",
+      "No tienes que resolver la parte técnica. Yo convierto tu idea en una web que se ve bien, funciona de verdad y ayuda a que te contacten."
     ],
     "photoAlt": "Néstor en Berlin Alt-Treptow",
     "photoLabel": "Retrato · Néstor",
@@ -204,7 +204,7 @@
   "kontakt": {
     "eyebrow": "Contacto",
     "title": "Hablemos.",
-    "intro": "No necesitas un concepto terminado. Una idea aproximada basta. En la primera llamada gratuita te diré honestamente qué tiene sentido.",
+    "intro": "No necesitas un briefing perfecto. Con una idea aproximada basta. En la primera llamada gratuita te diré con honestidad qué tiene sentido.",
     "trust": [
       "Respuesta en 24 horas",
       "30 minutos, sin compromiso",
@@ -213,17 +213,17 @@
     "direct": "O directamente:",
     "methods": ["WhatsApp", "Email", "Llamar"],
     "sentTitle": "Solicitud recibida.",
-    "sentBody": "Gracias. Tu mensaje me ha llegado. Te responderé personalmente en uno o dos días.",
-    "newRequest": "Escribir otra solicitud",
-    "formTitle": "Cuéntamelo brevemente.",
+    "sentBody": "Gracias. Ya tengo tu mensaje y te responderé personalmente en uno o dos días.",
+    "newRequest": "Enviar otro mensaje",
+    "formTitle": "Cuéntame brevemente qué tienes en mente.",
     "name": "Nombre",
     "email": "Email",
-    "message": "¿De qué se trata?",
+    "message": "¿Qué estás pensando hacer?",
     "optional": "(opcional)",
-    "errorBeforeEmail": "Ahora mismo no ha funcionado. Inténtalo de nuevo o escríbeme directamente a",
+    "errorBeforeEmail": "Algo ha fallado. Inténtalo de nuevo o escríbeme directamente a",
     "sending": "Enviando …",
-    "submit": "Pedir primera llamada",
-    "privacy": "Tu mensaje llega directamente a mí, de forma personal, no a un sistema automático."
+    "submit": "Pedir una primera llamada",
+    "privacy": "Tu mensaje me llega directamente a mí."
   },
   "legal": {
     "eyebrow": "Legal",
