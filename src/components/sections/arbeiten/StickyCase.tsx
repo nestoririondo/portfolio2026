@@ -24,7 +24,6 @@ import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
  */
 
 const FRAME_H = "min(600px, 68vh)"; // desktop stage height
-const M_FRAME_H = "min(72vh, 520px)"; // mobile stage height
 // boundaries on 0..1 progress `p`: 01 short, 02 long, 03 short
 const SEG = [0.08, 0.86];
 const HANDOFF = 0.35; // within step 03's p-range: desktop view rests, then phone rises
@@ -577,6 +576,10 @@ export function StickyCase() {
   // 1) identity — who/what, with the live link. One tidy two-line block.
   const mobileIdentity = (
     <div style={{ flex: "0 0 auto" }}>
+      {/* title on its own line so it never wraps behind the pill */}
+      <h3 style={{ fontSize: 20, lineHeight: 1.12, marginBottom: 8 }}>
+        REB Consulting GmbH
+      </h3>
       <div
         style={{
           display: "flex",
@@ -585,19 +588,20 @@ export function StickyCase() {
           gap: 12,
         }}
       >
-        <h3 style={{ fontSize: 22, marginBottom: 3 }}>REB Consulting GmbH</h3>
+        <span className="case-meta" style={{ marginBottom: 0 }}>
+          Immobilien · Echter Kunde
+        </span>
         {liveBtn}
       </div>
-      <span className="case-meta">Immobilien · Echter Kunde</span>
     </div>
   );
 
   // 3) player — the active chapter narrative with its transport (progress +
   //    controls) grouped right below the stage, like a video and its scrubber.
   const mobilePlayer = (
-    <div style={{ flex: "0 0 auto", marginTop: 18 }}>
+    <div style={{ flex: "0 0 auto" }}>
       {activeStepCard(true)}
-      <div style={{ marginTop: 16 }}>
+      <div style={{ marginTop: 14 }}>
         {progressBar}
         {controls}
       </div>
@@ -642,7 +646,7 @@ export function StickyCase() {
             className={"case-phone-rise" + (showPhone ? " is-active" : "")}
             style={{ position: "relative", zIndex: 2 }}
           >
-            <PhoneFrame width={mobile ? 216 : 252}>
+            <PhoneFrame width={mobile ? 200 : 252}>
               <RebMobile showNotification={notify} />
             </PhoneFrame>
           </div>
@@ -691,9 +695,10 @@ export function StickyCase() {
   return (
     <div ref={sectionRef} className="case-snap" style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
       {mobile ? (
-        <div className="reveal" style={{ transitionDelay: ".16s" }}>
+        // one coherent screen: title → visual (flexes to fill) → card + controls
+        <div className="reveal case-mobile" style={{ transitionDelay: ".16s" }}>
           {mobileIdentity}
-          <div style={{ marginTop: 16 }}>{stage(M_FRAME_H)}</div>
+          <div className="case-mobile__stage">{stage("100%")}</div>
           {mobilePlayer}
         </div>
       ) : (

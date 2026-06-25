@@ -23,22 +23,34 @@
 }
 html {
   scroll-behavior: smooth;
+  /* gentle scroll-snap so the work case settles centred. `proximity` (not
+     `mandatory`) only nudges when you're already near and never traps the scroll;
+     only .case-snap participates. The case is sized to fit one screen on every
+     device, so the whole unit (title → visual → controls) lands in view. */
+  scroll-snap-type: y proximity;
+  /* keep the 72px header out of the snapport so "centre" reads against the
+     visible area, not behind the header */
+  scroll-padding-top: 72px;
 }
-/* PROTOTYPE: gentle scroll-snap so the work case settles centred — DESKTOP ONLY.
-   On phones the case is taller than the viewport, so it can't be centred without
-   hiding the controls; there snapping is off and you simply scroll through it.
-   `proximity` (not `mandatory`) only nudges when you're already near the point and
-   never traps the scroll; only elements with scroll-snap-align participate. */
-@media (min-width: 921px) {
-  html {
-    scroll-snap-type: y proximity;
-    /* the auto-hiding header is 72px — keep it out of the snapport so "centre"
-       reads against the visible area, not behind the header */
-    scroll-padding-top: 72px;
-  }
-  .case-snap {
-    scroll-snap-align: center;
-  }
+.case-snap {
+  scroll-snap-align: center;
+}
+/* mobile case study as one coherent screen: title and controls stay fixed-size
+   at top/bottom while the visual flexes to fill the space between — no dead gap,
+   and the whole unit fits in (and snaps to) one viewport */
+.case-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* a DEFINITE height (not min-height) so the flexing stage gets a definite
+     height too — otherwise its inner height:100% resolves to zero and the
+     visual collapses. Falls back to auto on browsers without svh. */
+  height: 600px;
+  height: calc(100svh - 96px);
+}
+.case-mobile__stage {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 /* clip (not hidden) stops decorative bleed from causing horizontal scroll
    without creating a scroll container — so position: sticky keeps working.
@@ -693,6 +705,7 @@ a:hover > .brand-tile {
   margin-bottom: 18px;
 }
 .case-ctrl {
+  position: relative;
   flex: 0 0 auto;
   display: inline-grid;
   place-items: center;
@@ -708,6 +721,16 @@ a:hover > .brand-tile {
   appearance: none;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
+/* expand the tap target to 44×44 without growing the visible 34px circle */
+.case-ctrl::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
 .case-ctrl:hover {
   border-color: color-mix(in oklab, var(--accent) 40%, var(--line));
   color: var(--accent);
@@ -719,10 +742,12 @@ a:hover > .brand-tile {
 .case-dots {
   display: flex;
   align-items: center;
-  gap: 9px;
+  /* wider spacing so the enlarged tap targets below don't overlap */
+  gap: 18px;
   margin-right: auto;
 }
 .case-dot {
+  position: relative;
   width: 9px;
   height: 9px;
   padding: 0;
@@ -733,6 +758,17 @@ a:hover > .brand-tile {
   -webkit-appearance: none;
   appearance: none;
   transition: background 0.25s ease, transform 0.25s ease;
+}
+/* enlarge the seek-dot tap target (full height, ~half the gap wide each side)
+   without growing the 9px visual dot — keeps the dots easy to hit on mobile */
+.case-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 .case-dot:hover {
   background: color-mix(in oklab, var(--accent) 55%, var(--line));
