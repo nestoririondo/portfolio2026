@@ -28,9 +28,7 @@ html {
      only .case-snap participates. The case is sized to fit one screen on every
      device, so the whole unit (title → visual → controls) lands in view. */
   scroll-snap-type: y proximity;
-  /* keep the 72px header out of the snapport so "centre" reads against the
-     visible area, not behind the header */
-  scroll-padding-top: 72px;
+  scroll-padding-top: 0;
 }
 .case-snap {
   scroll-snap-align: center;
