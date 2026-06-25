@@ -32,6 +32,7 @@ function Portrait({ wide }: { wide?: boolean }) {
             round={22}
           />
           <div
+            className="hero-avail"
             style={{
               position: "absolute",
               zIndex: 2,
@@ -46,6 +47,7 @@ function Portrait({ wide }: { wide?: boolean }) {
               display: "flex",
               alignItems: "center",
               gap: 10,
+              whiteSpace: "nowrap",
             }}
           >
             <span
@@ -174,7 +176,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
               {ctas}
               {trust}
             </div>
-            <div className="reveal" style={{ transitionDelay: ".12s" }}>
+            <div className="reveal hero-portrait" style={{ transitionDelay: ".12s" }}>
               <Portrait />
             </div>
           </div>

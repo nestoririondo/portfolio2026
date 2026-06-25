@@ -24,6 +24,22 @@
 html {
   scroll-behavior: smooth;
 }
+/* PROTOTYPE: gentle scroll-snap so the work case settles centred — DESKTOP ONLY.
+   On phones the case is taller than the viewport, so it can't be centred without
+   hiding the controls; there snapping is off and you simply scroll through it.
+   `proximity` (not `mandatory`) only nudges when you're already near the point and
+   never traps the scroll; only elements with scroll-snap-align participate. */
+@media (min-width: 921px) {
+  html {
+    scroll-snap-type: y proximity;
+    /* the auto-hiding header is 72px — keep it out of the snapport so "centre"
+       reads against the visible area, not behind the header */
+    scroll-padding-top: 72px;
+  }
+  .case-snap {
+    scroll-snap-align: center;
+  }
+}
 /* clip (not hidden) stops decorative bleed from causing horizontal scroll
    without creating a scroll container — so position: sticky keeps working.
    Set on the app mount to avoid root-element overflow propagation quirks. */
@@ -494,6 +510,45 @@ a:hover > .brand-tile {
   background: color-mix(in oklab, #bf7050 16%, #fff);
 }
 
+/* contact form — live focus + completion feedback */
+.field-group {
+  transition: transform 0.2s ease;
+}
+.field-group:focus-within {
+  transform: translateY(-1px);
+}
+.field-group label {
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+.field-group:focus-within label {
+  color: var(--accent);
+}
+
+/* submit button "wakes up" the moment the form becomes valid */
+.btn-primary.is-ready {
+  box-shadow: 0 16px 34px -18px color-mix(in oklab, var(--accent) 80%, transparent);
+  animation: btn-wake 0.5s ease;
+}
+@keyframes btn-wake {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.018);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .field-group,
+  .btn-primary.is-ready {
+    transition: none;
+    animation: none;
+  }
+}
+
 /* reveal on scroll */
 .reveal {
   opacity: 0;
@@ -557,6 +612,7 @@ a:hover > .brand-tile {
   }
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
   .lang-switch-indicator {
     transition: none;
@@ -574,6 +630,16 @@ a:hover > .brand-tile {
   position: relative;
   display: grid;
   gap: 8px;
+}
+/* shared meta caption (project context line) — one consistent treatment so the
+   case study doesn't mix several mono sizes */
+.case-meta {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
 }
 /* continuous progress through the three chapters, sitting above the stepper */
 .case-progress {
@@ -753,6 +819,12 @@ a:hover > .brand-tile {
   .reb-confirm__check {
     animation: none;
   }
+}
+/* desktop single-chapter card — only the active beat shows, so reserve a fixed
+   min-height to keep the column steady as chapters of different lengths swap */
+.case-step--solo {
+  min-height: 152px;
+  align-items: flex-start;
 }
 .case-step--compact {
   padding: 12px 14px;
@@ -1486,6 +1558,11 @@ textarea {
   body {
     font-size: 16px;
   }
+  /* a stacked hero (text + portrait) is taller than the viewport; vertical
+     centring would push the eyebrow/headline off the top, so top-align it */
+  main > section.hero-band {
+    justify-content: flex-start;
+  }
   .process-flow {
     flex-direction: column;
     align-items: center;
@@ -1522,6 +1599,21 @@ textarea {
 @media (max-width: 920px) {
   .hero-grid {
     grid-template-columns: 1fr !important;
+  }
+  /* full-width portrait gets huge once the grid collapses — give it a calm,
+     harmonious size and centre it under the copy */
+  .hero-portrait {
+    max-width: min(78vw, 360px);
+    margin: 28px auto 0;
+  }
+  /* the availability pill is anchored to a corner on desktop; on the centred
+     mobile portrait that leaves it hanging off the edge — sit it cleanly across
+     the lower-centre of the photo instead */
+  .hero-portrait .hero-avail {
+    left: 50% !important;
+    right: auto !important;
+    bottom: 16px !important;
+    transform: translateX(-50%);
   }
   .case-sticky {
     grid-template-columns: 1fr !important;

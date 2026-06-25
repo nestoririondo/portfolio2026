@@ -23,7 +23,6 @@ const labelStyle: CSSProperties = {
   fontWeight: 600,
   marginBottom: 7,
   display: "block",
-  color: "var(--ink)",
 };
 
 type Field = HTMLInputElement | HTMLTextAreaElement;
@@ -80,7 +79,10 @@ export function Kontakt() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const isValid = name.trim() !== "" && EMAIL_RE.test(email.trim());
+  const nameDone = name.trim() !== "";
+  const emailDone = EMAIL_RE.test(email.trim());
+  const isValid = nameDone && emailDone;
+  const ready = isValid && status !== "sending";
 
   const submitRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -238,7 +240,7 @@ export function Kontakt() {
                     aria-hidden="true"
                     style={{ display: "none" }}
                   />
-                  <div>
+                  <div className="field-group">
                     <label htmlFor="contact-name" style={labelStyle}>
                       Name
                     </label>
@@ -254,7 +256,7 @@ export function Kontakt() {
                       onBlur={onFieldBlur}
                     />
                   </div>
-                  <div>
+                  <div className="field-group">
                     <label htmlFor="contact-email" style={labelStyle}>
                       E-Mail
                     </label>
@@ -271,7 +273,7 @@ export function Kontakt() {
                       onBlur={onFieldBlur}
                     />
                   </div>
-                  <div>
+                  <div className="field-group">
                     <label htmlFor="contact-message" style={labelStyle}>
                       Worum geht es? <span style={{ color: "var(--muted)" }}>(optional)</span>
                     </label>
@@ -307,7 +309,7 @@ export function Kontakt() {
                   ) : null}
                   <button
                     type="submit"
-                    className="btn btn-primary"
+                    className={`btn btn-primary${ready ? " is-ready" : ""}`}
                     disabled={status === "sending" || !isValid}
                     aria-busy={status === "sending"}
                     style={{

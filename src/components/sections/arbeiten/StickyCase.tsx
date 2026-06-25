@@ -544,60 +544,62 @@ export function StickyCase() {
     </div>
   );
 
-  const narrative = (
-    <div className="case-left">
-      {intro}
-      <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 20 }}>
-        Statt die Immobilien nur über teure Portale zu zeigen, präsentiert REB
-        sie jetzt auf der eigenen Website — live aus der Maklersoftware.
-      </p>
-      {progressBar}
-      {controls}
-      <div className="case-steps">
-        {REB_CHAPTERS.map((c, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => seek(i)}
-            className={"case-step" + (active === i ? " is-active" : "")}
-            aria-current={active === i ? "step" : undefined}
-          >
-            {step(c, active === i)}
-          </button>
-        ))}
+  // one chapter at a time — the timeline shows the others; this is just "now".
+  // Keyed on `active` so each chapter mounts fresh and fades in (never doubled).
+  // The same card drives both layouts, so the case reads identically everywhere.
+  const activeStepCard = (compact: boolean) => (
+    <div className={"case-step is-active" + (compact ? " case-step--compact" : " case-step--solo")}>
+      <div
+        key={active}
+        className="case-step__swap"
+        style={{ display: "flex", gap: 16, width: "100%" }}
+      >
+        {step(REB_CHAPTERS[active], true, compact)}
       </div>
     </div>
   );
 
-  // compact header for narrow screens — one chapter at a time
-  const mobileHead = (
+  // desktop left column: identity → the active chapter → transport. The standalone
+  // thesis paragraph and the always-on 3-card stack are gone — the dots/progress
+  // are the single navigation, and only the current beat is shown.
+  const narrative = (
+    <div className="case-left">
+      {intro}
+      {activeStepCard(false)}
+      <div style={{ marginTop: 22 }}>
+        {progressBar}
+        {controls}
+      </div>
+    </div>
+  );
+
+  // --- mobile: three calm zones (identity · stage · player) ------------------
+  // 1) identity — who/what, with the live link. One tidy two-line block.
+  const mobileIdentity = (
     <div style={{ flex: "0 0 auto" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 10,
-          marginBottom: 10,
+          gap: 12,
         }}
       >
-        <span style={{ fontFamily: "var(--mono)", fontSize: 12, color: "var(--muted)" }}>
-          REB Consulting · Echter Kunde
-        </span>
+        <h3 style={{ fontSize: 22, marginBottom: 3 }}>REB Consulting GmbH</h3>
         {liveBtn}
       </div>
-      {progressBar}
-      {controls}
-      <div className="case-step case-step--compact is-active">
-        {/* keyed so each chapter mounts fresh and fades in — the previous one is
-            fully gone before the next appears, so the text is never doubled */}
-        <div
-          key={active}
-          className="case-step__swap"
-          style={{ display: "flex", gap: 16, width: "100%" }}
-        >
-          {step(REB_CHAPTERS[active], true, true)}
-        </div>
+      <span className="case-meta">Immobilien · Echter Kunde</span>
+    </div>
+  );
+
+  // 3) player — the active chapter narrative with its transport (progress +
+  //    controls) grouped right below the stage, like a video and its scrubber.
+  const mobilePlayer = (
+    <div style={{ flex: "0 0 auto", marginTop: 18 }}>
+      {activeStepCard(true)}
+      <div style={{ marginTop: 16 }}>
+        {progressBar}
+        {controls}
       </div>
     </div>
   );
@@ -687,11 +689,12 @@ export function StickyCase() {
 
   // --- autoplaying case study ------------------------------------------------
   return (
-    <div ref={sectionRef} style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
+    <div ref={sectionRef} className="case-snap" style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
       {mobile ? (
         <div className="reveal" style={{ transitionDelay: ".16s" }}>
-          {mobileHead}
-          <div style={{ marginTop: 14 }}>{stage(M_FRAME_H)}</div>
+          {mobileIdentity}
+          <div style={{ marginTop: 16 }}>{stage(M_FRAME_H)}</div>
+          {mobilePlayer}
         </div>
       ) : (
         <div

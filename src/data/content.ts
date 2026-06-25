@@ -120,15 +120,15 @@ export const OFFER_PROCESS: OfferStep[] = [
     icon: "pen",
     title: "Ein klickbarer Entwurf",
     body: "Du siehst & klickst deine Seite, bevor irgendwas final ist.",
-    meta: "in wenigen Tagen",
+    meta: "ca. 1–2 Wochen",
     gfx: "plan",
   },
   {
     n: "3",
     icon: "layout",
     title: "Deine Live-Seite",
-    body: "Fertig online – schnell, mobil optimiert und bereit für neue Anfragen.",
-    meta: "meist in 2–3 Wochen live",
+    body: "Fertig online – mobil optimiert und bereit für neue Anfragen.",
+    meta: "meist in 4–6 Wochen live",
     gfx: "build",
   },
 ];
