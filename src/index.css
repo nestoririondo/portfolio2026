@@ -35,22 +35,20 @@ html {
 .case-snap {
   scroll-snap-align: center;
 }
-/* mobile case study as one coherent screen: title and controls stay fixed-size
-   at top/bottom while the visual flexes to fill the space between — no dead gap,
-   and the whole unit fits in (and snaps to) one viewport */
+/* mobile case study as one coherent block: title, then the visual, then the
+   chapter card + controls. The block is content-height (no forced viewport
+   height) so iOS Safari's dynamic toolbar can't leave dead bands above/below. */
 .case-mobile {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  /* a DEFINITE height (not min-height) so the flexing stage gets a definite
-     height too — otherwise its inner height:100% resolves to zero and the
-     visual collapses. Falls back to auto on browsers without svh. */
-  height: 600px;
-  height: calc(100svh - 96px);
 }
 .case-mobile__stage {
-  flex: 1 1 auto;
-  min-height: 0;
+  /* the visual is sized to the DYNAMIC viewport (dvh tracks the toolbar), so it
+     stays large and the block roughly fills the screen in every toolbar state.
+     A definite height also lets the inner height:100% resolve. */
+  height: 360px; /* fallback */
+  height: min(56dvh, 460px);
   /* clip the visual so a mockup taller than the stage can never spill onto the
      chapter card or controls below it */
   overflow: hidden;

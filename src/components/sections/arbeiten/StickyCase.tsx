@@ -666,7 +666,7 @@ export function StickyCase() {
             className={"case-phone-rise" + (showPhone ? " is-active" : "")}
             style={{ position: "relative", zIndex: 2 }}
           >
-            <PhoneFrame width={mobile ? 178 : 252}>
+            <PhoneFrame width={mobile ? 205 : 252}>
               <RebMobile showNotification={notify} />
             </PhoneFrame>
           </div>
