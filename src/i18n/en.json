@@ -35,14 +35,14 @@
         {
           "k": "01",
           "label": "Before",
-          "title": "A website without properties",
+          "title": "An outdated website",
           "body": "An outdated WordPress theme with plenty of text, a handful of photos, and no actual listings for visitors to explore."
         },
         {
           "k": "02",
           "label": "After",
-          "title": "Every property on their own site",
-          "body": "The new site pulls listings directly from the real-estate software, so everything stays current without double entry."
+          "title": "Live listings, directly on the website",
+          "body": "REB’s properties now flow straight from the real-estate software, keeping the site current without extra admin."
         },
         {
           "k": "03",

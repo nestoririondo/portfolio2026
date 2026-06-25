@@ -672,7 +672,7 @@ export function StickyCase() {
   const mobilePlayer = (
     <div style={{ flex: "0 0 auto" }}>
       {activeStepCard(true)}
-      <div style={{ marginTop: 14 }}>
+      <div className="case-mobile-player" style={{ marginTop: 14 }}>
         {progressBar}
         {controls}
       </div>

@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type KeyboardEvent,
+  type PointerEvent,
+} from "react";
 import { PhoneFrame } from "../../mockups/Frames";
 import { Blob } from "../../ui/Decorations";
 import { StickyCase } from "./StickyCase";
@@ -450,9 +456,41 @@ function BookingCase() {
   }, [copy.steps.length, playing]);
 
   const current = copy.steps[active];
+  const seek = useCallback(
+    (step: number) => {
+      setActive(Math.min(Math.max(step, 0), copy.steps.length - 1));
+      setPlaying(false);
+    },
+    [copy.steps.length],
+  );
+
+  const seekFromBar = useCallback(
+    (e: PointerEvent<HTMLDivElement>) => {
+      const r = e.currentTarget.getBoundingClientRect();
+      const f = (e.clientX - r.left) / r.width;
+      seek(Math.min(copy.steps.length - 1, Math.floor(f * copy.steps.length)));
+    },
+    [copy.steps.length, seek],
+  );
+
+  const onBarKey = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        seek(active + 1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        seek(active - 1);
+      }
+    },
+    [active, seek],
+  );
 
   return (
-    <div className="reveal" style={{ marginTop: "clamp(80px,10vw,140px)" }}>
+    <div
+      className="reveal booking-case case-snap"
+      style={{ marginTop: "clamp(80px,10vw,140px)" }}
+    >
       <div
         className="case-sticky"
         style={{
@@ -464,11 +502,17 @@ function BookingCase() {
       >
         <BookingVisual active={active} copy={copy} />
         <div className="case-left">
-          <h3 style={{ fontSize: "clamp(30px,4vw,48px)", marginBottom: 10 }}>
+          <h3
+            className="booking-copy-title"
+            style={{ fontSize: "clamp(30px,4vw,48px)", marginBottom: 10 }}
+          >
             {copy.title}
           </h3>
-          <div className="case-meta">{copy.meta}</div>
-          <p style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6, marginBottom: 22 }}>
+          <div className="case-meta booking-meta">{copy.meta}</div>
+          <p
+            className="booking-copy-body"
+            style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6, marginBottom: 22 }}
+          >
             {copy.body}
           </p>
           <div className="case-step is-active case-step--solo">
@@ -509,8 +553,18 @@ function BookingCase() {
               </span>
             </div>
           </div>
-          <div style={{ marginTop: 22 }}>
-            <div className="case-progress" aria-hidden>
+          <div className="booking-player" style={{ marginTop: 22 }}>
+            <div
+              className="case-progress"
+              role="slider"
+              tabIndex={0}
+              aria-label={t.arbeiten.reb.progressLabel}
+              aria-valuemin={1}
+              aria-valuemax={copy.steps.length}
+              aria-valuenow={active + 1}
+              onPointerDown={seekFromBar}
+              onKeyDown={onBarKey}
+            >
               <div
                 className="case-progress__fill"
                 style={{ width: `${((active + 1) / copy.steps.length) * 100}%` }}
@@ -538,10 +592,7 @@ function BookingCase() {
                     key={step.n}
                     type="button"
                     className={"case-dot" + (active === i ? " is-active" : "")}
-                    onClick={() => {
-                      setActive(i);
-                      setPlaying(false);
-                    }}
+                    onClick={() => seek(i)}
                     aria-label={`${step.n} · ${step.title}`}
                     aria-current={active === i ? "step" : undefined}
                   />
