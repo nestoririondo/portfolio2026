@@ -11,12 +11,13 @@ import { Angebot } from "./components/sections/Angebot";
 import { Ueber } from "./components/sections/Ueber";
 import { Kontakt } from "./components/sections/Kontakt";
 import { Legal } from "./components/sections/Legal";
+import { getRoutePath } from "./i18n";
 
 export default function App() {
   const { state, setPalette, setAccent2, setFontPair, setHeroLayout } =
     useTheme();
   useReveal();
-  const pathname = window.location.pathname.replace(/\/$/, "") || "/";
+  const pathname = getRoutePath(window.location.pathname).replace(/\/$/, "") || "/";
   const legalPage =
     pathname === "/impressum"
       ? "impressum"

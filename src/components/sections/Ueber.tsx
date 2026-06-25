@@ -4,9 +4,11 @@ import { Icon } from "../ui/Icon";
 import { Photo } from "../ui/Photo";
 import { Blob } from "../ui/Decorations";
 import { useParallax } from "../../hooks/useParallax";
+import { useI18n } from "../../i18n";
 
 export function Ueber() {
   const secRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
   useParallax(secRef);
   return (
     <section
@@ -45,8 +47,8 @@ export function Ueber() {
               <div className="photo-float delay">
                 <Photo
                   src="/img/portrait-about.jpg"
-                  alt="Néstor in Berlin Alt-Treptow"
-                  label="Portrait · Néstor"
+                  alt={t.ueber.photoAlt}
+                  label={t.ueber.photoLabel}
                   ratio="4 / 5"
                   round={22}
                 />
@@ -67,7 +69,7 @@ export function Ueber() {
               }}
             />
             <div style={{ position: "relative", zIndex: 1 }}>
-            <span className="eyebrow">Über mich</span>
+            <span className="eyebrow">{t.ueber.eyebrow}</span>
             <h2
               style={{
                 fontSize: "clamp(34px,5vw,54px)",
@@ -75,7 +77,7 @@ export function Ueber() {
                 margin: "18px 0 22px",
               }}
             >
-              Hallo, ich bin Néstor.
+              {t.ueber.title}
             </h2>
             <p
               style={{
@@ -85,18 +87,15 @@ export function Ueber() {
                 lineHeight: 1.6,
               }}
             >
-              Ich entwickle hauptberuflich Software und baue Websites mit
-              demselben Anspruch: schnell, stabil und verständlich.
+              {t.ueber.body[0]}
               <br />
               <br />
-              Du musst dich nicht mit Technik beschäftigen. Ich übersetze deine
-              Idee in eine Website, die gut aussieht, funktioniert und dir
-              Anfragen bringt.
+              {t.ueber.body[1]}
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              {ABOUT_CHIPS.map(({ icon, label }) => (
-                <span key={label} className="chip">
-                  <Icon name={icon} size={16} /> {label}
+              {ABOUT_CHIPS.map(({ icon }, i) => (
+                <span key={t.ueber.chips[i]} className="chip">
+                  <Icon name={icon} size={16} /> {t.ueber.chips[i]}
                 </span>
               ))}
             </div>

@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { useI18n } from "../../i18n";
 
 /**
  * Custom software product screenshots. Kept as ready-to-use showcase pieces
@@ -24,49 +25,47 @@ interface Member {
   lv: number[];
 }
 
-const TEAM: Member[] = [
-  { n: "Anna Berg", r: "Teamleitung", lv: [4, 4, 3, 2, 4, 1] },
-  { n: "Tomáš Novák", r: "Entwicklung", lv: [4, 3, 1, 4, 2, 0] },
-  { n: "Leyla Demir", r: "Design", lv: [2, 4, 4, 1, 3, 2] },
-  { n: "Jonas Frei", r: "Vertrieb", lv: [1, 2, 4, 0, 4, 3] },
-  { n: "Marie Klein", r: "Marketing", lv: [2, 3, 4, 1, 2, 4] },
-  { n: "Paul Weiß", r: "Support", lv: [3, 1, 2, 2, 1, 0] },
-];
-const SKILLS = [
-  "Projektleitung",
-  "Design",
-  "Kommunikation",
-  "Entwicklung",
-  "Vertrieb",
-  "Buchhaltung",
+const TEAM_LEVELS = [
+  [4, 4, 3, 2, 4, 1],
+  [4, 3, 1, 4, 2, 0],
+  [2, 4, 4, 1, 3, 2],
+  [1, 2, 4, 0, 4, 3],
+  [2, 3, 4, 1, 2, 4],
+  [3, 1, 2, 2, 1, 0],
 ];
 
 const avatarColor = (i: number) =>
   ["#4f46e5", "#0ea5a3", "#e0683a", "#9333ea", "#0284c7", "#65a30d"][i % 6];
 
 export function KompassApp() {
+  const { t } = useI18n();
+  const copy = t.mockups.softwareApps;
+  const team: Member[] = copy.team.map((member, i) => ({
+    ...member,
+    lv: TEAM_LEVELS[i],
+  }));
   const initials = (n: string) =>
     n
       .split(" ")
       .map((w) => w[0])
       .join("");
   const nav: [string, number][] = [
-    ["Übersicht", 0],
-    ["Kompetenzmatrix", 1],
-    ["Team", 0],
-    ["Berichte", 0],
-    ["Einstellungen", 0],
+    [copy.overview, 0],
+    [copy.matrix, 1],
+    [copy.teamLabel, 0],
+    [copy.reports, 0],
+    [copy.settings, 0],
   ];
   const stats: [string, string, string][] = [
-    ["12", "Mitarbeitende", KP.indigo],
-    ["6", "Kompetenzen", "#0ea5a3"],
-    ["3", "kritische Lücken", "#e0683a"],
-    ["78%", "Abdeckung", "#65a30d"],
+    ["12", copy.employees, KP.indigo],
+    ["6", copy.competencies, "#0ea5a3"],
+    ["3", copy.criticalGaps, "#e0683a"],
+    ["78%", copy.coverage, "#65a30d"],
   ];
   const gaps: [string, string][] = [
-    ["Buchhaltung", "nur 1 Person"],
-    ["Entwicklung", "Risiko bei Ausfall"],
-    ["Vertrieb", "Nachwuchs fehlt"],
+    [copy.accounting, copy.onePerson],
+    [copy.development, copy.outageRisk],
+    [copy.sales, copy.juniorMissing],
   ];
   return (
     <div
@@ -165,10 +164,10 @@ export function KompassApp() {
                 color: KP.ink,
               }}
             >
-              Kompetenzmatrix
+              {copy.matrix}
             </div>
             <div style={{ fontSize: 11, color: KP.slate }}>
-              Team Berlin · Stand März 2026
+              {copy.teamDate}
             </div>
           </div>
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
@@ -263,7 +262,7 @@ export function KompassApp() {
                 }}
               >
                 <div />
-                {SKILLS.map((s, i) => (
+                {copy.skills.map((s, i) => (
                   <div
                     key={i}
                     style={{
@@ -282,7 +281,7 @@ export function KompassApp() {
                   </div>
                 ))}
               </div>
-              {TEAM.map((m, ri) => (
+              {team.map((m, ri) => (
                 <div
                   key={ri}
                   style={{
@@ -378,7 +377,7 @@ export function KompassApp() {
                   color: KP.slate,
                 }}
               >
-                <span>Niveau</span>
+                <span>{copy.level}</span>
                 {KP.lv.map((c, i) => (
                   <span
                     key={i}
@@ -391,7 +390,7 @@ export function KompassApp() {
                     }}
                   />
                 ))}
-                <span>Experte</span>
+                <span>{copy.expert}</span>
                 <span
                   style={{
                     marginLeft: "auto",
@@ -477,11 +476,10 @@ export function KompassApp() {
                     marginBottom: 9,
                   }}
                 >
-                  Empfehlung
+                  {copy.recommendation}
                 </div>
                 <div style={{ fontSize: 11, color: KP.slate, lineHeight: 1.5 }}>
-                  2 Mitarbeitende für Buchhaltung schulen, um das Ausfallrisiko zu
-                  senken.
+                  {copy.recommendationBody}
                 </div>
                 <div
                   style={{
@@ -504,6 +502,8 @@ export function KompassApp() {
 
 /* DispatchApp — small secondary tool (Dienstplan / scheduling). */
 export function DispatchApp() {
+  const { t } = useI18n();
+  const copy = t.mockups.softwareApps;
   const D = { ink: "#1e2433", line: "#e7e9f0", teal: "#0e8f8a", slate: "#5b6478" };
   const rows = [
     { n: "Anna", c: [1, 1, 0, 2, 1] },
@@ -512,9 +512,9 @@ export function DispatchApp() {
     { n: "Jonas", c: [1, 1, 0, 1, 2] },
   ];
   const shifts: [string, string][] = [
-    ["#0e8f8a", "Früh"],
-    ["#e0a042", "Spät"],
-    ["#cbd2dd", "frei"],
+    ["#0e8f8a", copy.early],
+    ["#e0a042", copy.late],
+    ["#cbd2dd", copy.free],
   ];
   return (
     <div style={{ fontFamily: "var(--font-body)", background: "#fff", padding: "16px 18px" }}>
@@ -537,9 +537,9 @@ export function DispatchApp() {
         </span>
         <div>
           <div style={{ fontFamily: "var(--font-head)", fontSize: 15, fontWeight: 700, color: D.ink }}>
-            Dienstplan
+            {copy.roster}
           </div>
-          <div style={{ fontSize: 10.5, color: D.slate }}>KW 12 · 4 im Team</div>
+          <div style={{ fontSize: 10.5, color: D.slate }}>{copy.week}</div>
         </div>
         <span
           style={{

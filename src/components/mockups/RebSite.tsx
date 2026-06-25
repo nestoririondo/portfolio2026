@@ -1,6 +1,7 @@
 /** Real Estate in Berlin — case-study mockups. */
 
 import { type CSSProperties } from "react";
+import { useI18n } from "../../i18n";
 
 // 1/2/3 are the storyboard captures for the REB interaction:
 // landing page -> properties list -> selected property with contact form.
@@ -49,9 +50,7 @@ const FORM_CURSOR_LIFT = 4.6;
 // (mobile) frame; capped at 9px so the desktop size is unchanged.
 const OVERLAY_FS = "clamp(5px, 1.7cqw, 9px)";
 
-const NAME_TEXT = "Anna Schäfer";
 const EMAIL_TEXT = "anna@example.de";
-const MSG_TEXT = "Interesse an dieser Wohnung – bitte um Rückruf.";
 
 const CLICK_1 = 0.15; // open properties
 const CLICK_2 = 0.55; // click 7th property after a slow scroll + a long hover
@@ -166,6 +165,8 @@ const Caret = () => (
 );
 
 export function RebInteraction({ progress: p }: { progress: number }) {
+  const { t } = useI18n();
+  const copy = t.mockups.reb;
   const heroOp = 1 - ramp(p, 0.16, 0.22);
   const listOp = ramp(p, 0.16, 0.22) * (1 - ramp(p, 0.55, 0.61));
   const detailOp = ramp(p, 0.55, 0.61);
@@ -179,9 +180,9 @@ export function RebInteraction({ progress: p }: { progress: number }) {
   const heroScale = 1;
   const heroShift = 0; // %
 
-  const typedName = typeText(NAME_TEXT, p, 0.73, 0.79);
+  const typedName = typeText(copy.nameText, p, 0.73, 0.79);
   const typedEmail = typeText(EMAIL_TEXT, p, 0.8, 0.85);
-  const typedMsg = typeText(MSG_TEXT, p, 0.86, 0.91);
+  const typedMsg = typeText(copy.messageText, p, 0.86, 0.91);
   const nameActive = p > 0.73 && p < 0.79;
   const emailActive = p > 0.8 && p < 0.85;
   const msgActive = p > 0.86 && p < 0.91;
@@ -438,6 +439,8 @@ export function RebShot() {
 const REB_LONG = "/img/reb/image.png";
 
 export function RebMobile({ showNotification = false }: { showNotification?: boolean }) {
+  const { t } = useI18n();
+  const copy = t.mockups.reb;
   return (
     <div style={{ position: "relative", width: "100%", background: "#f2f0ec", overflow: "hidden" }}>
       <img
@@ -455,7 +458,7 @@ export function RebMobile({ showNotification = false }: { showNotification?: boo
         }}
       />
       {showNotification && (
-        <div className="ios-mail-banner ios-mail-banner--phone" aria-label="E-Mail-Benachrichtigung">
+        <div className="ios-mail-banner ios-mail-banner--phone" aria-label={copy.mailLabel}>
           <span className="ios-mail-banner__icon">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <rect x="3" y="5" width="18" height="14" rx="3" />
@@ -463,10 +466,10 @@ export function RebMobile({ showNotification = false }: { showNotification?: boo
             </svg>
           </span>
           <div className="ios-mail-banner__text">
-            <div className="ios-mail-banner__title">Neue Anfrage von Anna Schäfer</div>
+            <div className="ios-mail-banner__title">{copy.mailTitle}</div>
             <div className="ios-mail-banner__meta">anna@example.de</div>
             <div className="ios-mail-banner__body">
-              Interesse an dieser Wohnung – bitte um Rückruf.
+              {copy.messageText}
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useI18n } from "../../i18n";
 
 /** Browser chrome wrapper for the small before/after site crops. */
 function Browser({
@@ -70,6 +71,8 @@ function Browser({
 
 /** Dated 2009-era consulting site. */
 function MiniBefore() {
+  const { t } = useI18n();
+  const copy = t.mockups.mini;
   return (
     <Browser url="www.reb-consulting.de" dated>
       <div
@@ -118,7 +121,7 @@ function MiniBefore() {
               color: "#ffd96b",
             }}
           >
-            Ihr Partner seit 1998!
+            {copy.partner}
           </div>
         </div>
         <div
@@ -130,7 +133,7 @@ function MiniBefore() {
             color: "#fff",
           }}
         >
-          {["Startseite", "Leistungen", "Über uns", "Kontakt", "Impressum"].map(
+          {copy.oldNav.map(
             (x, i) => (
               <span
                 key={i}
@@ -155,17 +158,16 @@ function MiniBefore() {
                 marginBottom: 3,
               }}
             >
-              Herzlich Willkommen!
+              {copy.welcome}
             </div>
             <div style={{ color: "#1c3a7a", textDecoration: "underline" }}>
-              » Wir beraten Sie kompetent
+              {copy.consult}
             </div>
             <p style={{ margin: "4px 0", color: "#333" }}>
-              Wir bieten Ihnen umfassende Beratung im Bereich
-              Unternehmens&shy;entwicklung. Klicken Sie hier für mehr...
+              {copy.oldBody}
             </p>
             <div style={{ color: "#1c3a7a", textDecoration: "underline" }}>
-              » Mehr erfahren
+              {copy.learnMore}
             </div>
             <div
               style={{
@@ -176,7 +178,7 @@ function MiniBefore() {
                 fontSize: 7.5,
               }}
             >
-              ★ NEU: Newsletter abonnieren!
+              {copy.newsletter}
             </div>
           </div>
           <div
@@ -198,7 +200,7 @@ function MiniBefore() {
                 color: "#2b4a86",
               }}
             >
-              Besucher: 04217
+              {copy.visitors}
             </div>
             <div
               style={{
@@ -211,7 +213,7 @@ function MiniBefore() {
                 color: "#888",
               }}
             >
-              [ Banner ]
+              {copy.banner}
             </div>
             <div
               style={{
@@ -221,7 +223,7 @@ function MiniBefore() {
                 textAlign: "center",
               }}
             >
-              Gästebuch
+              {copy.guestbook}
             </div>
           </div>
         </div>
@@ -232,6 +234,8 @@ function MiniBefore() {
 
 /** Modern warm consulting site. */
 function MiniAfter() {
+  const { t } = useI18n();
+  const copy = t.mockups.mini;
   return (
     <Browser url="reb-consulting.de" dated={false}>
       <div
@@ -266,9 +270,9 @@ function MiniAfter() {
               color: "#6b6258",
             }}
           >
-            <span>Leistungen</span>
-            <span>Über uns</span>
-            <span>Kontakt</span>
+            {copy.nav.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
             <span
               style={{
                 background: "var(--accent)",
@@ -277,7 +281,7 @@ function MiniAfter() {
                 borderRadius: 999,
               }}
             >
-              Termin
+              {copy.appointment}
             </span>
           </div>
         </div>
@@ -308,8 +312,8 @@ function MiniAfter() {
                 marginBottom: 5,
               }}
             >
-              Strategie, die Ihr Unternehmen{" "}
-              <span style={{ color: "var(--accent)" }}>weiterbringt.</span>
+              {copy.headlineBeforeAccent}{" "}
+              <span style={{ color: "var(--accent)" }}>{copy.headlineAccent}</span>
             </div>
             <div
               style={{
@@ -319,8 +323,7 @@ function MiniAfter() {
                 marginBottom: 8,
               }}
             >
-              Unabhängige Beratung für den Mittelstand — persönlich und auf
-              Augenhöhe.
+              {copy.sub}
             </div>
             <div style={{ display: "flex", gap: 6 }}>
               <span
@@ -333,7 +336,7 @@ function MiniAfter() {
                   fontWeight: 600,
                 }}
               >
-                Erstgespräch
+                {copy.firstCall}
               </span>
               <span
                 style={{
@@ -343,7 +346,7 @@ function MiniAfter() {
                   fontSize: 8.5,
                 }}
               >
-                Mehr
+                {copy.more}
               </span>
             </div>
           </div>
@@ -375,12 +378,12 @@ function MiniAfter() {
                 color: "#9a8f7e",
               }}
             >
-              foto
+              {copy.photo}
             </span>
           </div>
         </div>
         <div style={{ display: "flex", gap: 6, padding: "8px 13px 10px" }}>
-          {["Strategie", "Prozesse", "Förderung"].map((x, i) => (
+          {copy.chips.map((x, i) => (
             <div
               key={i}
               style={{

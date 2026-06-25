@@ -4,8 +4,10 @@ import { Photo } from "../ui/Photo";
 import { Blob } from "../ui/Decorations";
 import { useParallax } from "../../hooks/useParallax";
 import type { HeroLayout } from "../../theme/themes";
+import { useI18n } from "../../i18n";
 
 function Portrait({ wide }: { wide?: boolean }) {
+  const { t } = useI18n();
   return (
     <div style={{ position: "relative" }}>
       <Blob
@@ -39,8 +41,8 @@ function Portrait({ wide }: { wide?: boolean }) {
         <div className="photo-float" style={{ position: "relative" }}>
           <Photo
             src="/img/portrait-hero.webp"
-            alt="Néstor – Webentwickler aus Berlin"
-            label="Portrait · Néstor"
+            alt={t.hero.photoAlt}
+            label={t.hero.photoLabel}
             ratio={wide ? "5 / 4" : "4 / 5"}
             round={22}
           />
@@ -74,7 +76,7 @@ function Portrait({ wide }: { wide?: boolean }) {
               }}
             />
             <span style={{ fontSize: 14, fontWeight: 600 }}>
-              Verfügbar für neue Projekte
+              {t.hero.availability}
             </span>
           </div>
         </div>
@@ -85,14 +87,15 @@ function Portrait({ wide }: { wide?: boolean }) {
 
 export function Hero({ layout }: { layout: HeroLayout }) {
   const secRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
   useParallax(secRef);
   const centered = layout === "centered";
   const eyebrow = (
-    <span className="eyebrow">Webentwickler · Berlin</span>
+    <span className="eyebrow">{t.hero.eyebrow}</span>
   );
   const h1 = (
     <h1 style={{ fontSize: "clamp(38px, 6vw, 68px)", margin: "18px 0 0" }}>
-      Websites, die für dich arbeiten.
+      {t.hero.title}
     </h1>
   );
   const sub = (
@@ -105,8 +108,7 @@ export function Hero({ layout }: { layout: HeroLayout }) {
         lineHeight: 1.55,
       }}
     >
-      Viele Websites stehen nur da. Deine kann Termine annehmen, Inhalte
-      aktuell halten und Anfragen bringen – auch nach Feierabend.
+      {t.hero.subtitle}
     </p>
   );
   const ctas = (
@@ -120,10 +122,10 @@ export function Hero({ layout }: { layout: HeroLayout }) {
       }}
     >
       <a href="#kontakt" className="btn btn-primary">
-        Projekt anfragen <Icon name="arrow" size={18} />
+        {t.hero.primaryCta} <Icon name="arrow" size={18} />
       </a>
       <a href="#arbeiten" className="btn btn-ghost">
-        Arbeiten ansehen
+        {t.hero.secondaryCta}
       </a>
     </div>
   );
@@ -138,10 +140,10 @@ export function Hero({ layout }: { layout: HeroLayout }) {
       }}
     >
       <span className="chip">
-        <Icon name="globe" size={16} /> DE · EN · ES
+        <Icon name="globe" size={16} /> {t.hero.trust[0]}
       </span>
       <span className="chip">
-        <Icon name="check" size={16} /> Festpreis ab 2.500 €
+        <Icon name="check" size={16} /> {t.hero.trust[1]}
       </span>
     </div>
   );

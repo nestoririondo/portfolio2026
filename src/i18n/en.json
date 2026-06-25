@@ -1,0 +1,370 @@
+{
+  "nav": {
+    "links": ["Work", "Software", "Offer", "About", "Contact"],
+    "cta": "Start a project",
+    "menu": "Menu"
+  },
+  "footer": {
+    "legal": ["Legal notice", "Privacy"],
+    "copyright": "© 2026 · Berlin"
+  },
+  "common": {
+    "play": "Play",
+    "pause": "Pause",
+    "replay": "Replay"
+  },
+  "hero": {
+    "eyebrow": "Web developer · Berlin",
+    "title": "Websites that work for you.",
+    "subtitle": "Many websites just sit there. Yours can book appointments, keep content up to date, and bring in enquiries, even after hours.",
+    "primaryCta": "Start a project",
+    "secondaryCta": "View work",
+    "trust": ["DE · EN · ES", "Fixed price from €2,500"],
+    "availability": "Available for new projects",
+    "photoAlt": "Néstor, web developer from Berlin",
+    "photoLabel": "Portrait · Néstor"
+  },
+  "arbeiten": {
+    "eyebrow": "Work",
+    "reb": {
+      "meta": "Real estate · Real client",
+      "live": "View live ↗",
+      "progressLabel": "Progress – click or drag to jump",
+      "reducedMotionIntro": "Instead of showing properties only on expensive portals, REB now presents them on its own website, live from the broker software.",
+      "chapters": [
+        {
+          "k": "01",
+          "label": "Before",
+          "title": "A website without properties",
+          "body": "An ageing WordPress theme: lots of text, a few photos, but not a single property in sight."
+        },
+        {
+          "k": "02",
+          "label": "After",
+          "title": "Every property on their own site",
+          "body": "The website now displays listings live from the broker software, always current and without manual work."
+        },
+        {
+          "k": "03",
+          "label": "Result",
+          "title": "Independent and always current",
+          "body": "Enquiries arrive directly through the company website, without a portal detour, and read well on every device."
+        }
+      ]
+    },
+    "booking": {
+      "title": "Online booking for service businesses",
+      "meta": "Online appointments · Admin panel · Concept demo",
+      "body": "Fewer missed calls, less back-and-forth in chat. The website collects appointment wishes, contact details, and context so the next step is clear.",
+      "phoneTitle": "Find a time",
+      "phoneSub": "Studio Am Park · First call",
+      "weekFree": "Free this week",
+      "weekdays": ["Mon", "Tue", "Wed", "Thu"],
+      "ctaIdle": "Choose time",
+      "ctaSelected": "Reserve time",
+      "ctaSent": "Request sent",
+      "fields": ["Name", "Email", "Short message"],
+      "adminTitle": "New enquiries",
+      "adminSub": "Today · sorted automatically",
+      "adminLive": "Live",
+      "statusWaiting": "Waiting",
+      "statusFree": "Free",
+      "requestLabel": "Requested time",
+      "requestTitle": "First call · Wed 10:30",
+      "requestBody": "Preferred time, contact details, and message are already together.",
+      "accept": "Accept",
+      "question": "Question",
+      "steps": [
+        {
+          "n": "01",
+          "label": "Book",
+          "title": "Interest becomes an appointment",
+          "body": "Visitors see available times and choose the right slot before the impulse fades."
+        },
+        {
+          "n": "02",
+          "label": "Request",
+          "title": "The key details arrive together",
+          "body": "Name, contact, service, and desired time land in one place. No guessing, no back-and-forth."
+        },
+        {
+          "n": "03",
+          "label": "Manage",
+          "title": "The business keeps the overview",
+          "body": "New requests arrive sorted in the admin area and can be confirmed or answered directly."
+        }
+      ]
+    }
+  },
+  "software": {
+    "heading": {
+      "eyebrow": "Design AND function",
+      "title": "Features that actually help day to day.",
+      "sub": "Four examples of what your website can do beyond being a digital business card."
+    },
+    "cta": "Which feature do you need?",
+    "note": "I’ll tell you honestly what is worth it.",
+    "outcomes": [
+      {
+        "title": "Book appointments online",
+        "body": "Customers book free times themselves around the clock, without a phone call."
+      },
+      {
+        "title": "Always current content",
+        "body": "Offers, prices, or availability update automatically. You only maintain them in one place."
+      },
+      {
+        "title": "Show Google reviews",
+        "body": "Your best Google reviews appear automatically and build trust before someone calls."
+      },
+      {
+        "title": "Answer questions automatically",
+        "body": "An AI assistant answers common questions around the clock and forwards real enquiries to you."
+      }
+    ],
+    "gfx": {
+      "freeAppointments": "OPEN TIMES",
+      "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      "book": "Book",
+      "availability": "AVAILABILITY",
+      "live": "LIVE",
+      "new": "new",
+      "free": "open",
+      "reserved": "reserved",
+      "autoUpdated": "Automatically updated",
+      "reviews": "REVIEWS",
+      "reviewName": "Sandra K.",
+      "reviewCount": "87 reviews · Google",
+      "aiAssistant": "AI ASSISTANT",
+      "online": "ONLINE",
+      "aiQuestion": "What does a consultation cost?",
+      "aiAnswer": "The first one is free. Should I suggest a time?",
+      "answered": "Answered instantly"
+    }
+  },
+  "angebot": {
+    "heading": {
+      "eyebrow": "How it works",
+      "title": "From idea to finished website.",
+      "sub": "You get a clear website at a fixed price. We only plan extra functions when they genuinely make sense for your business."
+    },
+    "steps": [
+      {
+        "title": "One conversation",
+        "body": "You tell me your goal, by phone or at your place.",
+        "meta": "about 30 min · free"
+      },
+      {
+        "title": "A clickable draft",
+        "body": "You see and click through your site before anything is final.",
+        "meta": "about 1–2 weeks"
+      },
+      {
+        "title": "Your live website",
+        "body": "Finished online, mobile-optimised, and ready for new enquiries.",
+        "meta": "usually live in 4–6 weeks"
+      }
+    ],
+    "priceTag": "Complete website",
+    "from": "from",
+    "price": "€2,500",
+    "priceNote": "One-time fixed price, finalised after our call.",
+    "recurringStrong": "1st year of support included",
+    "recurringRest": "– then €50/month for hosting, domain, updates, and small changes.",
+    "includedLabel": "Included in the base price:",
+    "included": [
+      "Individual design",
+      "Mobile optimised",
+      "Fast loading",
+      "SEO basics",
+      "Google Business",
+      "Copy & structure",
+      "Contact form",
+      "Legal pages"
+    ],
+    "cta": "Free first call",
+    "reassure": "No obligation · no hidden costs"
+  },
+  "ueber": {
+    "eyebrow": "About me",
+    "title": "Hi, I’m Néstor.",
+    "body": [
+      "I develop software professionally and build websites with the same standards: fast, stable, and understandable.",
+      "You don’t need to deal with the tech. I translate your idea into a website that looks good, works, and brings you enquiries."
+    ],
+    "photoAlt": "Néstor in Berlin Alt-Treptow",
+    "photoLabel": "Portrait · Néstor",
+    "chips": [
+      "Alt-Treptow, Berlin",
+      "DE · EN · ES",
+      "Websites & tools",
+      "Support after launch"
+    ]
+  },
+  "kontakt": {
+    "eyebrow": "Contact",
+    "title": "Let’s talk.",
+    "intro": "You don’t need a finished concept. A rough idea is enough. In the free first call, I’ll tell you honestly what makes sense.",
+    "trust": [
+      "Reply within 24 hours",
+      "30 minutes, no obligation",
+      "Berlin & remote"
+    ],
+    "direct": "Or directly:",
+    "methods": ["WhatsApp", "Email", "Call"],
+    "sentTitle": "Request received.",
+    "sentBody": "Thank you. Your message reached me. I’ll get back to you personally in one or two days.",
+    "newRequest": "Write a new request",
+    "formTitle": "Tell me briefly.",
+    "name": "Name",
+    "email": "Email",
+    "message": "What is it about?",
+    "optional": "(optional)",
+    "errorBeforeEmail": "That did not work just now. Please try again or write to me directly at",
+    "sending": "Sending …",
+    "submit": "Request a first call",
+    "privacy": "Your message comes directly to me, personally, not to an automated system."
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "impressum": {
+      "title": "Legal notice",
+      "paragraphs": [
+        "Information according to § 5 TMG\nNéstor Iriondo\nWeb development & digital consulting",
+        "Please add the full address for service and all final mandatory details before publication."
+      ]
+    },
+    "datenschutz": {
+      "title": "Privacy",
+      "paragraphs": [
+        "This website processes personal data when you contact me via the contact form, email, phone, or WhatsApp.",
+        "The information is used only to answer your enquiry and prepare a possible collaboration. It is only shared when technically required or legally necessary.",
+        "The final privacy policy should be checked against the services actually used, such as hosting, form delivery, analytics, or embedded content."
+      ]
+    }
+  },
+  "mockups": {
+    "mini": {
+      "partner": "Your partner since 1998!",
+      "oldNav": ["Home", "Services", "About us", "Contact", "Legal notice"],
+      "welcome": "Welcome!",
+      "consult": "» We advise you competently",
+      "oldBody": "We offer comprehensive consulting for business development. Click here for more...",
+      "learnMore": "» Learn more",
+      "newsletter": "★ NEW: Subscribe to newsletter!",
+      "visitors": "Visitors: 04217",
+      "banner": "[ Banner ]",
+      "guestbook": "Guestbook",
+      "nav": ["Services", "About us", "Contact"],
+      "appointment": "Appointment",
+      "headlineBeforeAccent": "Strategy that moves your company",
+      "headlineAccent": "forward.",
+      "sub": "Independent consulting for medium-sized businesses, personal and at eye level.",
+      "firstCall": "First call",
+      "more": "More",
+      "photo": "photo",
+      "chips": ["Strategy", "Processes", "Funding"]
+    },
+    "flip": {
+      "beforeNames": {
+        "rest": "Trattoria Da Mario",
+        "med": "Dr Vogel Practice",
+        "reb": "Sonne Bakery"
+      },
+      "blink": "blinks!",
+      "nav": ["Home", "Info", "Contact"],
+      "welcome": "» Welcome to our homepage",
+      "body": "Nice to have you here. You will find all information...",
+      "image": "[image]",
+      "hours": "Opening hours below ▼",
+      "menu": "Menu",
+      "contact": "Contact",
+      "reserve": "Reserve",
+      "after": {
+        "rest": {
+          "name": "Trattoria Da Mario",
+          "tag": "Ristorante",
+          "headline": "Real Italian food in Kreuzberg."
+        },
+        "med": {
+          "name": "Dr Vogel Practice",
+          "tag": "Family practice",
+          "headline": "A modern family practice in Pankow."
+        },
+        "reb": {
+          "name": "Sonne Bakery",
+          "tag": "Artisan bakery",
+          "headline": "Bread from our own bakery, fresh every day."
+        }
+      }
+    },
+    "reb": {
+      "nameText": "Anna Schaefer",
+      "messageText": "Interested in this apartment. Please call me back.",
+      "mailLabel": "Email notification",
+      "mailTitle": "New enquiry from Anna Schaefer"
+    },
+    "softwareApps": {
+      "personName": "Paul White",
+      "team": [
+        { "n": "Anna Berg", "r": "Team lead" },
+        { "n": "Tomas Novak", "r": "Development" },
+        { "n": "Leyla Demir", "r": "Design" },
+        { "n": "Jonas Frei", "r": "Sales" },
+        { "n": "Marie Klein", "r": "Marketing" },
+        { "n": "Paul White", "r": "Support" }
+      ],
+      "projectLead": "Project lead",
+      "skills": ["Project lead", "Design", "Communication", "Development", "Sales", "Accounting"],
+      "overview": "Overview",
+      "matrix": "Skills matrix",
+      "teamLabel": "Team",
+      "reports": "Reports",
+      "settings": "Settings",
+      "employees": "Employees",
+      "competencies": "Skills",
+      "coverage": "Coverage",
+      "accounting": "Accounting",
+      "development": "Development",
+      "sales": "Sales",
+      "onePerson": "only 1 person",
+      "outageRisk": "risk if absent",
+      "juniorMissing": "junior missing",
+      "teamDate": "Berlin team · March 2026",
+      "recommendation": "Recommendation",
+      "recommendationBody": "Train 2 employees in accounting to reduce absence risk.",
+      "criticalGaps": "critical gaps",
+      "level": "Level",
+      "expert": "Expert",
+      "early": "Early",
+      "late": "Late",
+      "free": "off",
+      "roster": "Roster",
+      "week": "Week 12 · 4 on team"
+    }
+  },
+  "theme": {
+    "labels": {
+      "main": "Main color",
+      "accent": "Accent",
+      "font": "Font",
+      "hero": "Hero"
+    },
+    "swatches": {
+      "main": "Main color",
+      "accent": "Accent color"
+    },
+    "fontLabels": {
+      "editorial": "Editorial",
+      "modern": "Modern",
+      "warm": "Warm"
+    },
+    "heroLayouts": {
+      "split": "Split",
+      "centered": "Centered"
+    },
+    "toggle": "Adjust design"
+  }
+}

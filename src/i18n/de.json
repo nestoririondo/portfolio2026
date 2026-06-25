@@ -1,0 +1,370 @@
+{
+  "nav": {
+    "links": ["Arbeiten", "Software", "Angebot", "Über mich", "Kontakt"],
+    "cta": "Projekt anfragen",
+    "menu": "Menü"
+  },
+  "footer": {
+    "legal": ["Impressum", "Datenschutz"],
+    "copyright": "© 2026 · Berlin"
+  },
+  "common": {
+    "play": "Abspielen",
+    "pause": "Pause",
+    "replay": "Wiederholen"
+  },
+  "hero": {
+    "eyebrow": "Webentwickler · Berlin",
+    "title": "Websites, die für dich arbeiten.",
+    "subtitle": "Viele Websites stehen nur da. Deine kann Termine annehmen, Inhalte aktuell halten und Anfragen bringen – auch nach Feierabend.",
+    "primaryCta": "Projekt anfragen",
+    "secondaryCta": "Arbeiten ansehen",
+    "trust": ["DE · EN · ES", "Festpreis ab 2.500 €"],
+    "availability": "Verfügbar für neue Projekte",
+    "photoAlt": "Néstor – Webentwickler aus Berlin",
+    "photoLabel": "Portrait · Néstor"
+  },
+  "arbeiten": {
+    "eyebrow": "Arbeiten",
+    "reb": {
+      "meta": "Immobilien · Echter Kunde",
+      "live": "Live ansehen ↗",
+      "progressLabel": "Fortschritt – klicken oder ziehen zum Springen",
+      "reducedMotionIntro": "Statt die Immobilien nur über teure Portale zu zeigen, präsentiert REB sie jetzt auf der eigenen Website — live aus der Maklersoftware.",
+      "chapters": [
+        {
+          "k": "01",
+          "label": "Vorher",
+          "title": "Eine Website ohne Immobilien",
+          "body": "Ein in die Jahre gekommenes WordPress-Theme — viel Text, ein paar Fotos, aber kein einziges Objekt zu sehen."
+        },
+        {
+          "k": "02",
+          "label": "Nachher",
+          "title": "Alle Objekte auf der eigenen Seite",
+          "body": "Jetzt spielt die Website die Immobilien live aus der Maklersoftware aus — immer aktuell, ganz ohne Handarbeit."
+        },
+        {
+          "k": "03",
+          "label": "Das Ergebnis",
+          "title": "Unabhängig und immer aktuell",
+          "body": "Anfragen kommen direkt über die eigene Seite — kein Umweg über Portale, auf jedem Gerät gut lesbar."
+        }
+      ]
+    },
+    "booking": {
+      "title": "Online-Buchung für Dienstleister",
+      "meta": "Online-Termine · Admin-Panel · Konzept-Demo",
+      "body": "Weniger verpasste Anrufe, weniger Chat-Pingpong. Die Website sammelt Terminwünsche, Kontaktdaten und Kontext, damit der nächste Schritt klar ist.",
+      "phoneTitle": "Termin finden",
+      "phoneSub": "Studio Am Park · Erstgespräch",
+      "weekFree": "Diese Woche frei",
+      "weekdays": ["Mo", "Di", "Mi", "Do"],
+      "ctaIdle": "Zeit wählen",
+      "ctaSelected": "Termin sichern",
+      "ctaSent": "Anfrage ist raus",
+      "fields": ["Name", "E-Mail", "Kurze Nachricht"],
+      "adminTitle": "Neue Anfragen",
+      "adminSub": "Heute · direkt sortiert",
+      "adminLive": "Live",
+      "statusWaiting": "Wartet",
+      "statusFree": "Frei",
+      "requestLabel": "Terminwunsch",
+      "requestTitle": "Erstgespräch · Mi 10:30",
+      "requestBody": "Wunschzeit, Kontaktdaten und Nachricht sind schon zusammen.",
+      "accept": "Zusagen",
+      "question": "Rückfrage",
+      "steps": [
+        {
+          "n": "01",
+          "label": "Buchen",
+          "title": "Aus Interesse wird ein Termin",
+          "body": "Besucher:innen sehen freie Zeiten und wählen den passenden Slot, bevor der Impuls wieder weg ist."
+        },
+        {
+          "n": "02",
+          "label": "Anfragen",
+          "title": "Die wichtigsten Infos sind dabei",
+          "body": "Name, Kontakt, Leistung und Wunschzeit kommen zusammen an. Kein Hin und Her, kein Ratespiel."
+        },
+        {
+          "n": "03",
+          "label": "Verwalten",
+          "title": "Der Betrieb behält den Überblick",
+          "body": "Neue Anfragen landen sortiert im Admin-Bereich und können direkt bestätigt oder beantwortet werden."
+        }
+      ]
+    }
+  },
+  "software": {
+    "heading": {
+      "eyebrow": "Design UND Funktion",
+      "title": "Funktionen, die im Alltag wirklich helfen.",
+      "sub": "Vier Beispiele dafür, was deine Website alles kann – weit über eine digitale Visitenkarte hinaus."
+    },
+    "cta": "Welche Funktion brauchst du?",
+    "note": "Ich sage dir ehrlich, was sich lohnt.",
+    "outcomes": [
+      {
+        "title": "Termine online buchen",
+        "body": "Kund:innen buchen freie Zeiten selbst – rund um die Uhr, ganz ohne Telefon."
+      },
+      {
+        "title": "Immer aktuelle Inhalte",
+        "body": "Angebote, Preise oder Verfügbarkeiten aktualisieren sich automatisch – du pflegst sie nur an einer Stelle."
+      },
+      {
+        "title": "Google-Bewertungen zeigen",
+        "body": "Deine besten Google-Bewertungen erscheinen automatisch – und schaffen Vertrauen, noch bevor jemand anruft."
+      },
+      {
+        "title": "Fragen automatisch beantworten",
+        "body": "Ein KI-Assistent beantwortet häufige Fragen rund um die Uhr – und leitet echte Anfragen direkt an dich weiter."
+      }
+    ],
+    "gfx": {
+      "freeAppointments": "FREIE TERMINE",
+      "weekdays": ["Mo", "Di", "Mi", "Do", "Fr"],
+      "book": "Buchen",
+      "availability": "VERFÜGBARKEIT",
+      "live": "LIVE",
+      "new": "neu",
+      "free": "frei",
+      "reserved": "reserviert",
+      "autoUpdated": "Automatisch aktualisiert",
+      "reviews": "BEWERTUNGEN",
+      "reviewName": "Sandra K.",
+      "reviewCount": "87 Bewertungen · Google",
+      "aiAssistant": "KI-ASSISTENT",
+      "online": "ONLINE",
+      "aiQuestion": "Was kostet eine Beratung?",
+      "aiAnswer": "Die erste ist kostenlos. Soll ich einen Termin vorschlagen?",
+      "answered": "Sofort beantwortet"
+    }
+  },
+  "angebot": {
+    "heading": {
+      "eyebrow": "So läuft’s",
+      "title": "Von der Idee zur fertigen Website.",
+      "sub": "Du bekommst eine klare Website zum Festpreis. Zusätzliche Funktionen planen wir nur, wenn sie für dein Geschäft wirklich sinnvoll sind."
+    },
+    "steps": [
+      {
+        "title": "Ein Gespräch",
+        "body": "Du erzählst mir dein Ziel – per Telefon oder bei dir vor Ort.",
+        "meta": "ca. 30 Min · kostenlos"
+      },
+      {
+        "title": "Ein klickbarer Entwurf",
+        "body": "Du siehst & klickst deine Seite, bevor irgendwas final ist.",
+        "meta": "ca. 1–2 Wochen"
+      },
+      {
+        "title": "Deine Live-Seite",
+        "body": "Fertig online – mobil optimiert und bereit für neue Anfragen.",
+        "meta": "meist in 4–6 Wochen live"
+      }
+    ],
+    "priceTag": "Komplett-Website",
+    "from": "ab",
+    "price": "2.500 €",
+    "priceNote": "Einmaliger Festpreis, nach dem Gespräch festgelegt.",
+    "recurringStrong": "1. Jahr Betreuung inklusive",
+    "recurringRest": "– danach 50 €/Monat für Hosting, Domain, Updates & kleine Änderungen.",
+    "includedLabel": "Im Grundpreis enthalten:",
+    "included": [
+      "Individuelles Design",
+      "Mobil optimiert",
+      "Schnelle Ladezeiten",
+      "SEO-Grundlagen",
+      "Google Business",
+      "Text & Struktur",
+      "Kontaktformular",
+      "Rechtstexte"
+    ],
+    "cta": "Kostenloses Erstgespräch",
+    "reassure": "Unverbindlich · keine versteckten Kosten"
+  },
+  "ueber": {
+    "eyebrow": "Über mich",
+    "title": "Hallo, ich bin Néstor.",
+    "body": [
+      "Ich entwickle hauptberuflich Software und baue Websites mit demselben Anspruch: schnell, stabil und verständlich.",
+      "Du musst dich nicht mit Technik beschäftigen. Ich übersetze deine Idee in eine Website, die gut aussieht, funktioniert und dir Anfragen bringt."
+    ],
+    "photoAlt": "Néstor in Berlin Alt-Treptow",
+    "photoLabel": "Portrait · Néstor",
+    "chips": [
+      "Alt-Treptow, Berlin",
+      "DE · EN · ES",
+      "Websites & Tools",
+      "Betreuung nach Launch"
+    ]
+  },
+  "kontakt": {
+    "eyebrow": "Kontakt",
+    "title": "Lass uns reden.",
+    "intro": "Du brauchst kein fertiges Konzept. Eine grobe Idee reicht. Im kostenlosen Erstgespräch sage ich dir ehrlich, was sinnvoll ist.",
+    "trust": [
+      "Antwort innerhalb von 24 Stunden",
+      "30 Minuten, unverbindlich",
+      "Berlin & remote"
+    ],
+    "direct": "Oder direkt:",
+    "methods": ["WhatsApp", "E-Mail", "Anrufen"],
+    "sentTitle": "Anfrage angekommen.",
+    "sentBody": "Vielen Dank! Deine Nachricht ist bei mir gelandet. Ich melde mich in ein bis zwei Tagen persönlich bei dir.",
+    "newRequest": "Neue Anfrage schreiben",
+    "formTitle": "Erzähl mir kurz davon.",
+    "name": "Name",
+    "email": "E-Mail",
+    "message": "Worum geht es?",
+    "optional": "(optional)",
+    "errorBeforeEmail": "Das hat gerade nicht geklappt. Versuch es bitte nochmal – oder schreib mir direkt an",
+    "sending": "Wird gesendet …",
+    "submit": "Erstgespräch anfragen",
+    "privacy": "Deine Nachricht kommt direkt bei mir an – ganz persönlich, kein Automat."
+  },
+  "legal": {
+    "eyebrow": "Rechtliches",
+    "emailLabel": "E-Mail",
+    "phoneLabel": "Telefon",
+    "impressum": {
+      "title": "Impressum",
+      "paragraphs": [
+        "Angaben gemäß § 5 TMG\nNéstor Iriondo\nWebentwicklung & digitale Beratung",
+        "Die vollständige ladungsfähige Anschrift und alle finalen Pflichtangaben bitte vor Veröffentlichung ergänzen."
+      ]
+    },
+    "datenschutz": {
+      "title": "Datenschutz",
+      "paragraphs": [
+        "Diese Website verarbeitet personenbezogene Daten, wenn du mich über das Kontaktformular, per E-Mail, Telefon oder WhatsApp kontaktierst.",
+        "Die Angaben werden ausschließlich genutzt, um deine Anfrage zu beantworten und eine mögliche Zusammenarbeit vorzubereiten. Eine Weitergabe erfolgt nur, wenn sie technisch erforderlich ist oder gesetzlich verlangt wird.",
+        "Die finale Datenschutzerklärung sollte mit den tatsächlich eingesetzten Diensten abgeglichen werden, zum Beispiel Hosting, Formularversand, Analyse oder eingebettete Inhalte."
+      ]
+    }
+  },
+  "mockups": {
+    "mini": {
+      "partner": "Ihr Partner seit 1998!",
+      "oldNav": ["Startseite", "Leistungen", "Über uns", "Kontakt", "Impressum"],
+      "welcome": "Herzlich Willkommen!",
+      "consult": "» Wir beraten Sie kompetent",
+      "oldBody": "Wir bieten Ihnen umfassende Beratung im Bereich Unternehmensentwicklung. Klicken Sie hier für mehr...",
+      "learnMore": "» Mehr erfahren",
+      "newsletter": "★ NEU: Newsletter abonnieren!",
+      "visitors": "Besucher: 04217",
+      "banner": "[ Banner ]",
+      "guestbook": "Gästebuch",
+      "nav": ["Leistungen", "Über uns", "Kontakt"],
+      "appointment": "Termin",
+      "headlineBeforeAccent": "Strategie, die Ihr Unternehmen",
+      "headlineAccent": "weiterbringt.",
+      "sub": "Unabhängige Beratung für den Mittelstand — persönlich und auf Augenhöhe.",
+      "firstCall": "Erstgespräch",
+      "more": "Mehr",
+      "photo": "foto",
+      "chips": ["Strategie", "Prozesse", "Förderung"]
+    },
+    "flip": {
+      "beforeNames": {
+        "rest": "Trattoria Da Mario",
+        "med": "Praxis Dr. Vogel",
+        "reb": "Bäckerei Sonne"
+      },
+      "blink": "blinkt!",
+      "nav": ["Home", "Info", "Kontakt"],
+      "welcome": "» Herzlich Willkommen auf unserer Homepage",
+      "body": "Schön, dass Sie da sind. Hier finden Sie alle Informationen...",
+      "image": "[bild]",
+      "hours": "Öffnungszeiten siehe unten ▼",
+      "menu": "Menü",
+      "contact": "Kontakt",
+      "reserve": "Reservieren",
+      "after": {
+        "rest": {
+          "name": "Trattoria Da Mario",
+          "tag": "Ristorante",
+          "headline": "Echte italienische Küche in Kreuzberg."
+        },
+        "med": {
+          "name": "Praxis Dr. Vogel",
+          "tag": "Hausarztpraxis",
+          "headline": "Moderne Hausarztpraxis in Pankow."
+        },
+        "reb": {
+          "name": "Bäckerei Sonne",
+          "tag": "Handwerksbäckerei",
+          "headline": "Brot aus eigener Backstube, täglich frisch."
+        }
+      }
+    },
+    "reb": {
+      "nameText": "Anna Schäfer",
+      "messageText": "Interesse an dieser Wohnung – bitte um Rückruf.",
+      "mailLabel": "E-Mail-Benachrichtigung",
+      "mailTitle": "Neue Anfrage von Anna Schäfer"
+    },
+    "softwareApps": {
+      "personName": "Paul Weiß",
+      "team": [
+        { "n": "Anna Berg", "r": "Teamleitung" },
+        { "n": "Tomáš Novák", "r": "Entwicklung" },
+        { "n": "Leyla Demir", "r": "Design" },
+        { "n": "Jonas Frei", "r": "Vertrieb" },
+        { "n": "Marie Klein", "r": "Marketing" },
+        { "n": "Paul Weiß", "r": "Support" }
+      ],
+      "projectLead": "Projektleitung",
+      "skills": ["Projektleitung", "Design", "Kommunikation", "Entwicklung", "Vertrieb", "Buchhaltung"],
+      "overview": "Übersicht",
+      "matrix": "Kompetenzmatrix",
+      "teamLabel": "Team",
+      "reports": "Berichte",
+      "settings": "Einstellungen",
+      "employees": "Mitarbeitende",
+      "competencies": "Kompetenzen",
+      "coverage": "Abdeckung",
+      "accounting": "Buchhaltung",
+      "development": "Entwicklung",
+      "sales": "Vertrieb",
+      "onePerson": "nur 1 Person",
+      "outageRisk": "Risiko bei Ausfall",
+      "juniorMissing": "Nachwuchs fehlt",
+      "teamDate": "Team Berlin · Stand März 2026",
+      "recommendation": "Empfehlung",
+      "recommendationBody": "2 Mitarbeitende für Buchhaltung schulen, um das Ausfallrisiko zu senken.",
+      "criticalGaps": "kritische Lücken",
+      "level": "Niveau",
+      "expert": "Experte",
+      "early": "Früh",
+      "late": "Spät",
+      "free": "frei",
+      "roster": "Dienstplan",
+      "week": "KW 12 · 4 im Team"
+    }
+  },
+  "theme": {
+    "labels": {
+      "main": "Hauptfarbe",
+      "accent": "Akzent",
+      "font": "Schrift",
+      "hero": "Hero"
+    },
+    "swatches": {
+      "main": "Hauptfarbe",
+      "accent": "Akzentfarbe"
+    },
+    "fontLabels": {
+      "editorial": "Editorial",
+      "modern": "Modern",
+      "warm": "Warm"
+    },
+    "heroLayouts": {
+      "split": "Split",
+      "centered": "Zentriert"
+    },
+    "toggle": "Design anpassen"
+  }
+}

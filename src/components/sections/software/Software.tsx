@@ -4,9 +4,11 @@ import { useParallax } from "../../../hooks/useParallax";
 import { Icon } from "../../ui/Icon";
 import { SectionHeading } from "../../ui/SectionHeading";
 import { OutcomeCard } from "./OutcomeCard";
+import { useI18n } from "../../../i18n";
 
 export function Software() {
   const secRef = useRef<HTMLElement>(null);
+  const { t } = useI18n();
   useParallax(secRef);
 
   return (
@@ -84,9 +86,9 @@ export function Software() {
           <SectionHeading
             onDark
             align="left"
-            eyebrow="Design UND Funktion"
-            title="Funktionen, die im Alltag wirklich helfen."
-            sub="Vier Beispiele dafür, was deine Website alles kann – weit über eine digitale Visitenkarte hinaus."
+            eyebrow={t.software.heading.eyebrow}
+            title={t.software.heading.title}
+            sub={t.software.heading.sub}
           />
         </div>
 
@@ -98,8 +100,8 @@ export function Software() {
             gap: "clamp(52px,6vw,66px) clamp(18px,2.4vw,26px)",
           }}
         >
-          {OUTCOMES.map((o) => (
-            <OutcomeCard key={o.n} o={o} />
+          {OUTCOMES.map((o, i) => (
+            <OutcomeCard key={o.n} o={o} copy={t.software.outcomes[i]} />
           ))}
         </div>
 
@@ -114,10 +116,10 @@ export function Software() {
           }}
         >
           <a href="#kontakt" className="btn btn-primary">
-            Welche Funktion brauchst du? <Icon name="arrow" size={18} />
+            {t.software.cta} <Icon name="arrow" size={18} />
           </a>
           <span style={{ fontSize: 15, color: "rgba(255,255,255,.55)" }}>
-            Ich sage dir ehrlich, was sich lohnt.
+            {t.software.note}
           </span>
         </div>
       </div>

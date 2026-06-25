@@ -8,6 +8,7 @@ import {
   type Palette,
   type ThemeState,
 } from "../../theme/themes";
+import { useI18n } from "../../i18n";
 
 interface ThemeSwitcherProps {
   state: ThemeState;
@@ -52,17 +53,6 @@ function Swatch({
     />
   );
 }
-
-const FONT_LABELS: Record<FontPairName, string> = {
-  editorial: "Editorial",
-  modern: "Modern",
-  warm: "Warm",
-};
-
-const HERO_LAYOUTS: { value: HeroLayout; label: string }[] = [
-  { value: "split", label: "Split" },
-  { value: "centered", label: "Zentriert" },
-];
 
 /** Segmented control used inside the panel. */
 function Segmented<T extends string>({
@@ -135,6 +125,16 @@ export function ThemeSwitcher({
 }: ThemeSwitcherProps) {
   const [open, setOpen] = useState(false);
   const activeKey = state.palette[0].toLowerCase();
+  const { t } = useI18n();
+  const fontLabels: Record<FontPairName, string> = {
+    editorial: t.theme.fontLabels.editorial,
+    modern: t.theme.fontLabels.modern,
+    warm: t.theme.fontLabels.warm,
+  };
+  const heroLayouts: { value: HeroLayout; label: string }[] = [
+    { value: "split", label: t.theme.heroLayouts.split },
+    { value: "centered", label: t.theme.heroLayouts.centered },
+  ];
 
   return (
     <div
@@ -164,23 +164,23 @@ export function ThemeSwitcher({
           }}
         >
           <div>
-            <Label>Hauptfarbe</Label>
+            <Label>{t.theme.labels.main}</Label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {THEMES.map((t) => (
-                <div key={t.palette[0]} style={{ flex: "1 1 26px" }}>
+              {THEMES.map((theme) => (
+                <div key={theme.palette[0]} style={{ flex: "1 1 26px" }}>
                   <Swatch
-                    color={t.palette[0]}
-                    bg={t.palette[2]}
-                    on={t.palette[0].toLowerCase() === activeKey}
-                    onClick={() => setPalette(t.palette)}
-                    label={`Hauptfarbe ${t.palette[0]}`}
+                    color={theme.palette[0]}
+                    bg={theme.palette[2]}
+                    on={theme.palette[0].toLowerCase() === activeKey}
+                    onClick={() => setPalette(theme.palette)}
+                    label={`${t.theme.swatches.main} ${theme.palette[0]}`}
                   />
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <Label>Akzent</Label>
+            <Label>{t.theme.labels.accent}</Label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {ACCENT2_OPTIONS.map((c) => (
                 <div key={c} style={{ flex: "1 1 26px" }}>
@@ -188,24 +188,24 @@ export function ThemeSwitcher({
                     color={c}
                     on={state.accent2.toLowerCase() === c.toLowerCase()}
                     onClick={() => setAccent2(c)}
-                    label={`Akzentfarbe ${c}`}
+                    label={`${t.theme.swatches.accent} ${c}`}
                   />
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <Label>Schrift</Label>
+            <Label>{t.theme.labels.font}</Label>
             <Segmented
-              options={FONT_PAIR_NAMES.map((f) => ({ value: f, label: FONT_LABELS[f] }))}
+              options={FONT_PAIR_NAMES.map((f) => ({ value: f, label: fontLabels[f] }))}
               value={state.fontPair}
               onChange={setFontPair}
             />
           </div>
           <div>
-            <Label>Hero</Label>
+            <Label>{t.theme.labels.hero}</Label>
             <Segmented
-              options={HERO_LAYOUTS}
+              options={heroLayouts}
               value={state.heroLayout}
               onChange={setHeroLayout}
             />
@@ -214,7 +214,7 @@ export function ThemeSwitcher({
       )}
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label="Design anpassen"
+        aria-label={t.theme.toggle}
         aria-expanded={open}
         style={{
           width: 48,

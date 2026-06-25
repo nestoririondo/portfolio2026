@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useI18n } from "../../i18n";
 
 type CardVariant = "reb" | "rest" | "med";
 
 /** Compact abstract before/after mock for example cards. */
 function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVariant }) {
+  const { t } = useI18n();
+  const copy = t.mockups.flip;
   if (kind === "before") {
     return (
       <div
@@ -41,10 +44,10 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
             LOGO
           </span>
           {variant === "rest"
-            ? "Trattoria Da Mario"
+            ? copy.beforeNames.rest
             : variant === "med"
-              ? "Praxis Dr. Vogel"
-              : "Bäckerei Sonne"}
+              ? copy.beforeNames.med
+              : copy.beforeNames.reb}
           <span
             style={{
               marginLeft: "auto",
@@ -53,13 +56,13 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
               color: "#ffd96b",
             }}
           >
-            blinkt!
+            {copy.blink}
           </span>
         </div>
         <div
           style={{ display: "flex", fontSize: 8, color: "#fff", background: "#444" }}
         >
-          {["Home", "Info", "Kontakt"].map((x, i) => (
+          {copy.nav.map((x, i) => (
             <span
               key={i}
               style={{
@@ -76,11 +79,11 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
           <div
             style={{ color: "#1c3a7a", textDecoration: "underline", marginBottom: 3 }}
           >
-            » Herzlich Willkommen auf unserer Homepage
+            {copy.welcome}
           </div>
           <div style={{ display: "flex", gap: 6 }}>
             <p style={{ margin: 0, flex: 1, color: "#333" }}>
-              Schön, dass Sie da sind. Hier finden Sie alle Informationen...
+              {copy.body}
             </p>
             <div
               style={{
@@ -94,7 +97,7 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
                 color: "#778",
               }}
             >
-              [bild]
+              {copy.image}
             </div>
           </div>
           <div
@@ -106,7 +109,7 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
               fontSize: 6.5,
             }}
           >
-            Öffnungszeiten siehe unten ▼
+            {copy.hours}
           </div>
         </div>
       </div>
@@ -116,22 +119,22 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
     variant === "rest"
       ? {
           grad: "linear-gradient(150deg,#efe2d2,#e6cfae)",
-          name: "Trattoria Da Mario",
-          tag: "Ristorante",
-          h: "Echte italienische Küche in Kreuzberg.",
+          name: copy.after.rest.name,
+          tag: copy.after.rest.tag,
+          h: copy.after.rest.headline,
         }
       : variant === "med"
         ? {
             grad: "linear-gradient(150deg,#e7ece9,#cfe0d8)",
-            name: "Praxis Dr. Vogel",
-            tag: "Hausarztpraxis",
-            h: "Moderne Hausarztpraxis in Pankow.",
+            name: copy.after.med.name,
+            tag: copy.after.med.tag,
+            h: copy.after.med.headline,
           }
         : {
             grad: "linear-gradient(150deg,#f1e8d8,#ecd9bd)",
-            name: "Bäckerei Sonne",
-            tag: "Handwerksbäckerei",
-            h: "Brot aus eigener Backstube, täglich frisch.",
+            name: copy.after.reb.name,
+            tag: copy.after.reb.tag,
+            h: copy.after.reb.headline,
           };
   return (
     <div
@@ -160,8 +163,8 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
             alignItems: "center",
           }}
         >
-          <span>Menü</span>
-          <span>Kontakt</span>
+          <span>{copy.menu}</span>
+          <span>{copy.contact}</span>
           <span
             style={{
               background: "var(--accent)",
@@ -170,7 +173,7 @@ function CardMock({ kind, variant }: { kind: "before" | "after"; variant: CardVa
               borderRadius: 999,
             }}
           >
-            Reservieren
+            {copy.reserve}
           </span>
         </span>
       </div>

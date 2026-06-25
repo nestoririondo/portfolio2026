@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { OutcomeGfx } from "../../../data/content";
+import { useI18n } from "../../../i18n";
 
 /** Little browser-window shell that frames each outcome's mini-UI. */
 function Screen({
@@ -58,6 +59,8 @@ const Bar = ({ w = "100%", c = "#ece3d7", h = 7 }: { w?: number | string; c?: st
 
 /** The mini-UI for a given outcome. */
 export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean }) {
+  const { t } = useI18n();
+  const copy = t.software.gfx;
   const A = "var(--accent)";
   const GRN = "#3fa96b";
   const mono: CSSProperties = { fontFamily: "var(--mono)", letterSpacing: ".04em" };
@@ -65,10 +68,10 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
   if (type === "booking")
     return (
       <Screen fullWidth={fullWidth}>
-        <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>FREIE TERMINE</div>
+        <div style={{ ...mono, fontSize: 9, color: "#a3978a" }}>{copy.freeAppointments}</div>
         <div style={{ display: "flex", gap: 4 }}>
-          {["Mo", "Di", "Mi", "Do", "Fr"].map((d) => {
-            const active = d === "Do";
+          {copy.weekdays.map((d, i) => {
+            const active = i === 3;
             return (
               <span
                 key={d}
@@ -137,7 +140,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
               padding: "5px 11px",
             }}
           >
-            Buchen
+            {copy.book}
           </span>
         </div>
       </Screen>
@@ -189,7 +192,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
             <Bar w={labelW} />
             {isNew && (
               <span style={{ ...mono, fontSize: 8, color: A, background: "color-mix(in oklab,var(--accent) 14%,#fff)", borderRadius: 5, padding: "1px 5px" }}>
-                neu
+                {copy.new}
               </span>
             )}
           </div>
@@ -201,21 +204,21 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
     return (
       <Screen fullWidth={fullWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>VERFÜGBARKEIT</span>
+          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>{copy.availability}</span>
           <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
             <i style={{ width: 6, height: 6, borderRadius: 9, background: GRN }} />
-            LIVE
+            {copy.live}
           </span>
         </div>
-        <ListRow labelW="56%" status="frei" color={GRN} isNew />
-        <ListRow labelW="68%" status="reserviert" color="#c98a1e" />
+        <ListRow labelW="56%" status={copy.free} color={GRN} isNew />
+        <ListRow labelW="68%" status={copy.reserved} color="#c98a1e" />
         <div style={{ height: 1, background: "#f0e8dd", margin: "1px 0" }} />
         <div style={{ display: "flex", alignItems: "center", gap: 6, ...mono, fontSize: 9.5, color: A }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={A} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 12a9 9 0 1 1-2.6-6.4" />
             <polyline points="21 3 21 8 16 8" />
           </svg>
-          Automatisch aktualisiert
+          {copy.autoUpdated}
         </div>
       </Screen>
     );
@@ -235,7 +238,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
     return (
       <Screen fullWidth={fullWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>BEWERTUNGEN</span>
+          <span style={{ ...mono, fontSize: 9, color: "#a3978a" }}>{copy.reviews}</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
             <span style={{ ...mono, fontSize: 10.5, color: "#5b5147", fontWeight: 700 }}>4,9</span>
             <Stars size={10} />
@@ -271,7 +274,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
           </span>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ ...mono, fontSize: 10, color: "#5b5147", fontWeight: 700 }}>Sandra K.</span>
+              <span style={{ ...mono, fontSize: 10, color: "#5b5147", fontWeight: 700 }}>{copy.reviewName}</span>
               <Stars size={9} />
             </div>
             <Bar w="92%" c="#efe7db" />
@@ -282,7 +285,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={GRN} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="4 12 9 17 20 6" />
           </svg>
-          87 Bewertungen · Google
+          {copy.reviewCount}
         </div>
       </Screen>
     );
@@ -298,11 +301,11 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ ...mono, fontSize: 9, color: "#a3978a", display: "inline-flex", alignItems: "center", gap: 5 }}>
           <Spark size={10} c={A} />
-          KI-ASSISTENT
+          {copy.aiAssistant}
         </span>
         <span style={{ ...mono, fontSize: 9, color: GRN, display: "inline-flex", alignItems: "center", gap: 4 }}>
           <i style={{ width: 6, height: 6, borderRadius: 9, background: GRN }} />
-          ONLINE
+          {copy.online}
         </span>
       </div>
       <div
@@ -317,7 +320,7 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
           color: "#6b6055",
         }}
       >
-        Was kostet eine Beratung?
+        {copy.aiQuestion}
       </div>
       <div
         style={{
@@ -335,10 +338,10 @@ export function Gfx({ type, fullWidth }: { type: OutcomeGfx; fullWidth?: boolean
         }}
       >
         <Spark size={12} />
-        Die erste ist kostenlos 😊 Soll ich einen Termin vorschlagen?
+        {copy.aiAnswer}
       </div>
       <div style={{ ...mono, fontSize: 9, color: "#a3978a", textAlign: "right" }}>
-        Sofort beantwortet
+        {copy.answered}
       </div>
     </Screen>
   );

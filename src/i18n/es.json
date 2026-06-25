@@ -1,0 +1,370 @@
+{
+  "nav": {
+    "links": ["Trabajos", "Software", "Oferta", "Sobre mí", "Contacto"],
+    "cta": "Pedir proyecto",
+    "menu": "Menú"
+  },
+  "footer": {
+    "legal": ["Aviso legal", "Privacidad"],
+    "copyright": "© 2026 · Berlín"
+  },
+  "common": {
+    "play": "Reproducir",
+    "pause": "Pausa",
+    "replay": "Repetir"
+  },
+  "hero": {
+    "eyebrow": "Desarrollador web · Berlín",
+    "title": "Webs que trabajan para ti.",
+    "subtitle": "Muchas webs solo están ahí. La tuya puede aceptar citas, mantener contenidos al día y generar consultas, también fuera de horario.",
+    "primaryCta": "Pedir proyecto",
+    "secondaryCta": "Ver trabajos",
+    "trust": ["DE · EN · ES", "Precio fijo desde 2.500 €"],
+    "availability": "Disponible para nuevos proyectos",
+    "photoAlt": "Néstor, desarrollador web de Berlín",
+    "photoLabel": "Retrato · Néstor"
+  },
+  "arbeiten": {
+    "eyebrow": "Trabajos",
+    "reb": {
+      "meta": "Inmobiliaria · Cliente real",
+      "live": "Ver online ↗",
+      "progressLabel": "Progreso – haz clic o arrastra para saltar",
+      "reducedMotionIntro": "En lugar de mostrar inmuebles solo en portales caros, REB ahora los presenta en su propia web, en vivo desde el software inmobiliario.",
+      "chapters": [
+        {
+          "k": "01",
+          "label": "Antes",
+          "title": "Una web sin inmuebles",
+          "body": "Un tema antiguo de WordPress: mucho texto, algunas fotos, pero ni un solo inmueble visible."
+        },
+        {
+          "k": "02",
+          "label": "Después",
+          "title": "Todos los inmuebles en su propia web",
+          "body": "Ahora la web muestra los inmuebles en vivo desde el software inmobiliario, siempre actualizados y sin trabajo manual."
+        },
+        {
+          "k": "03",
+          "label": "Resultado",
+          "title": "Independiente y siempre actualizada",
+          "body": "Las consultas llegan directamente por la propia web, sin pasar por portales, y se leen bien en cualquier dispositivo."
+        }
+      ]
+    },
+    "booking": {
+      "title": "Reservas online para servicios",
+      "meta": "Citas online · Panel admin · Demo conceptual",
+      "body": "Menos llamadas perdidas y menos ida y vuelta por chat. La web recoge preferencias de cita, datos de contacto y contexto para que el siguiente paso esté claro.",
+      "phoneTitle": "Encontrar cita",
+      "phoneSub": "Studio Am Park · Primera llamada",
+      "weekFree": "Libre esta semana",
+      "weekdays": ["Lu", "Ma", "Mi", "Ju"],
+      "ctaIdle": "Elegir hora",
+      "ctaSelected": "Reservar cita",
+      "ctaSent": "Solicitud enviada",
+      "fields": ["Nombre", "Email", "Mensaje breve"],
+      "adminTitle": "Nuevas consultas",
+      "adminSub": "Hoy · ordenadas automáticamente",
+      "adminLive": "Live",
+      "statusWaiting": "Espera",
+      "statusFree": "Libre",
+      "requestLabel": "Cita solicitada",
+      "requestTitle": "Primera llamada · Mi 10:30",
+      "requestBody": "Hora deseada, datos de contacto y mensaje ya están juntos.",
+      "accept": "Aceptar",
+      "question": "Pregunta",
+      "steps": [
+        {
+          "n": "01",
+          "label": "Reservar",
+          "title": "El interés se convierte en cita",
+          "body": "Las visitas ven horarios disponibles y eligen el momento adecuado antes de que el impulso se pierda."
+        },
+        {
+          "n": "02",
+          "label": "Solicitar",
+          "title": "La información importante llega junta",
+          "body": "Nombre, contacto, servicio y hora deseada llegan en un solo lugar. Sin adivinar, sin ida y vuelta."
+        },
+        {
+          "n": "03",
+          "label": "Gestionar",
+          "title": "El negocio mantiene el control",
+          "body": "Las nuevas solicitudes llegan ordenadas al panel admin y pueden confirmarse o responderse directamente."
+        }
+      ]
+    }
+  },
+  "software": {
+    "heading": {
+      "eyebrow": "Diseño Y función",
+      "title": "Funciones que ayudan de verdad en el día a día.",
+      "sub": "Cuatro ejemplos de lo que puede hacer tu web más allá de ser una tarjeta de visita digital."
+    },
+    "cta": "¿Qué función necesitas?",
+    "note": "Te diré honestamente qué merece la pena.",
+    "outcomes": [
+      {
+        "title": "Reservar citas online",
+        "body": "Tus clientes reservan horarios libres por su cuenta, a cualquier hora y sin llamar."
+      },
+      {
+        "title": "Contenido siempre actualizado",
+        "body": "Ofertas, precios o disponibilidad se actualizan automáticamente. Solo lo mantienes en un lugar."
+      },
+      {
+        "title": "Mostrar reseñas de Google",
+        "body": "Tus mejores reseñas de Google aparecen automáticamente y generan confianza antes de que alguien llame."
+      },
+      {
+        "title": "Responder preguntas automáticamente",
+        "body": "Un asistente de IA responde preguntas frecuentes a cualquier hora y te envía las consultas reales."
+      }
+    ],
+    "gfx": {
+      "freeAppointments": "HORARIOS LIBRES",
+      "weekdays": ["Lu", "Ma", "Mi", "Ju", "Vi"],
+      "book": "Reservar",
+      "availability": "DISPONIBILIDAD",
+      "live": "LIVE",
+      "new": "nuevo",
+      "free": "libre",
+      "reserved": "reservado",
+      "autoUpdated": "Actualizado automáticamente",
+      "reviews": "RESEÑAS",
+      "reviewName": "Sandra K.",
+      "reviewCount": "87 reseñas · Google",
+      "aiAssistant": "ASISTENTE IA",
+      "online": "ONLINE",
+      "aiQuestion": "¿Cuánto cuesta una consulta?",
+      "aiAnswer": "La primera es gratis. ¿Quieres que proponga una cita?",
+      "answered": "Respondido al instante"
+    }
+  },
+  "angebot": {
+    "heading": {
+      "eyebrow": "Cómo funciona",
+      "title": "De la idea a la web terminada.",
+      "sub": "Recibes una web clara con precio fijo. Solo planificamos funciones extra cuando realmente tienen sentido para tu negocio."
+    },
+    "steps": [
+      {
+        "title": "Una conversación",
+        "body": "Me cuentas tu objetivo por teléfono o en tu local.",
+        "meta": "aprox. 30 min · gratis"
+      },
+      {
+        "title": "Un borrador clicable",
+        "body": "Ves y pruebas tu web antes de que nada sea definitivo.",
+        "meta": "aprox. 1–2 semanas"
+      },
+      {
+        "title": "Tu web online",
+        "body": "Terminada, optimizada para móvil y lista para nuevas consultas.",
+        "meta": "normalmente online en 4–6 semanas"
+      }
+    ],
+    "priceTag": "Web completa",
+    "from": "desde",
+    "price": "2.500 €",
+    "priceNote": "Precio fijo único, cerrado después de la llamada.",
+    "recurringStrong": "1.er año de soporte incluido",
+    "recurringRest": "– después 50 €/mes para hosting, dominio, actualizaciones y pequeños cambios.",
+    "includedLabel": "Incluido en el precio base:",
+    "included": [
+      "Diseño individual",
+      "Optimizada para móvil",
+      "Carga rápida",
+      "SEO básico",
+      "Google Business",
+      "Texto y estructura",
+      "Formulario de contacto",
+      "Textos legales"
+    ],
+    "cta": "Primera llamada gratis",
+    "reassure": "Sin compromiso · sin costes ocultos"
+  },
+  "ueber": {
+    "eyebrow": "Sobre mí",
+    "title": "Hola, soy Néstor.",
+    "body": [
+      "Trabajo como desarrollador de software y construyo webs con el mismo nivel de exigencia: rápidas, estables y fáciles de entender.",
+      "No tienes que ocuparte de la técnica. Yo traduzco tu idea en una web que se ve bien, funciona y trae consultas."
+    ],
+    "photoAlt": "Néstor en Berlin Alt-Treptow",
+    "photoLabel": "Retrato · Néstor",
+    "chips": [
+      "Alt-Treptow, Berlín",
+      "DE · EN · ES",
+      "Webs y herramientas",
+      "Soporte tras el lanzamiento"
+    ]
+  },
+  "kontakt": {
+    "eyebrow": "Contacto",
+    "title": "Hablemos.",
+    "intro": "No necesitas un concepto terminado. Una idea aproximada basta. En la primera llamada gratuita te diré honestamente qué tiene sentido.",
+    "trust": [
+      "Respuesta en 24 horas",
+      "30 minutos, sin compromiso",
+      "Berlín y remoto"
+    ],
+    "direct": "O directamente:",
+    "methods": ["WhatsApp", "Email", "Llamar"],
+    "sentTitle": "Solicitud recibida.",
+    "sentBody": "Gracias. Tu mensaje me ha llegado. Te responderé personalmente en uno o dos días.",
+    "newRequest": "Escribir otra solicitud",
+    "formTitle": "Cuéntamelo brevemente.",
+    "name": "Nombre",
+    "email": "Email",
+    "message": "¿De qué se trata?",
+    "optional": "(opcional)",
+    "errorBeforeEmail": "Ahora mismo no ha funcionado. Inténtalo de nuevo o escríbeme directamente a",
+    "sending": "Enviando …",
+    "submit": "Pedir primera llamada",
+    "privacy": "Tu mensaje llega directamente a mí, de forma personal, no a un sistema automático."
+  },
+  "legal": {
+    "eyebrow": "Legal",
+    "emailLabel": "Email",
+    "phoneLabel": "Teléfono",
+    "impressum": {
+      "title": "Aviso legal",
+      "paragraphs": [
+        "Información según § 5 TMG\nNéstor Iriondo\nDesarrollo web y consultoría digital",
+        "Por favor, añade la dirección completa válida para notificaciones y todos los datos obligatorios finales antes de publicar."
+      ]
+    },
+    "datenschutz": {
+      "title": "Privacidad",
+      "paragraphs": [
+        "Esta web procesa datos personales cuando me contactas mediante el formulario, email, teléfono o WhatsApp.",
+        "Los datos se utilizan únicamente para responder a tu consulta y preparar una posible colaboración. Solo se comparten cuando es técnicamente necesario o legalmente obligatorio.",
+        "La declaración final de privacidad debe compararse con los servicios realmente utilizados, por ejemplo hosting, envío del formulario, analítica o contenidos incrustados."
+      ]
+    }
+  },
+  "mockups": {
+    "mini": {
+      "partner": "¡Su socio desde 1998!",
+      "oldNav": ["Inicio", "Servicios", "Sobre nosotros", "Contacto", "Aviso legal"],
+      "welcome": "¡Bienvenido!",
+      "consult": "» Le asesoramos con competencia",
+      "oldBody": "Ofrecemos asesoramiento integral en desarrollo empresarial. Haga clic aquí para más...",
+      "learnMore": "» Más información",
+      "newsletter": "★ NUEVO: Suscríbase al boletín",
+      "visitors": "Visitantes: 04217",
+      "banner": "[ Banner ]",
+      "guestbook": "Libro de visitas",
+      "nav": ["Servicios", "Sobre nosotros", "Contacto"],
+      "appointment": "Cita",
+      "headlineBeforeAccent": "Estrategia que impulsa su empresa",
+      "headlineAccent": "hacia adelante.",
+      "sub": "Consultoría independiente para pymes, personal y cercana.",
+      "firstCall": "Primera llamada",
+      "more": "Más",
+      "photo": "foto",
+      "chips": ["Estrategia", "Procesos", "Subvención"]
+    },
+    "flip": {
+      "beforeNames": {
+        "rest": "Trattoria Da Mario",
+        "med": "Consulta Dr. Vogel",
+        "reb": "Panadería Sonne"
+      },
+      "blink": "¡parpadea!",
+      "nav": ["Inicio", "Info", "Contacto"],
+      "welcome": "» Bienvenido a nuestra página",
+      "body": "Qué bien que esté aquí. Encontrará toda la información...",
+      "image": "[imagen]",
+      "hours": "Horarios abajo ▼",
+      "menu": "Menú",
+      "contact": "Contacto",
+      "reserve": "Reservar",
+      "after": {
+        "rest": {
+          "name": "Trattoria Da Mario",
+          "tag": "Ristorante",
+          "headline": "Auténtica cocina italiana en Kreuzberg."
+        },
+        "med": {
+          "name": "Consulta Dr. Vogel",
+          "tag": "Médico de familia",
+          "headline": "Consulta moderna de medicina familiar en Pankow."
+        },
+        "reb": {
+          "name": "Panadería Sonne",
+          "tag": "Panadería artesanal",
+          "headline": "Pan de obrador propio, fresco cada día."
+        }
+      }
+    },
+    "reb": {
+      "nameText": "Anna Schäfer",
+      "messageText": "Interés en este piso. Por favor, llámenme.",
+      "mailLabel": "Notificación de email",
+      "mailTitle": "Nueva consulta de Anna Schäfer"
+    },
+    "softwareApps": {
+      "personName": "Paul Weiß",
+      "team": [
+        { "n": "Anna Berg", "r": "Liderazgo" },
+        { "n": "Tomáš Novák", "r": "Desarrollo" },
+        { "n": "Leyla Demir", "r": "Diseño" },
+        { "n": "Jonas Frei", "r": "Ventas" },
+        { "n": "Marie Klein", "r": "Marketing" },
+        { "n": "Paul Weiß", "r": "Soporte" }
+      ],
+      "projectLead": "Dirección de proyecto",
+      "skills": ["Dirección", "Diseño", "Comunicación", "Desarrollo", "Ventas", "Contabilidad"],
+      "overview": "Resumen",
+      "matrix": "Matriz de competencias",
+      "teamLabel": "Equipo",
+      "reports": "Informes",
+      "settings": "Ajustes",
+      "employees": "Personas",
+      "competencies": "Competencias",
+      "coverage": "Cobertura",
+      "accounting": "Contabilidad",
+      "development": "Desarrollo",
+      "sales": "Ventas",
+      "onePerson": "solo 1 persona",
+      "outageRisk": "riesgo por ausencia",
+      "juniorMissing": "falta relevo",
+      "teamDate": "Equipo Berlín · marzo 2026",
+      "recommendation": "Recomendación",
+      "recommendationBody": "Formar a 2 personas en contabilidad para reducir el riesgo por ausencias.",
+      "criticalGaps": "vacíos críticos",
+      "level": "Nivel",
+      "expert": "Experto",
+      "early": "Temprano",
+      "late": "Tarde",
+      "free": "libre",
+      "roster": "Turnos",
+      "week": "Sem. 12 · 4 en equipo"
+    }
+  },
+  "theme": {
+    "labels": {
+      "main": "Color principal",
+      "accent": "Acento",
+      "font": "Tipografía",
+      "hero": "Hero"
+    },
+    "swatches": {
+      "main": "Color principal",
+      "accent": "Color de acento"
+    },
+    "fontLabels": {
+      "editorial": "Editorial",
+      "modern": "Moderna",
+      "warm": "Cálida"
+    },
+    "heroLayouts": {
+      "split": "Split",
+      "centered": "Centrado"
+    },
+    "toggle": "Ajustar diseño"
+  }
+}

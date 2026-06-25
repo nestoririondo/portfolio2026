@@ -6,6 +6,7 @@ import {
 } from "react";
 import { CONTACT } from "../../data/content";
 import { Icon, type IconName } from "../ui/Icon";
+import { useI18n } from "../../i18n";
 
 const fieldStyle: CSSProperties = {
   width: "100%",
@@ -78,6 +79,7 @@ export function Kontakt() {
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const { t } = useI18n();
 
   const nameDone = name.trim() !== "";
   const emailDone = EMAIL_RE.test(email.trim());
@@ -132,7 +134,7 @@ export function Kontakt() {
             className="kontakt-intro reveal"
             style={{ display: "flex", flexDirection: "column", gap: 26 }}
           >
-            <span className="eyebrow">Kontakt</span>
+            <span className="eyebrow">{t.kontakt.eyebrow}</span>
             <div>
               <h2
                 style={{
@@ -141,18 +143,17 @@ export function Kontakt() {
                   marginBottom: 18,
                 }}
               >
-                Lass uns reden.
+                {t.kontakt.title}
               </h2>
               <p style={{ fontSize: 18.5, color: "var(--muted)", maxWidth: 430, lineHeight: 1.6 }}>
-                Du brauchst kein fertiges Konzept. Eine grobe Idee reicht. Im
-                kostenlosen Erstgespräch sage ich dir ehrlich, was sinnvoll ist.
+                {t.kontakt.intro}
               </p>
             </div>
 
             <div className="contact-trust">
-              <TrustPoint icon="check">Antwort innerhalb von 24 Stunden</TrustPoint>
-              <TrustPoint icon="phone">30 Minuten, unverbindlich</TrustPoint>
-              <TrustPoint icon="pin">Berlin & remote</TrustPoint>
+              <TrustPoint icon="check">{t.kontakt.trust[0]}</TrustPoint>
+              <TrustPoint icon="phone">{t.kontakt.trust[1]}</TrustPoint>
+              <TrustPoint icon="pin">{t.kontakt.trust[2]}</TrustPoint>
             </div>
 
             <div>
@@ -164,24 +165,24 @@ export function Kontakt() {
                   marginBottom: 12,
                 }}
               >
-                Oder direkt:
+                {t.kontakt.direct}
               </div>
               <div className="contact-methods">
                 <ContactMethod
                   href={CONTACT.whatsappHref}
                   external
                   icon="whatsapp"
-                  label="WhatsApp"
+                  label={t.kontakt.methods[0]}
                 />
                 <ContactMethod
                   href={CONTACT.emailHref}
                   icon="mail"
-                  label="E-Mail"
+                  label={t.kontakt.methods[1]}
                 />
                 <ContactMethod
                   href={CONTACT.phoneHref}
                   icon="phone"
-                  label="Anrufen"
+                  label={t.kontakt.methods[2]}
                 />
               </div>
             </div>
@@ -207,11 +208,10 @@ export function Kontakt() {
                     <Icon name="check" size={26} stroke={2.4} />
                   </span>
                   <h3 className="confirm-item" style={{ fontSize: 27, marginBottom: 8, animationDelay: ".12s" }}>
-                    Anfrage angekommen.
+                    {t.kontakt.sentTitle}
                   </h3>
                   <p className="confirm-item" style={{ color: "var(--muted)", marginBottom: 18, animationDelay: ".18s" }}>
-                    Vielen Dank! Deine Nachricht ist bei mir gelandet. Ich melde
-                    mich in ein bis zwei Tagen persönlich bei dir.
+                    {t.kontakt.sentBody}
                   </p>
                   <button
                     type="button"
@@ -221,7 +221,7 @@ export function Kontakt() {
                       setStatus("idle");
                     }}
                   >
-                    Neue Anfrage schreiben
+                    {t.kontakt.newRequest}
                   </button>
                 </div>
               ) : null}
@@ -229,7 +229,7 @@ export function Kontakt() {
               {status !== "sent" ? (
                 <form onSubmit={submitRequest} style={{ display: "grid", gap: 14 }}>
                   <h3 style={{ fontSize: 23, marginBottom: 2 }}>
-                    Erzähl mir kurz davon.
+                    {t.kontakt.formTitle}
                   </h3>
                   {/* Honeypot — hidden from users, catches bots. */}
                   <input
@@ -242,7 +242,7 @@ export function Kontakt() {
                   />
                   <div className="field-group">
                     <label htmlFor="contact-name" style={labelStyle}>
-                      Name
+                      {t.kontakt.name}
                     </label>
                     <input
                       id="contact-name"
@@ -258,7 +258,7 @@ export function Kontakt() {
                   </div>
                   <div className="field-group">
                     <label htmlFor="contact-email" style={labelStyle}>
-                      E-Mail
+                      {t.kontakt.email}
                     </label>
                     <input
                       id="contact-email"
@@ -275,7 +275,7 @@ export function Kontakt() {
                   </div>
                   <div className="field-group">
                     <label htmlFor="contact-message" style={labelStyle}>
-                      Worum geht es? <span style={{ color: "var(--muted)" }}>(optional)</span>
+                      {t.kontakt.message} <span style={{ color: "var(--muted)" }}>{t.kontakt.optional}</span>
                     </label>
                     <textarea
                       id="contact-message"
@@ -299,8 +299,7 @@ export function Kontakt() {
                         padding: "11px 14px",
                       }}
                     >
-                      Das hat gerade nicht geklappt. Versuch es bitte nochmal –
-                      oder schreib mir direkt an{" "}
+                      {t.kontakt.errorBeforeEmail}{" "}
                       <a href={CONTACT.emailHref} style={{ color: "inherit", fontWeight: 600 }}>
                         {CONTACT.email}
                       </a>
@@ -327,11 +326,11 @@ export function Kontakt() {
                   >
                     {status === "sending" ? (
                       <>
-                        <span className="spinner" aria-hidden="true" /> Wird gesendet …
+                        <span className="spinner" aria-hidden="true" /> {t.kontakt.sending}
                       </>
                     ) : (
                       <>
-                        Erstgespräch anfragen <Icon name="arrow" size={18} />
+                        {t.kontakt.submit} <Icon name="arrow" size={18} />
                       </>
                     )}
                   </button>
@@ -342,7 +341,7 @@ export function Kontakt() {
                       textAlign: "center",
                     }}
                   >
-                    Deine Nachricht kommt direkt bei mir an – ganz persönlich, kein Automat.
+                    {t.kontakt.privacy}
                   </p>
                 </form>
               ) : null}

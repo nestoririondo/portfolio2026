@@ -2,27 +2,7 @@ import { useEffect, useState } from "react";
 import { PhoneFrame } from "../../mockups/Frames";
 import { Blob } from "../../ui/Decorations";
 import { StickyCase } from "./StickyCase";
-
-const BOOKING_STEPS = [
-  {
-    n: "01",
-    label: "Buchen",
-    title: "Aus Interesse wird ein Termin",
-    body: "Besucher:innen sehen freie Zeiten und wählen den passenden Slot, bevor der Impuls wieder weg ist.",
-  },
-  {
-    n: "02",
-    label: "Anfragen",
-    title: "Die wichtigsten Infos sind dabei",
-    body: "Name, Kontakt, Leistung und Wunschzeit kommen zusammen an. Kein Hin und Her, kein Ratespiel.",
-  },
-  {
-    n: "03",
-    label: "Verwalten",
-    title: "Der Betrieb behält den Überblick",
-    body: "Neue Anfragen landen sortiert im Admin-Bereich und können direkt bestätigt oder beantwortet werden.",
-  },
-];
+import { useI18n, type Messages } from "../../../i18n";
 
 const PlayIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden fill="currentColor">
@@ -52,7 +32,13 @@ const ReplayIcon = () => (
   </svg>
 );
 
-function BookingPhone({ step }: { step: number }) {
+function BookingPhone({
+  step,
+  copy,
+}: {
+  step: number;
+  copy: Messages["arbeiten"]["booking"];
+}) {
   const selected = step >= 1;
   const sent = step >= 2;
   const slots = ["09:15", "10:30", "12:00", "14:30"];
@@ -77,10 +63,10 @@ function BookingPhone({ step }: { step: number }) {
             marginBottom: 8,
           }}
         >
-          Termin finden
+          {copy.phoneTitle}
         </div>
         <div style={{ fontSize: 11.5, color: "#52666c", marginBottom: 14 }}>
-          Studio Am Park · Erstgespräch
+          {copy.phoneSub}
         </div>
         <div
           style={{
@@ -101,10 +87,10 @@ function BookingPhone({ step }: { step: number }) {
               marginBottom: 9,
             }}
           >
-            Diese Woche frei
+            {copy.weekFree}
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 5 }}>
-            {["Mo", "Di", "Mi", "Do"].map((d, i) => (
+            {copy.weekdays.map((d, i) => (
               <div
                 key={d}
                 style={{
@@ -161,7 +147,7 @@ function BookingPhone({ step }: { step: number }) {
             transition: "all .35s ease",
           }}
         >
-          {sent ? "Anfrage ist raus" : selected ? "Termin sichern" : "Zeit wählen"}
+          {sent ? copy.ctaSent : selected ? copy.ctaSelected : copy.ctaIdle}
         </div>
         <div
           style={{
@@ -173,7 +159,7 @@ function BookingPhone({ step }: { step: number }) {
             transition: "all .35s ease",
           }}
         >
-          {["Name", "E-Mail", "Kurze Nachricht"].map((x) => (
+          {copy.fields.map((x) => (
             <div
               key={x}
               style={{
@@ -195,7 +181,13 @@ function BookingPhone({ step }: { step: number }) {
   );
 }
 
-function BookingAdmin({ active }: { active: boolean }) {
+function BookingAdmin({
+  active,
+  copy,
+}: {
+  active: boolean;
+  copy: Messages["arbeiten"]["booking"];
+}) {
   return (
     <div
       style={{
@@ -261,10 +253,10 @@ function BookingAdmin({ active }: { active: boolean }) {
                 fontWeight: 600,
               }}
             >
-              Neue Anfragen
+              {copy.adminTitle}
             </div>
             <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
-              Heute · direkt sortiert
+              {copy.adminSub}
             </div>
           </div>
           <span
@@ -277,7 +269,7 @@ function BookingAdmin({ active }: { active: boolean }) {
               padding: "7px 10px",
             }}
           >
-            Live
+            {copy.adminLive}
           </span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: ".92fr 1.08fr", gap: 14 }}>
@@ -298,7 +290,7 @@ function BookingAdmin({ active }: { active: boolean }) {
               >
                 <div style={{ fontSize: 12, fontWeight: 800 }}>{time}</div>
                 <div style={{ fontSize: 11.5, color: "var(--muted)" }}>
-                  {i === 0 ? "Wartet" : "Frei"}
+                  {i === 0 ? copy.statusWaiting : copy.statusFree}
                 </div>
               </div>
             ))}
@@ -324,13 +316,13 @@ function BookingAdmin({ active }: { active: boolean }) {
                 marginBottom: 10,
               }}
             >
-              Terminwunsch
+              {copy.requestLabel}
             </div>
             <div style={{ fontFamily: "var(--font-head)", fontSize: 20, lineHeight: 1.1 }}>
-              Erstgespräch · Mi 10:30
+              {copy.requestTitle}
             </div>
             <div style={{ marginTop: 10, color: "var(--muted)", fontSize: 12.5, lineHeight: 1.45 }}>
-              Wunschzeit, Kontaktdaten und Nachricht sind schon zusammen.
+              {copy.requestBody}
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
               <span
@@ -343,7 +335,7 @@ function BookingAdmin({ active }: { active: boolean }) {
                   padding: "8px 11px",
                 }}
               >
-                Zusagen
+                {copy.accept}
               </span>
               <span
                 style={{
@@ -354,7 +346,7 @@ function BookingAdmin({ active }: { active: boolean }) {
                   padding: "8px 11px",
                 }}
               >
-                Rückfrage
+                {copy.question}
               </span>
             </div>
           </div>
@@ -364,7 +356,13 @@ function BookingAdmin({ active }: { active: boolean }) {
   );
 }
 
-function BookingVisual({ active }: { active: number }) {
+function BookingVisual({
+  active,
+  copy,
+}: {
+  active: number;
+  copy: Messages["arbeiten"]["booking"];
+}) {
   return (
     <div
       className="booking-visual"
@@ -419,7 +417,7 @@ function BookingVisual({ active }: { active: number }) {
             transition: "opacity .5s ease, transform .55s cubic-bezier(.2,.7,.2,1)",
           }}
         >
-          <BookingPhone step={active} />
+          <BookingPhone step={active} copy={copy} />
         </div>
         <div
           className="booking-admin-layer"
@@ -429,7 +427,7 @@ function BookingVisual({ active }: { active: number }) {
             transition: "opacity .55s ease .12s, transform .6s cubic-bezier(.2,.7,.2,1) .12s",
           }}
         >
-          <BookingAdmin active={active === 2} />
+          <BookingAdmin active={active === 2} copy={copy} />
         </div>
       </div>
     </div>
@@ -439,16 +437,18 @@ function BookingVisual({ active }: { active: number }) {
 function BookingCase() {
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(true);
+  const { t } = useI18n();
+  const copy = t.arbeiten.booking;
 
   useEffect(() => {
     if (!playing) return;
     const id = window.setInterval(() => {
-      setActive((cur) => (cur + 1) % BOOKING_STEPS.length);
+      setActive((cur) => (cur + 1) % copy.steps.length);
     }, 2800);
     return () => window.clearInterval(id);
-  }, [playing]);
+  }, [copy.steps.length, playing]);
 
-  const current = BOOKING_STEPS[active];
+  const current = copy.steps[active];
 
   return (
     <div className="reveal" style={{ marginTop: "clamp(80px,10vw,140px)" }}>
@@ -461,16 +461,14 @@ function BookingCase() {
           alignItems: "center",
         }}
       >
-        <BookingVisual active={active} />
+        <BookingVisual active={active} copy={copy} />
         <div className="case-left">
           <h3 style={{ fontSize: "clamp(30px,4vw,48px)", marginBottom: 10 }}>
-            Online-Buchung für Dienstleister
+            {copy.title}
           </h3>
-          <div className="case-meta">Online-Termine · Admin-Panel · Konzept-Demo</div>
+          <div className="case-meta">{copy.meta}</div>
           <p style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6, marginBottom: 22 }}>
-            Weniger verpasste Anrufe, weniger Chat-Pingpong. Die Website sammelt
-            Terminwünsche, Kontaktdaten und Kontext, damit der nächste Schritt
-            klar ist.
+            {copy.body}
           </p>
           <div className="case-step is-active case-step--solo">
             <div
@@ -514,13 +512,13 @@ function BookingCase() {
             <div className="case-progress" aria-hidden>
               <div
                 className="case-progress__fill"
-                style={{ width: `${((active + 1) / BOOKING_STEPS.length) * 100}%` }}
+                style={{ width: `${((active + 1) / copy.steps.length) * 100}%` }}
               />
-              {BOOKING_STEPS.slice(1).map((_, i) => (
+              {copy.steps.slice(1).map((_, i) => (
                 <span
                   key={i}
                   className="case-progress__tick"
-                  style={{ left: `${((i + 1) / BOOKING_STEPS.length) * 100}%` }}
+                  style={{ left: `${((i + 1) / copy.steps.length) * 100}%` }}
                 />
               ))}
             </div>
@@ -529,12 +527,12 @@ function BookingCase() {
                 type="button"
                 className="case-ctrl"
                 onClick={() => setPlaying((p) => !p)}
-                aria-label={playing ? "Pause" : "Abspielen"}
+                aria-label={playing ? t.common.pause : t.common.play}
               >
                 {playing ? <PauseIcon /> : <PlayIcon />}
               </button>
               <div className="case-dots">
-                {BOOKING_STEPS.map((step, i) => (
+                {copy.steps.map((step, i) => (
                   <button
                     key={step.n}
                     type="button"
@@ -555,7 +553,7 @@ function BookingCase() {
                   setActive(0);
                   setPlaying(true);
                 }}
-                aria-label="Wiederholen"
+                aria-label={t.common.replay}
               >
                 <ReplayIcon />
               </button>
@@ -568,11 +566,12 @@ function BookingCase() {
 }
 
 export function Arbeiten() {
+  const { t } = useI18n();
   return (
     <section id="arbeiten" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
       <div className="wrap">
         <div className="reveal" style={{ marginBottom: "clamp(24px,3.5vw,40px)" }}>
-          <span className="eyebrow">Arbeiten</span>
+          <span className="eyebrow">{t.arbeiten.eyebrow}</span>
         </div>
         <StickyCase />
         <BookingCase />

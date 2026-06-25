@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { OFFER_INCLUDED, OFFER_PROCESS } from "../../data/content";
+import { OFFER_PROCESS } from "../../data/content";
 import { useParallax } from "../../hooks/useParallax";
 import { ProcessGraphic } from "./ProcessGraphic";
 import { Icon } from "../ui/Icon";
 import { SectionHeading } from "../ui/SectionHeading";
+import { useI18n } from "../../i18n";
 
 export function Angebot() {
   const secRef = useRef<HTMLElement>(null);
@@ -13,6 +14,7 @@ export function Angebot() {
   // in (stepsDone) *and* the card itself is in view (cardInView).
   const [stepsDone, setStepsDone] = useState(false);
   const [cardInView, setCardInView] = useState(false);
+  const { t } = useI18n();
   useParallax(secRef);
 
   // Mark the step sequence "done" once the last step finishes its pop-in.
@@ -85,9 +87,9 @@ export function Angebot() {
       <div className="wrap">
         <div className="reveal">
           <SectionHeading
-            eyebrow="So läuft’s"
-            title="Von der Idee zur fertigen Website."
-            sub="Du bekommst eine klare Website zum Festpreis. Zusätzliche Funktionen planen wir nur, wenn sie für dein Geschäft wirklich sinnvoll sind."
+            eyebrow={t.angebot.heading.eyebrow}
+            title={t.angebot.heading.title}
+            sub={t.angebot.heading.sub}
           />
         </div>
 
@@ -97,7 +99,9 @@ export function Angebot() {
           className="process-flow"
           style={{ margin: "clamp(56px,8vw,96px) 0" }}
         >
-          {OFFER_PROCESS.map((step, i) => (
+          {OFFER_PROCESS.map((step, i) => {
+            const copy = t.angebot.steps[i];
+            return (
             <div className="reveal process-step" key={step.n}>
               <span className="process-num">{step.n}</span>
               <div className={`process-icon${step.gfx ? " process-icon--gfx" : ""}`}>
@@ -107,11 +111,11 @@ export function Angebot() {
                   <Icon name={step.icon} size={68} stroke={1.4} />
                 )}
               </div>
-              <h3 style={{ fontSize: 25, marginBottom: 8 }}>{step.title}</h3>
-              <p style={{ color: "var(--muted)", fontSize: 16, lineHeight: 1.55 }}>{step.body}</p>
-              {step.meta ? <span className="process-meta">{step.meta}</span> : null}
+              <h3 style={{ fontSize: 25, marginBottom: 8 }}>{copy.title}</h3>
+              <p style={{ color: "var(--muted)", fontSize: 16, lineHeight: 1.55 }}>{copy.body}</p>
+              {copy.meta ? <span className="process-meta">{copy.meta}</span> : null}
             </div>
-          ))}
+          );})}
         </div>
 
         {/* one consolidated price card */}
@@ -122,7 +126,7 @@ export function Angebot() {
         >
           <div className="price-card-head">
             <span className="price-tag">
-              <Icon name="spark" size={14} color="var(--accent)" /> Komplett-Website
+              <Icon name="spark" size={14} color="var(--accent)" /> {t.angebot.priceTag}
             </span>
             <div
               style={{
@@ -133,7 +137,7 @@ export function Angebot() {
                 margin: "16px 0 6px",
               }}
             >
-              <span style={{ fontSize: 20, fontWeight: 500, color: "var(--muted)" }}>ab</span>
+              <span style={{ fontSize: 20, fontWeight: 500, color: "var(--muted)" }}>{t.angebot.from}</span>
               <span
                 style={{
                   fontFamily: "var(--font-head)",
@@ -142,26 +146,25 @@ export function Angebot() {
                   lineHeight: 1,
                 }}
               >
-                2.500 €
+                {t.angebot.price}
               </span>
             </div>
             <div style={{ color: "var(--muted)", fontSize: 15 }}>
-              Einmaliger Festpreis, nach dem Gespräch festgelegt.
+              {t.angebot.priceNote}
             </div>
             <div className="price-recurring">
-              <strong>1. Jahr Betreuung inklusive</strong> – danach 50 €/Monat
-              für Hosting, Domain, Updates & kleine Änderungen.
+              <strong>{t.angebot.recurringStrong}</strong> {t.angebot.recurringRest}
             </div>
           </div>
 
-          <div className="price-included-label">Im Grundpreis enthalten:</div>
+          <div className="price-included-label">{t.angebot.includedLabel}</div>
           <div className="price-included">
-            {OFFER_INCLUDED.map((t) => (
-              <div key={t} className="price-included-item">
+            {t.angebot.included.map((item) => (
+              <div key={item} className="price-included-item">
                 <span className="price-check">
                   <Icon name="check" size={13} stroke={3} color="var(--accent)" />
                 </span>
-                {t}
+                {item}
               </div>
             ))}
           </div>
@@ -171,10 +174,10 @@ export function Angebot() {
             className="btn btn-primary"
             style={{ justifyContent: "center", width: "100%" }}
           >
-            Kostenloses Erstgespräch <Icon name="arrow" size={18} />
+            {t.angebot.cta} <Icon name="arrow" size={18} />
           </a>
           <p className="price-reassure">
-            Unverbindlich · keine versteckten Kosten
+            {t.angebot.reassure}
           </p>
         </div>
       </div>

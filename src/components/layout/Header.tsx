@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { LANGUAGES, NAV_LINKS, type Language } from "../../data/content";
 import { useScrolled } from "../../hooks/useScrolled";
 import { useActiveSection } from "../../hooks/useActiveSection";
+import { useI18n } from "../../i18n";
 
 const NAV_IDS = NAV_LINKS.map((l) => l.href.replace(/^#/, ""));
 const HEADER_HIDE_SCROLL_Y = 260;
@@ -65,7 +66,7 @@ function LangSwitch({
             transition: "color .22s ease",
           }}
         >
-          {l}
+          {l.toUpperCase()}
         </button>
       ))}
     </div>
@@ -74,9 +75,9 @@ function LangSwitch({
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [lang, setLang] = useState<Language>("DE");
   const [hidden, setHidden] = useState(false);
-  const isHome = window.location.pathname === "/";
+  const { lang, setLanguage, t, localizeHref, currentPath } = useI18n();
+  const isHome = currentPath === "/";
   const scrolled = useScrolled(24);
   const active = useActiveSection(NAV_IDS);
   const headerRef = useRef<HTMLElement>(null);
@@ -197,11 +198,11 @@ export function Header() {
           onClick={(e) => {
             e.preventDefault();
             if (!isHome) {
-              window.location.href = "/";
+              window.location.href = localizeHref("/");
               return;
             }
             window.scrollTo({ top: 0, behavior: "smooth" });
-            history.replaceState(null, "", " ");
+            history.replaceState(null, "", localizeHref("/"));
           }}
           style={{
             fontFamily: "var(--font-head)",
@@ -262,10 +263,10 @@ export function Header() {
             alignItems: "center",
           }}
         >
-          {NAV_LINKS.map(({ label, href }) => (
+          {NAV_LINKS.map(({ href }, i) => (
             <a
               key={href}
-              href={isHome ? href : `/${href}`}
+              href={isHome ? href : localizeHref(href)}
               className="nav-link"
               data-active={active === href.replace(/^#/, "") || undefined}
               style={{
@@ -279,24 +280,24 @@ export function Header() {
                 paddingBottom: 3,
               }}
             >
-              {label}
+              {t.nav.links[i]}
             </a>
           ))}
         </nav>
         <div className="desk-nav">
-          <LangSwitch lang={lang} setLang={setLang} />
+          <LangSwitch lang={lang} setLang={setLanguage} />
         </div>
         <a
-          href={isHome ? "#kontakt" : "/#kontakt"}
+          href={isHome ? "#kontakt" : localizeHref("#kontakt")}
           className="btn btn-primary desk-nav"
           style={{ padding: "11px 19px", fontSize: 15 }}
         >
-          Projekt anfragen
+          {t.nav.cta}
         </a>
         <button
           className="mob-btn"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Menü"
+          aria-label={t.nav.menu}
           style={{
             display: "none",
             marginLeft: "auto",
@@ -351,12 +352,12 @@ export function Header() {
             className="wrap"
             style={{ display: "flex", flexDirection: "column", gap: 4 }}
           >
-            {NAV_LINKS.map(({ label, href }) => {
+            {NAV_LINKS.map(({ href }, i) => {
               const isActive = active === href.replace(/^#/, "");
               return (
                 <a
                   key={href}
-                  href={isHome ? href : `/${href}`}
+                  href={isHome ? href : localizeHref(href)}
                   onClick={() => setOpen(false)}
                   style={{
                     padding: "12px 4px",
@@ -366,19 +367,19 @@ export function Header() {
                     borderBottom: "1px solid var(--line)",
                   }}
                 >
-                  {label}
+                  {t.nav.links[i]}
                 </a>
               );
             })}
             <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 12 }}>
-              <LangSwitch lang={lang} setLang={setLang} />
+              <LangSwitch lang={lang} setLang={setLanguage} />
               <a
-                href={isHome ? "#kontakt" : "/#kontakt"}
+                href={isHome ? "#kontakt" : localizeHref("#kontakt")}
                 onClick={() => setOpen(false)}
                 className="btn btn-primary"
                 style={{ flex: 1, justifyContent: "center" }}
               >
-                Projekt anfragen
+                {t.nav.cta}
               </a>
             </div>
           </div>

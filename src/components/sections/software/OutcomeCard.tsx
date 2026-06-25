@@ -1,9 +1,16 @@
 import { useState } from "react";
 import type { Outcome } from "../../../data/content";
 import { Gfx } from "./Gfx";
+import type { Messages } from "../../../i18n";
 
 /** One outcome: a mini-UI beside the copy, lifting on hover. */
-export function OutcomeCard({ o }: { o: Outcome }) {
+export function OutcomeCard({
+  o,
+  copy,
+}: {
+  o: Outcome;
+  copy: Messages["software"]["outcomes"][number];
+}) {
   const [hov, setHov] = useState(false);
   return (
     <div data-px={o.px} className="px-layer">
@@ -58,10 +65,10 @@ export function OutcomeCard({ o }: { o: Outcome }) {
         {/* copy */}
         <div style={{ flex: 1 }}>
           <h3 style={{ fontSize: "clamp(21px,2.2vw,27px)", color: "#fff", marginBottom: 8, lineHeight: 1.15 }}>
-            {o.title}
+            {copy.title}
           </h3>
           <p style={{ fontSize: 16, color: "rgba(255,255,255,.66)", lineHeight: 1.55 }}>
-            {o.body}
+            {copy.body}
           </p>
         </div>
       </div>

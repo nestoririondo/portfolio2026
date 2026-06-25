@@ -7,10 +7,10 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
-import { REB_CHAPTERS } from "../../../data/content";
 import { MiniSite } from "../../mockups/MiniSite";
 import { PhoneFrame } from "../../mockups/Frames";
 import { RebInteraction, RebMobile, RebShot } from "../../mockups/RebSite";
+import { useI18n, type Messages } from "../../../i18n";
 
 /**
  * Autoplaying case study (REB). The story plays itself on its own timeline the
@@ -90,7 +90,7 @@ function pToTime(p: number): number {
 // clicked fraction of the bar back to progress `p`, then to a time
 function fractionToTime(f: number): number {
   f = Math.min(Math.max(f, 0), 1);
-  const n = REB_CHAPTERS.length; // 3 chapters
+  const n = 3; // 3 chapters
   let p: number;
   if (f < 1 / n) p = f * n * SEG[0];
   else if (f < 2 / n) p = SEG[0] + (f * n - 1) * (PHONE_AT - SEG[0]);
@@ -215,6 +215,8 @@ const ClickThrough = memo(function ClickThrough({
 });
 
 export function StickyCase() {
+  const { t } = useI18n();
+  const chapters = t.arbeiten.reb.chapters;
   const [active, setActive] = useState(0);
   const [showPhone, setShowPhone] = useState(false); // step 03: phone has risen in
   const [notify, setNotify] = useState(false); // step 03: inbox banner visible
@@ -302,7 +304,7 @@ export function StickyCase() {
       else if (phase === 1) local = (p - SEG[0]) / (PHONE_AT - SEG[0]);
       else local = SEG[0] > 0 ? p / SEG[0] : 0;
       const overall =
-        (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
+        (phase + Math.min(Math.max(local, 0), 1)) / 3;
       barRef.current.style.width = `${overall * 100}%`;
       progressRef.current?.setAttribute(
         "aria-valuenow",
@@ -452,7 +454,7 @@ export function StickyCase() {
   // --- shared bits -----------------------------------------------------------
 
   const step = (
-    c: (typeof REB_CHAPTERS)[number],
+    c: Messages["arbeiten"]["reb"]["chapters"][number],
     on: boolean,
     compact = false,
   ) => (
@@ -516,7 +518,7 @@ export function StickyCase() {
         whiteSpace: "nowrap",
       }}
     >
-      Live ansehen ↗
+      {t.arbeiten.reb.live}
     </a>
   );
 
@@ -540,7 +542,7 @@ export function StickyCase() {
             color: "var(--muted)",
           }}
         >
-          Immobilien · Echter Kunde
+          {t.arbeiten.reb.meta}
         </span>
         {liveBtn}
       </div>
@@ -555,7 +557,7 @@ export function StickyCase() {
       className="case-progress"
       role="slider"
       tabIndex={0}
-      aria-label="Fortschritt – klicken oder ziehen zum Springen"
+      aria-label={t.arbeiten.reb.progressLabel}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={0}
@@ -563,11 +565,11 @@ export function StickyCase() {
       onKeyDown={onBarKey}
     >
       <div ref={barRef} className="case-progress__fill" />
-      {REB_CHAPTERS.slice(1).map((_, i) => (
+      {chapters.slice(1).map((_, i) => (
         <span
           key={i}
           className="case-progress__tick"
-          style={{ left: `${((i + 1) / REB_CHAPTERS.length) * 100}%` }}
+          style={{ left: `${((i + 1) / chapters.length) * 100}%` }}
         />
       ))}
     </div>
@@ -580,12 +582,12 @@ export function StickyCase() {
         type="button"
         className="case-ctrl"
         onClick={toggle}
-        aria-label={playing ? "Pause" : "Abspielen"}
+        aria-label={playing ? t.common.pause : t.common.play}
       >
         {playing ? <PauseIcon /> : <PlayIcon />}
       </button>
       <div className="case-dots">
-        {REB_CHAPTERS.map((c, i) => (
+        {chapters.map((c, i) => (
           <button
             key={i}
             type="button"
@@ -600,7 +602,7 @@ export function StickyCase() {
         type="button"
         className="case-ctrl"
         onClick={replay}
-        aria-label="Wiederholen"
+        aria-label={t.common.replay}
       >
         <ReplayIcon />
       </button>
@@ -622,7 +624,7 @@ export function StickyCase() {
         className="case-step__swap"
         style={{ display: "flex", gap: 16, width: "100%" }}
       >
-        {step(REB_CHAPTERS[active], true, compact)}
+        {step(chapters[active], true, compact)}
       </div>
     </div>
   );
@@ -658,7 +660,7 @@ export function StickyCase() {
         }}
       >
         <span className="case-meta" style={{ marginBottom: 0 }}>
-          Immobilien · Echter Kunde
+          {t.arbeiten.reb.meta}
         </span>
         {liveBtn}
       </div>
@@ -758,12 +760,10 @@ export function StickyCase() {
                 marginBottom: 22,
               }}
             >
-              Statt die Immobilien nur über teure Portale zu zeigen, präsentiert
-              REB sie jetzt auf der eigenen Website — live aus der
-              Maklersoftware.
+              {t.arbeiten.reb.reducedMotionIntro}
             </p>
             <div className="case-steps">
-              {REB_CHAPTERS.map((c, i) => (
+              {chapters.map((c, i) => (
                 <div key={i} className="case-step is-active">
                   {step(c, true)}
                 </div>

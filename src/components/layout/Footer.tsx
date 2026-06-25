@@ -1,4 +1,5 @@
 import { FOOTER_LEGAL, FOOTER_LINKS } from "../../data/content";
+import { useI18n } from "../../i18n";
 
 function BrandMark({ size = 28 }: { size?: number }) {
   return (
@@ -38,7 +39,8 @@ function BrandMark({ size = 28 }: { size?: number }) {
 }
 
 export function Footer() {
-  const isHome = window.location.pathname === "/";
+  const { t, localizeHref, currentPath } = useI18n();
+  const isHome = currentPath === "/";
 
   return (
     <footer
@@ -59,7 +61,7 @@ export function Footer() {
         }}
       >
         <a
-          href={isHome ? "#top" : "/"}
+          href={isHome ? "#top" : localizeHref("/")}
           style={{
             display: "flex",
             alignItems: "center",
@@ -82,14 +84,14 @@ export function Footer() {
             justifyContent: "center",
           }}
         >
-          {FOOTER_LINKS.map(({ label, href }) => (
-            <a key={label} href={isHome ? href : `/${href}`} className="nav-link">
-              {label}
+          {FOOTER_LINKS.map(({ href }, i) => (
+            <a key={href} href={isHome ? href : localizeHref(href)} className="nav-link">
+              {t.nav.links[i]}
             </a>
           ))}
-          {FOOTER_LEGAL.map(({ label, href }) => (
-            <a key={label} href={href} className="footer-legal-link">
-              {label}
+          {FOOTER_LEGAL.map(({ href }, i) => (
+            <a key={href} href={localizeHref(href)} className="footer-legal-link">
+              {t.footer.legal[i]}
             </a>
           ))}
         </div>
@@ -100,7 +102,7 @@ export function Footer() {
             fontFamily: "var(--mono)",
           }}
         >
-          © 2026 · Berlin
+          {t.footer.copyright}
         </div>
       </div>
     </footer>
