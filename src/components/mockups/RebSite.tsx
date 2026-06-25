@@ -9,12 +9,9 @@ const LISTING = "/img/reb/2.webp";
 const DETAIL = "/img/reb/3.webp";
 
 // intrinsic pixel ratios (w / h)
-const FRAME_R = 2085 / 2033; // detail page ratio, used as the visible viewport
-const DETAIL_R = 2085 / 2033;
 const LIST_R = 2085 / 4722; // tall properties list
 
 const SHOT_RATIO = "2085 / 2033";
-const DETAIL_H_FRAC = FRAME_R / DETAIL_R;
 // Stop at the 7th property, not the absolute page bottom.
 const LIST_SEVENTH_SHIFT = 52.5;
 const HERO_CROP = {
@@ -42,6 +39,10 @@ const MSG_FIELD = { x: 73.2, y: 57 };
 const SUBMIT = { x: 83, y: 62 };
 const ZOOM_ORIGIN = { x: 88, y: 34 }; // higher/right, toward the top of the form
 const ZOOM_MAX = 1.65;
+// the field coords sit a little below their inputs (the typed-text overlays apply
+// their own upward nudge); lift the cursor/ripple by the same amount so the
+// pointer lands ON each field rather than a row low. In detail-layer % units.
+const FORM_CURSOR_LIFT = 4.6;
 
 // overlaid text (typed fields + the confirmation toast) sizes against the
 // click-through card via container units, so it never overflows on a small
@@ -75,15 +76,18 @@ const PRE_KEYS: Key[] = [
 
 const FORM_KEYS: Key[] = [
   { at: 0.55, x: LIST_CARD.x, y: LIST_CARD.y },
-  { at: 0.58, x: LIST_CARD.x, y: LIST_CARD.y }, // brief linger on the detail page before reacting
-  { at: 0.6, x: 58, y: 43 }, // arc toward the form as the zoom kicks in
-  { at: 0.67, x: NAME_FIELD.x, y: NAME_FIELD.y }, // arrive at the name field (after the longer zoom)
-  { at: 0.75, x: NAME_FIELD.x, y: NAME_FIELD.y }, // typing the name
-  { at: 0.77, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // move to email
-  { at: 0.84, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y }, // typing the email
-  { at: 0.86, x: MSG_FIELD.x, y: MSG_FIELD.y }, // move to message
-  { at: 0.92, x: MSG_FIELD.x, y: MSG_FIELD.y }, // typing the message
-  { at: 0.94, x: MSG_FIELD.x, y: MSG_FIELD.y }, // pause, form complete
+  { at: 0.66, x: LIST_CARD.x, y: LIST_CARD.y }, // rest on the detail page — let the viewer take in the property
+  { at: 0.69, x: 58, y: 43 }, // then arc toward the form as the zoom kicks in
+  // field stops are lifted by FORM_CURSOR_LIFT so the pointer lands ON each input
+  // (the inputs sit a little above the raw FIELD.y). SUBMIT below is NOT lifted —
+  // its coordinate already points at the button.
+  { at: 0.73, x: NAME_FIELD.x, y: NAME_FIELD.y - FORM_CURSOR_LIFT }, // arrive at the name field (after the zoom)
+  { at: 0.79, x: NAME_FIELD.x, y: NAME_FIELD.y - FORM_CURSOR_LIFT }, // typing the name
+  { at: 0.8, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y - FORM_CURSOR_LIFT }, // move to email
+  { at: 0.85, x: EMAIL_FIELD.x, y: EMAIL_FIELD.y - FORM_CURSOR_LIFT }, // typing the email
+  { at: 0.86, x: MSG_FIELD.x, y: MSG_FIELD.y - FORM_CURSOR_LIFT }, // move to message
+  { at: 0.91, x: MSG_FIELD.x, y: MSG_FIELD.y - FORM_CURSOR_LIFT }, // typing the message
+  { at: 0.93, x: MSG_FIELD.x, y: MSG_FIELD.y - FORM_CURSOR_LIFT }, // pause, form complete
   { at: 0.96, x: SUBMIT.x, y: SUBMIT.y }, // move to the button, then wait before clicking
   { at: 1, x: SUBMIT.x, y: SUBMIT.y },
 ];
@@ -167,24 +171,26 @@ export function RebInteraction({ progress: p }: { progress: number }) {
   const detailOp = ramp(p, 0.55, 0.61);
   const listScroll = ramp(p, 0.29, 0.45); // list rests, then scrolls slowly to the 7th
 
-  // Linger on the selected property page, then push higher/right into the form.
-  const zoom = 1 + (ZOOM_MAX - 1) * ramp(p, 0.56, 0.69);
+  // Rest on the selected property page (full, un-zoomed) so the viewer can take
+  // it in, THEN push higher/right into the form.
+  const zoom = 1 + (ZOOM_MAX - 1) * ramp(p, 0.67, 0.74);
 
   // Keep the landing page fully readable before the cursor starts moving.
   const heroScale = 1;
   const heroShift = 0; // %
 
-  const typedName = typeText(NAME_TEXT, p, 0.67, 0.75);
-  const typedEmail = typeText(EMAIL_TEXT, p, 0.77, 0.84);
-  const typedMsg = typeText(MSG_TEXT, p, 0.86, 0.92);
-  const nameActive = p > 0.67 && p < 0.75;
-  const emailActive = p > 0.77 && p < 0.84;
-  const msgActive = p > 0.86 && p < 0.92;
+  const typedName = typeText(NAME_TEXT, p, 0.73, 0.79);
+  const typedEmail = typeText(EMAIL_TEXT, p, 0.8, 0.85);
+  const typedMsg = typeText(MSG_TEXT, p, 0.86, 0.91);
+  const nameActive = p > 0.73 && p < 0.79;
+  const emailActive = p > 0.8 && p < 0.85;
+  const msgActive = p > 0.86 && p < 0.91;
   const showConfirm = p > 0.984; // the toast animates itself in via CSS on mount
 
-  // map a detail-page point through the zoom.
+  // map a detail-page point through the zoom. The detail layer is inset:0 (full
+  // frame) and only scaled about ZOOM_ORIGIN, so x and y map the same way.
   const zxD = (x: number) => ZOOM_ORIGIN.x + (x - ZOOM_ORIGIN.x) * zoom;
-  const zyD = (y: number) => (ZOOM_ORIGIN.y + (y - ZOOM_ORIGIN.y) * zoom) * DETAIL_H_FRAC;
+  const zyD = (y: number) => ZOOM_ORIGIN.y + (y - ZOOM_ORIGIN.y) * zoom;
 
   // cursor: frame coords on the hero/listing leg, image→frame on the form leg
   let cx: number;
@@ -387,16 +393,24 @@ export function RebInteraction({ progress: p }: { progress: number }) {
       <span style={ring(LIST_CARD.x, LIST_CARD.y, r2)} />
       <span style={ring(zxD(SUBMIT.x), zyD(SUBMIT.y), r3)} />
 
-      {/* cursor */}
+      {/* cursor — positioned with a GPU-composited transform instead of animating
+          left/top. The layer fills the frame (100%×100%), so translate(cx%,cy%) —
+          which is relative to the element's OWN size — lands exactly where
+          left:cx%/top:cy% did. No transition: the timeline already advances it
+          each frame, and a transition on a layout property (left/top) composites
+          inconsistently on iOS Safari and made the moves look snappy. */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          left: `${cx}%`,
-          top: `${cy}%`,
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          transform: `translate(${cx}%, ${cy}%)`,
+          willChange: "transform",
           zIndex: 3,
           pointerEvents: "none",
-          transition: "left .05s linear, top .05s linear",
         }}
       >
         <Pointer scale={clickScale} />
