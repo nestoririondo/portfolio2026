@@ -435,7 +435,7 @@ export function RebShot() {
 
 // --- mobile (step 03) keeps the existing long screenshot in the phone -------
 
-const REB_LONG = "/img/reb/smart.webp";
+const REB_LONG = "/img/reb/image.png";
 
 export function RebMobile({ showNotification = false }: { showNotification?: boolean }) {
   return (

@@ -270,7 +270,9 @@ main > section {
   transform: translateX(-50%);
   z-index: 30;
   pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .scroll-hint[data-hidden="true"] {
@@ -468,11 +470,14 @@ main > section {
 }
 
 .brand-tile {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 a:hover > .brand-tile {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px -12px color-mix(in oklab, var(--accent) 85%, transparent);
+  box-shadow: 0 14px 28px -12px
+    color-mix(in oklab, var(--accent) 85%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .brand-tile {
@@ -565,7 +570,8 @@ a:hover > .brand-tile {
 
 /* submit button "wakes up" the moment the form becomes valid */
 .btn-primary.is-ready {
-  box-shadow: 0 16px 34px -18px color-mix(in oklab, var(--accent) 80%, transparent);
+  box-shadow: 0 16px 34px -18px
+    color-mix(in oklab, var(--accent) 80%, transparent);
   animation: btn-wake 0.5s ease;
 }
 @keyframes btn-wake {
@@ -745,7 +751,10 @@ a:hover > .brand-tile {
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 /* expand the tap target to 44×44 without growing the visible 34px circle */
 .case-ctrl::before {
@@ -783,7 +792,9 @@ a:hover > .brand-tile {
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 /* enlarge the seek-dot tap target (full height, ~half the gap wide each side)
    without growing the 9px visual dot — keeps the dots easy to hit on mobile */
@@ -822,8 +833,12 @@ a:hover > .brand-tile {
   backdrop-filter: saturate(1.25) blur(8px);
   -webkit-backdrop-filter: saturate(1.25) blur(8px);
   opacity: 0.45;
-  transition: opacity 0.45s ease, background 0.45s ease, border-color 0.45s ease,
-    transform 0.45s ease, box-shadow 0.45s ease;
+  transition:
+    opacity 0.45s ease,
+    background 0.45s ease,
+    border-color 0.45s ease,
+    transform 0.45s ease,
+    box-shadow 0.45s ease;
 }
 .case-step.is-active {
   opacity: 1;
@@ -831,7 +846,8 @@ a:hover > .brand-tile {
   border-color: color-mix(in oklab, var(--accent) 22%, var(--line));
   /* resting drop shadow; the animation's end state matches this so it doesn't
      snap away when the 0.7s glow finishes */
-  box-shadow: 0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
+  box-shadow: 0 14px 30px -20px
+    color-mix(in oklab, var(--accent) 45%, transparent);
   animation: step-glow 0.7s ease;
 }
 /* compact header swaps one chapter at a time; each mounts with a clean fade-in
@@ -1069,26 +1085,19 @@ a:hover > .brand-tile {
   color: var(--muted);
   background: var(--paper);
   border: 1px solid var(--line);
-  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease,
+  transition:
+    color 0.35s ease,
+    background 0.35s ease,
+    border-color 0.35s ease,
     box-shadow 0.35s ease;
 }
-/* rail connecting one badge to the next */
-.case-step:not(:last-child) .case-step__num::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 2px;
-  height: calc(16px + 8px + 1px);
-  transform: translateX(-50%);
-  background: var(--line);
-  transition: background 0.35s ease;
-}
+
 .case-step.is-active .case-step__num {
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
-  box-shadow: 0 6px 18px -6px color-mix(in oklab, var(--accent) 65%, transparent);
+  box-shadow: 0 6px 18px -6px
+    color-mix(in oklab, var(--accent) 65%, transparent);
 }
 .case-step.is-active .case-step__num::after {
   background: color-mix(in oklab, var(--accent) 45%, var(--line));
@@ -1099,11 +1108,13 @@ a:hover > .brand-tile {
    same two shadow layers so CSS interpolates them position-for-position. */
 @keyframes step-glow {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 38%, transparent),
+    box-shadow:
+      0 0 0 0 color-mix(in oklab, var(--accent) 38%, transparent),
       0 14px 30px -20px color-mix(in oklab, var(--accent) 0%, transparent);
   }
   100% {
-    box-shadow: 0 0 0 9px color-mix(in oklab, var(--accent) 0%, transparent),
+    box-shadow:
+      0 0 0 9px color-mix(in oklab, var(--accent) 0%, transparent),
       0 14px 30px -20px color-mix(in oklab, var(--accent) 45%, transparent);
   }
 }
@@ -1281,12 +1292,11 @@ textarea {
 .kontakt-band {
   position: relative;
   overflow: clip;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--accent) 5%, var(--bg)),
-      var(--bg)
-    );
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--accent) 5%, var(--bg)),
+    var(--bg)
+  );
   border-top: 1px solid var(--line);
 }
 /* soft ambient glow that drifts slowly behind the form — not a blob, a light source */

@@ -25,7 +25,7 @@ function Portrait({ wide }: { wide?: boolean }) {
             from the parallax wrapper so the two transforms don't collide) */}
         <div className="photo-float" style={{ position: "relative" }}>
           <Photo
-            src="/img/portrait-hero.jpg"
+            src="/img/portrait-hero.png"
             alt="Néstor – Webentwickler aus Berlin"
             label="Portrait · Néstor"
             ratio={wide ? "5 / 4" : "4 / 5"}

@@ -1,4 +1,12 @@
-import { memo, useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { REB_CHAPTERS } from "../../../data/content";
 import { MiniSite } from "../../mockups/MiniSite";
 import { PhoneFrame } from "../../mockups/Frames";
@@ -47,7 +55,10 @@ const BEATS = [
 ];
 const TOTAL = BEATS.reduce((a, b) => a + b.ms, 0);
 // cumulative start time of each window; STARTS[i] = start of BEATS[i], last = TOTAL
-const STARTS = BEATS.reduce<number[]>((a, b) => [...a, a[a.length - 1] + b.ms], [0]);
+const STARTS = BEATS.reduce<number[]>(
+  (a, b) => [...a, a[a.length - 1] + b.ms],
+  [0],
+);
 // the three narrative chapters begin at the Vorher beat, the hero-hold beat, and
 // the final Ergebnis beat — used by the seek dots
 const CHAPTER_STARTS = [STARTS[0], STARTS[1], STARTS[BEATS.length - 1]];
@@ -185,11 +196,19 @@ const ClickThrough = memo(function ClickThrough({
         width: "100%",
         // on mobile the card fills the (clipped) stage so there's no dead gap and
         // nothing overflows; the site shows from the top and clips at the bottom
-        ...(fill ? { height: "100%", display: "flex", flexDirection: "column" } : null),
+        ...(fill
+          ? { height: "100%", display: "flex", flexDirection: "column" }
+          : null),
       }}
     >
       {chromeBar("realestateinberlin.nestoririondo.com")}
-      <div style={fill ? { flex: "1 1 auto", minHeight: 0, overflow: "hidden" } : undefined}>
+      <div
+        style={
+          fill
+            ? { flex: "1 1 auto", minHeight: 0, overflow: "hidden" }
+            : undefined
+        }
+      >
         <RebInteraction progress={p} />
       </div>
     </div>
@@ -203,7 +222,8 @@ export function StickyCase() {
   const [reduced, setReduced] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [mobile, setMobile] = useState(
-    () => typeof window !== "undefined" && !!window.matchMedia?.(MOBILE_Q).matches,
+    () =>
+      typeof window !== "undefined" && !!window.matchMedia?.(MOBILE_Q).matches,
   );
 
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -228,7 +248,12 @@ export function StickyCase() {
   // Warm the case-study screenshots during browser idle time so they are decoded
   // and cached before the user reaches this (below-the-fold) section.
   useEffect(() => {
-    const srcs = ["/img/reb/1.webp", "/img/reb/2.webp", "/img/reb/3.webp", "/img/reb/smart.webp"];
+    const srcs = [
+      "/img/reb/1.webp",
+      "/img/reb/2.webp",
+      "/img/reb/3.webp",
+      "/img/reb/image.png",
+    ];
     const warm = () =>
       srcs.forEach((s) => {
         const img = new Image();
@@ -239,7 +264,10 @@ export function StickyCase() {
     const id = hasRic
       ? window.requestIdleCallback(warm, { timeout: 2500 })
       : window.setTimeout(warm, 1200);
-    return () => (hasRic ? window.cancelIdleCallback?.(id as number) : clearTimeout(id as number));
+    return () =>
+      hasRic
+        ? window.cancelIdleCallback?.(id as number)
+        : clearTimeout(id as number);
   }, []);
 
   // media queries: mobile layout + reduced-motion (static fallback)
@@ -247,7 +275,8 @@ export function StickyCase() {
     const mq = window.matchMedia?.(MOBILE_Q);
     const onMq = () => setMobile(!!mq?.matches);
     mq?.addEventListener?.("change", onMq);
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) setReduced(true);
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)
+      setReduced(true);
     return () => mq?.removeEventListener?.("change", onMq);
   }, []);
 
@@ -273,9 +302,13 @@ export function StickyCase() {
       if (phase === 2) local = (p - PHONE_AT) / (1 - PHONE_AT);
       else if (phase === 1) local = (p - SEG[0]) / (PHONE_AT - SEG[0]);
       else local = SEG[0] > 0 ? p / SEG[0] : 0;
-      const overall = (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
+      const overall =
+        (phase + Math.min(Math.max(local, 0), 1)) / REB_CHAPTERS.length;
       barRef.current.style.width = `${overall * 100}%`;
-      progressRef.current?.setAttribute("aria-valuenow", String(Math.round(overall * 100)));
+      progressRef.current?.setAttribute(
+        "aria-valuenow",
+        String(Math.round(overall * 100)),
+      );
     }
     if (phase !== lastPhaseRef.current) {
       lastPhaseRef.current = phase;
@@ -343,7 +376,10 @@ export function StickyCase() {
   }, [pause, play]);
 
   const replay = useCallback(() => startFrom(0), [startFrom]);
-  const seek = useCallback((chapter: number) => startFrom(CHAPTER_STARTS[chapter] ?? 0), [startFrom]);
+  const seek = useCallback(
+    (chapter: number) => startFrom(CHAPTER_STARTS[chapter] ?? 0),
+    [startFrom],
+  );
 
   // click / drag anywhere on the progress bar to scrub to that point. While
   // dragging we just paint the frame (no playback churn); on release we resume.
@@ -416,7 +452,11 @@ export function StickyCase() {
 
   // --- shared bits -----------------------------------------------------------
 
-  const step = (c: (typeof REB_CHAPTERS)[number], on: boolean, compact = false) => (
+  const step = (
+    c: (typeof REB_CHAPTERS)[number],
+    on: boolean,
+    compact = false,
+  ) => (
     <>
       <span className="case-step__num">{c.k}</span>
       <div>
@@ -483,7 +523,9 @@ export function StickyCase() {
 
   const intro = (
     <>
-      <h3 style={{ fontSize: "clamp(26px,3vw,36px)", marginBottom: 6 }}>REB Consulting GmbH</h3>
+      <h3 style={{ fontSize: "clamp(26px,3vw,36px)", marginBottom: 6 }}>
+        REB Consulting GmbH
+      </h3>
       <div
         style={{
           display: "flex",
@@ -492,7 +534,13 @@ export function StickyCase() {
           marginBottom: mobile ? 16 : 22,
         }}
       >
-        <span style={{ fontFamily: "var(--mono)", fontSize: 13, color: "var(--muted)" }}>
+        <span
+          style={{
+            fontFamily: "var(--mono)",
+            fontSize: 13,
+            color: "var(--muted)",
+          }}
+        >
           Immobilien · Echter Kunde
         </span>
         {liveBtn}
@@ -549,7 +597,12 @@ export function StickyCase() {
           />
         ))}
       </div>
-      <button type="button" className="case-ctrl" onClick={replay} aria-label="Wiederholen">
+      <button
+        type="button"
+        className="case-ctrl"
+        onClick={replay}
+        aria-label="Wiederholen"
+      >
         <ReplayIcon />
       </button>
     </div>
@@ -559,7 +612,12 @@ export function StickyCase() {
   // Keyed on `active` so each chapter mounts fresh and fades in (never doubled).
   // The same card drives both layouts, so the case reads identically everywhere.
   const activeStepCard = (compact: boolean) => (
-    <div className={"case-step is-active" + (compact ? " case-step--compact" : " case-step--solo")}>
+    <div
+      className={
+        "case-step is-active" +
+        (compact ? " case-step--compact" : " case-step--solo")
+      }
+    >
       <div
         key={active}
         className="case-step__swap"
@@ -646,7 +704,13 @@ export function StickyCase() {
         </div>
 
         {/* 02 — Jetzt: simulierter Klickpfad (Start → Properties → Objekt) */}
-        <div style={{ ...layer(showDesktop), display: "grid", placeItems: "center" }}>
+        <div
+          style={{
+            ...layer(showDesktop),
+            display: "grid",
+            placeItems: "center",
+          }}
+        >
           <ClickThrough register={register} fill={mobile} />
         </div>
 
@@ -681,12 +745,23 @@ export function StickyCase() {
   if (reduced) {
     return (
       <div style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
-        <div className="reveal" style={{ display: "grid", gap: 32, transitionDelay: ".16s" }}>
+        <div
+          className="reveal"
+          style={{ display: "grid", gap: 32, transitionDelay: ".16s" }}
+        >
           <div className="case-left">
             {intro}
-            <p style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.55, marginBottom: 22 }}>
+            <p
+              style={{
+                fontSize: 17,
+                color: "var(--ink)",
+                lineHeight: 1.55,
+                marginBottom: 22,
+              }}
+            >
               Statt die Immobilien nur über teure Portale zu zeigen, präsentiert
-              REB sie jetzt auf der eigenen Website — live aus der Maklersoftware.
+              REB sie jetzt auf der eigenen Website — live aus der
+              Maklersoftware.
             </p>
             <div className="case-steps">
               {REB_CHAPTERS.map((c, i) => (
@@ -697,10 +772,19 @@ export function StickyCase() {
             </div>
           </div>
           <div style={cardStyle}>
-            {chromeBar("realestateinberlin.nestoririondo.com/properties/2-zimmer-mariendorf")}
+            {chromeBar(
+              "realestateinberlin.nestoririondo.com/properties/2-zimmer-mariendorf",
+            )}
             <RebShot />
           </div>
-          <div style={{ position: "relative", display: "grid", placeItems: "center", padding: "32px 0" }}>
+          <div
+            style={{
+              position: "relative",
+              display: "grid",
+              placeItems: "center",
+              padding: "32px 0",
+            }}
+          >
             <MobileAmbientBackdrop />
             <div style={{ position: "relative", zIndex: 2 }}>
               <PhoneFrame width={208}>
@@ -715,18 +799,27 @@ export function StickyCase() {
 
   // --- autoplaying case study ------------------------------------------------
   return (
-    <div ref={sectionRef} className="case-snap" style={{ marginBottom: "clamp(64px,9vw,120px)" }}>
+    <div
+      ref={sectionRef}
+      className="case-snap"
+      style={{ marginBottom: "clamp(64px,9vw,120px)" }}
+    >
       {mobile ? (
         // one coherent screen: title → visual (flexes to fill) → card + controls
         <div className="reveal case-mobile" style={{ transitionDelay: ".16s" }}>
           {/* full-bleed ambient that washes behind the whole case (and into the
               neighbouring sections) during the final beat — not clipped to the
               stage, so it reads as atmosphere rather than a boxed backdrop */}
-          <div className={"case-mobile-ambient" + (active === 2 ? " is-on" : "")} aria-hidden>
+          <div
+            className={"case-mobile-ambient" + (active === 2 ? " is-on" : "")}
+            aria-hidden
+          >
             <MobileAmbientBackdrop />
           </div>
           {mobileIdentity}
-          <div className={"case-mobile__stage" + (active === 2 ? " is-phone" : "")}>
+          <div
+            className={"case-mobile__stage" + (active === 2 ? " is-phone" : "")}
+          >
             {stage("100%")}
           </div>
           {mobilePlayer}
@@ -763,7 +856,10 @@ const chromeBar = (url: string): ReactNode => (
   >
     <div style={{ display: "flex", gap: 6 }}>
       {["#e0685a", "#e8b94c", "#5db469"].map((c, i) => (
-        <span key={i} style={{ width: 10, height: 10, borderRadius: 99, background: c }} />
+        <span
+          key={i}
+          style={{ width: 10, height: 10, borderRadius: 99, background: c }}
+        />
       ))}
     </div>
     <div
@@ -792,6 +888,7 @@ const cardStyle: CSSProperties = {
   borderRadius: 14,
   overflow: "hidden",
   border: "1px solid var(--line)",
-  boxShadow: "0 40px 90px -40px rgba(60,40,25,.5), 0 6px 16px -10px rgba(60,40,25,.25)",
+  boxShadow:
+    "0 40px 90px -40px rgba(60,40,25,.5), 0 6px 16px -10px rgba(60,40,25,.25)",
   background: "#fff",
 };
