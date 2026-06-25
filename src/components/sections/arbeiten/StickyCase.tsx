@@ -661,7 +661,9 @@ export function StickyCase() {
             placeItems: mobile ? "start center" : "center",
           }}
         >
-          <MobileAmbientBackdrop />
+          {/* on mobile the ambient is hoisted out to a full-bleed layer (see the
+              mobile render); inside the clipped stage keep it only on desktop */}
+          {!mobile && <MobileAmbientBackdrop />}
           <div
             className={"case-phone-rise" + (showPhone ? " is-active" : "")}
             style={{ position: "relative", zIndex: 2 }}
@@ -717,8 +719,16 @@ export function StickyCase() {
       {mobile ? (
         // one coherent screen: title → visual (flexes to fill) → card + controls
         <div className="reveal case-mobile" style={{ transitionDelay: ".16s" }}>
+          {/* full-bleed ambient that washes behind the whole case (and into the
+              neighbouring sections) during the final beat — not clipped to the
+              stage, so it reads as atmosphere rather than a boxed backdrop */}
+          <div className={"case-mobile-ambient" + (active === 2 ? " is-on" : "")} aria-hidden>
+            <MobileAmbientBackdrop />
+          </div>
           {mobileIdentity}
-          <div className="case-mobile__stage">{stage("100%")}</div>
+          <div className={"case-mobile__stage" + (active === 2 ? " is-phone" : "")}>
+            {stage("100%")}
+          </div>
           {mobilePlayer}
         </div>
       ) : (

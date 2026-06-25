@@ -39,9 +39,28 @@ html {
    chapter card + controls. The block is content-height (no forced viewport
    height) so iOS Safari's dynamic toolbar can't leave dead bands above/below. */
 .case-mobile {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+/* content sits above the ambient wash */
+.case-mobile > * {
+  position: relative;
+  z-index: 1;
+}
+/* full-bleed ambient: extends well past the case so the colour bleeds up into the
+   section above and down into the one below; fades in only on the final beat */
+.case-mobile-ambient {
+  position: absolute;
+  inset: -28% -8%;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.case-mobile-ambient.is-on {
+  opacity: 1;
 }
 .case-mobile__stage {
   /* the visual is sized to the DYNAMIC viewport (dvh tracks the toolbar), so it
@@ -52,6 +71,12 @@ html {
   /* clip the visual so a mockup taller than the stage can never spill onto the
      chapter card or controls below it */
   overflow: hidden;
+}
+/* phone beat: the tall phone is clipped at the stage bottom — fade that edge so
+   it dissolves into the ambient instead of showing a hard cut/"border" */
+.case-mobile__stage.is-phone {
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
 }
 /* clip (not hidden) stops decorative bleed from causing horizontal scroll
    without creating a scroll container — so position: sticky keeps working.
@@ -867,7 +892,8 @@ a:hover > .brand-tile {
   padding: 12px 14px;
   min-height: 104px;
   align-items: flex-start;
-  background: color-mix(in oklab, var(--paper) 88%, transparent);
+  /* translucent frosted glass so the ambient wash bleeds through the card */
+  background: color-mix(in oklab, var(--paper) 74%, transparent);
   border-color: color-mix(in oklab, var(--accent) 26%, var(--line));
   backdrop-filter: saturate(1.45) blur(18px);
   -webkit-backdrop-filter: saturate(1.45) blur(18px);
@@ -876,7 +902,7 @@ a:hover > .brand-tile {
     0 24px 54px -42px color-mix(in oklab, var(--accent) 52%, transparent);
 }
 .case-step--compact.is-active {
-  background: color-mix(in oklab, var(--paper) 82%, var(--accent-tint));
+  background: color-mix(in oklab, var(--paper) 70%, transparent);
   border-color: color-mix(in oklab, var(--accent) 34%, var(--line));
 }
 .case-phone-rise {
