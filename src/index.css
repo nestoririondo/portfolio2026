@@ -536,21 +536,24 @@ a:hover > .brand-tile {
   border-radius: 999px;
   display: grid;
   place-items: center;
-  color: var(--accent);
-  background: var(--accent-soft);
+  color: var(--contact-icon-color, var(--accent));
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--paper) 70%, var(--contact-icon-color, var(--accent)) 12%),
+    color-mix(in oklab, var(--bg) 78%, var(--contact-icon-color, var(--accent)) 14%)
+  );
+  border: 1px solid
+    color-mix(in oklab, var(--contact-icon-color, var(--accent)) 24%, var(--line));
   flex: 0 0 auto;
 }
-.contact-method:nth-child(1) .contact-method-icon {
-  color: #168a45;
-  background: color-mix(in oklab, #25d366 18%, #fff);
+.contact-method:nth-child(1) {
+  --contact-icon-color: color-mix(in oklab, var(--accent2) 86%, var(--ink));
 }
-.contact-method:nth-child(2) .contact-method-icon {
-  color: #5b7fa6;
-  background: color-mix(in oklab, #5b7fa6 14%, #fff);
+.contact-method:nth-child(2) {
+  --contact-icon-color: color-mix(in oklab, var(--accent2) 56%, var(--accent));
 }
-.contact-method:nth-child(3) .contact-method-icon {
-  color: #bf7050;
-  background: color-mix(in oklab, #bf7050 16%, #fff);
+.contact-method:nth-child(3) {
+  --contact-icon-color: color-mix(in oklab, var(--accent) 84%, var(--ink));
 }
 
 /* contact form — live focus + completion feedback */
@@ -1690,6 +1693,16 @@ textarea {
   }
   .case-sticky {
     grid-template-columns: 1fr !important;
+  }
+  .booking-visual {
+    min-height: min(520px, 64vh) !important;
+  }
+  .booking-phone-layer {
+    transform: translateX(0) scale(0.82) !important;
+  }
+  .booking-admin-layer {
+    width: 92%;
+    transform: translateX(0) scale(0.9) !important;
   }
   .case-left {
     position: static !important;

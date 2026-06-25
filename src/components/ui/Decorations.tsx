@@ -28,25 +28,27 @@ export function Squiggle({
 }
 
 /** Soft organic blob shape for background accents. */
+const DEFAULT_BLOB =
+  "M48,-67C61,-58,69,-42,73,-26C76,-9,75,9,68,24C61,40,49,53,34,62C18,71,-1,76,-19,72C-37,68,-54,55,-65,39C-75,22,-79,1,-75,-18C-71,-37,-58,-53,-43,-63C-27,-73,-9,-76,5,-78C19,-80,35,-77,48,-67Z";
+
 export function Blob({
   color = "color-mix(in oklab,var(--accent2) 20%,transparent)",
   style,
   className,
   dataPx,
+  d = DEFAULT_BLOB,
 }: {
   color?: string;
   style?: CSSProperties;
   className?: string;
   /** Parallax speed picked up by a `useParallax` ancestor section. */
   dataPx?: number;
+  /** Override path for a different blob silhouette. */
+  d?: string;
 }) {
   return (
     <svg viewBox="0 0 200 200" className={className} style={style} data-px={dataPx} aria-hidden="true">
-      <path
-        fill={color}
-        d="M48,-67C61,-58,69,-42,73,-26C76,-9,75,9,68,24C61,40,49,53,34,62C18,71,-1,76,-19,72C-37,68,-54,55,-65,39C-75,22,-79,1,-75,-18C-71,-37,-58,-53,-43,-63C-27,-73,-9,-76,5,-78C19,-80,35,-77,48,-67Z"
-        transform="translate(100 100)"
-      />
+      <path fill={color} d={d} transform="translate(100 100)" />
     </svg>
   );
 }

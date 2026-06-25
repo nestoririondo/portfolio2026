@@ -19,6 +19,19 @@ function Portrait({ wide }: { wide?: boolean }) {
           zIndex: 0,
         }}
       />
+      <Blob
+        color="color-mix(in oklab,#f0db8a 45%,transparent)"
+        d="M54,-63C70,-52,82,-35,85,-16C88,3,82,24,71,41C60,58,44,71,25,76C5,81,-17,78,-39,69C-61,60,-83,45,-89,25C-95,5,-85,-21,-70,-40C-56,-59,-37,-71,-17,-75C4,-79,25,-74,54,-63Z"
+        dataPx={0.05}
+        style={{
+          position: "absolute",
+          width: "78%",
+          top: "26%",
+          left: "-12%",
+          zIndex: 0,
+          opacity: 0.6,
+        }}
+      />
       {/* scroll-parallax layer (JS writes an inline transform here) */}
       <div data-px={0.04} style={{ position: "relative", zIndex: 1 }}>
         {/* gentle-float layer (CSS animates a transform here — kept separate

@@ -9,8 +9,16 @@ export function Ueber() {
   const secRef = useRef<HTMLElement>(null);
   useParallax(secRef);
   return (
-    <section ref={secRef} id="ueber" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
-      <div className="wrap">
+    <section
+      ref={secRef}
+      id="ueber"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        padding: "clamp(64px,9vw,120px) 0",
+      }}
+    >
+      <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
         <div
           className="reveal ueber-grid"
           style={{
@@ -45,7 +53,20 @@ export function Ueber() {
               </div>
             </div>
           </div>
-          <div>
+          <div style={{ position: "relative" }}>
+            <Blob
+              color="color-mix(in oklab,#e9b04e 20%,transparent)"
+              dataPx={0.04}
+              style={{
+                position: "absolute",
+                width: "56%",
+                top: "-26%",
+                right: "0%",
+                zIndex: 0,
+                pointerEvents: "none",
+              }}
+            />
+            <div style={{ position: "relative", zIndex: 1 }}>
             <span className="eyebrow">Über mich</span>
             <h2
               style={{
@@ -78,6 +99,7 @@ export function Ueber() {
                   <Icon name={icon} size={16} /> {label}
                 </span>
               ))}
+            </div>
             </div>
           </div>
         </div>

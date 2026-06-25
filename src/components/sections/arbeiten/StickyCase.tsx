@@ -153,14 +153,13 @@ function MobileAmbientBackdrop() {
         pointerEvents: "none",
       }}
     >
-      <span style={blob("28%", "28%", "42%", "#bf7050", 0.2)} />
-      <span style={blob("72%", "62%", "38%", "#3b6ea0", 0.16)} />
-      <span style={blob("56%", "78%", "32%", "#bd8a2c", 0.16)} />
+      <span style={blob("28%", "28%", "42%", "var(--accent2)", 0.22)} />
+      <span style={blob("72%", "62%", "38%", "#e9b04e", 0.18)} />
       <span
         style={{
           position: "absolute",
           inset: "10%",
-          opacity: 0.24,
+          opacity: 0.18,
           mixBlendMode: "multiply",
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
