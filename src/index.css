@@ -51,6 +51,9 @@ html {
 .case-mobile__stage {
   flex: 1 1 auto;
   min-height: 0;
+  /* clip the visual so a mockup taller than the stage can never spill onto the
+     chapter card or controls below it */
+  overflow: hidden;
 }
 /* clip (not hidden) stops decorative bleed from causing horizontal scroll
    without creating a scroll container — so position: sticky keeps working.
@@ -864,7 +867,7 @@ a:hover > .brand-tile {
 }
 .case-step--compact {
   padding: 12px 14px;
-  min-height: 122px;
+  min-height: 104px;
   align-items: flex-start;
   background: color-mix(in oklab, var(--paper) 88%, transparent);
   border-color: color-mix(in oklab, var(--accent) 26%, var(--line));

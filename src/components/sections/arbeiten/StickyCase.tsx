@@ -41,7 +41,7 @@ const MOBILE_Q = "(max-width: 920px)";
 const BEATS = [
   { p0: 0, p1: SEG[0], ms: 2500 }, // 01 Vorher holds
   { p0: SEG[0], p1: SEG[0], ms: 1300 }, // 02 opens on the homepage hero — holds before the cursor moves
-  { p0: SEG[0], p1: SEG[1], ms: 5000 }, // 02 click-through plays the path
+  { p0: SEG[0], p1: SEG[1], ms: 6000 }, // 02 click-through plays the path — slower so the cursor moves feel natural, not snappy
   { p0: SEG[1], p1: PHONE_AT, ms: 900 }, //    "Anfrage gesendet" rests on desktop
   { p0: PHONE_AT, p1: 1, ms: 3200 }, // 03 phone rises, banner drops, holds
 ];
@@ -171,15 +171,27 @@ function MobileAmbientBackdrop() {
  */
 const ClickThrough = memo(function ClickThrough({
   register,
+  fill,
 }: {
   register: (set: (p: number) => void) => void;
+  fill?: boolean;
 }) {
   const [p, setP] = useState(0);
   useEffect(() => register(setP), [register]);
   return (
-    <div style={{ ...cardStyle, width: "100%" }}>
+    <div
+      style={{
+        ...cardStyle,
+        width: "100%",
+        // on mobile the card fills the (clipped) stage so there's no dead gap and
+        // nothing overflows; the site shows from the top and clips at the bottom
+        ...(fill ? { height: "100%", display: "flex", flexDirection: "column" } : null),
+      }}
+    >
       {chromeBar("realestateinberlin.nestoririondo.com")}
-      <RebInteraction progress={p} />
+      <div style={fill ? { flex: "1 1 auto", minHeight: 0, overflow: "hidden" } : undefined}>
+        <RebInteraction progress={p} />
+      </div>
     </div>
   );
 });
@@ -635,18 +647,26 @@ export function StickyCase() {
 
         {/* 02 — Jetzt: simulierter Klickpfad (Start → Properties → Objekt) */}
         <div style={{ ...layer(showDesktop), display: "grid", placeItems: "center" }}>
-          <ClickThrough register={register} />
+          <ClickThrough register={register} fill={mobile} />
         </div>
 
         {/* 03 — Mobil, with a soft ambient backdrop behind the phone. The
             phone fades in a beat after the desktop view starts clearing. */}
-        <div style={{ ...layer(showPhone, 0.18), display: "grid", placeItems: "center" }}>
+        <div
+          style={{
+            ...layer(showPhone, 0.18),
+            display: "grid",
+            // on mobile the phone is taller than the (clipped) stage — top-align
+            // it so the notification banner always shows and only the bottom clips
+            placeItems: mobile ? "start center" : "center",
+          }}
+        >
           <MobileAmbientBackdrop />
           <div
             className={"case-phone-rise" + (showPhone ? " is-active" : "")}
             style={{ position: "relative", zIndex: 2 }}
           >
-            <PhoneFrame width={mobile ? 200 : 252}>
+            <PhoneFrame width={mobile ? 178 : 252}>
               <RebMobile showNotification={notify} />
             </PhoneFrame>
           </div>
