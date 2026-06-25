@@ -260,6 +260,23 @@ main > section {
   animation-delay: -3s; /* desync hero vs about */
 }
 
+/* slow ambient float for SVG blobs; parallax stays on the outer SVG */
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--blob-float-y, -10px), 0);
+  }
+}
+.blob-float {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blob-float 11s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* scroll affordance — thin track with a dot drifting downward */
 .scroll-hint {
   position: fixed;
@@ -337,6 +354,7 @@ main > section {
   .confirm-item,
   .spinner,
   .photo-float,
+  .blob-float,
   .avail-dot,
   .scroll-hint__dot {
     animation: none;

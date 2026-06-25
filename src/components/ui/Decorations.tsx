@@ -36,6 +36,10 @@ export function Blob({
   style,
   className,
   dataPx,
+  float = true,
+  floatDuration = 11,
+  floatDelay = 0,
+  floatY = -10,
   d = DEFAULT_BLOB,
 }: {
   color?: string;
@@ -43,12 +47,28 @@ export function Blob({
   className?: string;
   /** Parallax speed picked up by a `useParallax` ancestor section. */
   dataPx?: number;
+  /** Disable the slow idle float when a blob should stay fully still. */
+  float?: boolean;
+  /** Slow idle float duration in seconds. */
+  floatDuration?: number;
+  /** Negative values are useful to desync repeated blobs. */
+  floatDelay?: number;
+  /** Vertical lift at the top of the float cycle, in pixels. */
+  floatY?: number;
   /** Override path for a different blob silhouette. */
   d?: string;
 }) {
+  const floatStyle = {
+    "--blob-float-y": `${floatY}px`,
+    animationDuration: `${floatDuration}s`,
+    animationDelay: `${floatDelay}s`,
+  } as CSSProperties;
+
   return (
     <svg viewBox="0 0 200 200" className={className} style={style} data-px={dataPx} aria-hidden="true">
-      <path fill={color} d={d} transform="translate(100 100)" />
+      <g className={float ? "blob-float" : undefined} style={float ? floatStyle : undefined}>
+        <path fill={color} d={d} transform="translate(100 100)" />
+      </g>
     </svg>
   );
 }

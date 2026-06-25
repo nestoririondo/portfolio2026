@@ -33,7 +33,9 @@ export function Ueber() {
           <div style={{ position: "relative" }}>
             <Blob
               color="color-mix(in oklab,var(--accent2) 24%,transparent)"
-              dataPx={-0.07}
+              floatDuration={14}
+              floatDelay={-3.5}
+              floatY={-11}
               style={{
                 position: "absolute",
                 width: "58%",
@@ -58,7 +60,9 @@ export function Ueber() {
           <div style={{ position: "relative" }}>
             <Blob
               color="color-mix(in oklab,#e9b04e 20%,transparent)"
-              dataPx={0.04}
+              floatDuration={17.5}
+              floatDelay={-7}
+              floatY={-8}
               style={{
                 position: "absolute",
                 width: "56%",

@@ -390,6 +390,7 @@ function BookingVisual({
       />
       <Blob
         color="color-mix(in oklab,#e9b04e 22%,transparent)"
+        float={false}
         style={{
           position: "absolute",
           width: "44%",
