@@ -267,82 +267,12 @@
       "photo": "foto",
       "chips": ["Strategie", "Prozesse", "Förderung"]
     },
-    "flip": {
-      "beforeNames": {
-        "rest": "Trattoria Da Mario",
-        "med": "Praxis Dr. Vogel",
-        "reb": "Bäckerei Sonne"
-      },
-      "blink": "blinkt!",
-      "nav": ["Home", "Info", "Kontakt"],
-      "welcome": "» Herzlich Willkommen auf unserer Homepage",
-      "body": "Schön, dass Sie da sind. Hier finden Sie alle Informationen...",
-      "image": "[bild]",
-      "hours": "Öffnungszeiten siehe unten ▼",
-      "menu": "Menü",
-      "contact": "Kontakt",
-      "reserve": "Reservieren",
-      "after": {
-        "rest": {
-          "name": "Trattoria Da Mario",
-          "tag": "Ristorante",
-          "headline": "Echte italienische Küche in Kreuzberg."
-        },
-        "med": {
-          "name": "Praxis Dr. Vogel",
-          "tag": "Hausarztpraxis",
-          "headline": "Moderne Hausarztpraxis in Pankow."
-        },
-        "reb": {
-          "name": "Bäckerei Sonne",
-          "tag": "Handwerksbäckerei",
-          "headline": "Brot aus eigener Backstube, täglich frisch."
-        }
-      }
-    },
     "reb": {
       "nameText": "Anna Schäfer",
       "messageText": "Interesse an dieser Wohnung – bitte um Rückruf.",
+      "sentLabel": "Anfrage gesendet",
       "mailLabel": "E-Mail-Benachrichtigung",
       "mailTitle": "Neue Anfrage von Anna Schäfer"
-    },
-    "softwareApps": {
-      "personName": "Paul Weiß",
-      "team": [
-        { "n": "Anna Berg", "r": "Teamleitung" },
-        { "n": "Tomáš Novák", "r": "Entwicklung" },
-        { "n": "Leyla Demir", "r": "Design" },
-        { "n": "Jonas Frei", "r": "Vertrieb" },
-        { "n": "Marie Klein", "r": "Marketing" },
-        { "n": "Paul Weiß", "r": "Support" }
-      ],
-      "projectLead": "Projektleitung",
-      "skills": ["Projektleitung", "Design", "Kommunikation", "Entwicklung", "Vertrieb", "Buchhaltung"],
-      "overview": "Übersicht",
-      "matrix": "Kompetenzmatrix",
-      "teamLabel": "Team",
-      "reports": "Berichte",
-      "settings": "Einstellungen",
-      "employees": "Mitarbeitende",
-      "competencies": "Kompetenzen",
-      "coverage": "Abdeckung",
-      "accounting": "Buchhaltung",
-      "development": "Entwicklung",
-      "sales": "Vertrieb",
-      "onePerson": "nur 1 Person",
-      "outageRisk": "Risiko bei Ausfall",
-      "juniorMissing": "Nachwuchs fehlt",
-      "teamDate": "Team Berlin · Stand März 2026",
-      "recommendation": "Empfehlung",
-      "recommendationBody": "2 Mitarbeitende für Buchhaltung schulen, um das Ausfallrisiko zu senken.",
-      "criticalGaps": "kritische Lücken",
-      "level": "Niveau",
-      "expert": "Experte",
-      "early": "Früh",
-      "late": "Spät",
-      "free": "frei",
-      "roster": "Dienstplan",
-      "week": "KW 12 · 4 im Team"
     }
   },
   "theme": {

@@ -267,82 +267,12 @@
       "photo": "photo",
       "chips": ["Strategy", "Processes", "Funding"]
     },
-    "flip": {
-      "beforeNames": {
-        "rest": "Trattoria Da Mario",
-        "med": "Dr Vogel Practice",
-        "reb": "Sonne Bakery"
-      },
-      "blink": "blinks!",
-      "nav": ["Home", "Info", "Contact"],
-      "welcome": "» Welcome to our homepage",
-      "body": "Nice to have you here. You will find all information...",
-      "image": "[image]",
-      "hours": "Opening hours below ▼",
-      "menu": "Menu",
-      "contact": "Contact",
-      "reserve": "Reserve",
-      "after": {
-        "rest": {
-          "name": "Trattoria Da Mario",
-          "tag": "Ristorante",
-          "headline": "Real Italian food in Kreuzberg."
-        },
-        "med": {
-          "name": "Dr Vogel Practice",
-          "tag": "Family practice",
-          "headline": "A modern family practice in Pankow."
-        },
-        "reb": {
-          "name": "Sonne Bakery",
-          "tag": "Artisan bakery",
-          "headline": "Bread from our own bakery, fresh every day."
-        }
-      }
-    },
     "reb": {
       "nameText": "Anna Schaefer",
       "messageText": "Interested in this apartment. Please call me back.",
+      "sentLabel": "Enquiry sent",
       "mailLabel": "Email notification",
       "mailTitle": "New enquiry from Anna Schaefer"
-    },
-    "softwareApps": {
-      "personName": "Paul White",
-      "team": [
-        { "n": "Anna Berg", "r": "Team lead" },
-        { "n": "Tomas Novak", "r": "Development" },
-        { "n": "Leyla Demir", "r": "Design" },
-        { "n": "Jonas Frei", "r": "Sales" },
-        { "n": "Marie Klein", "r": "Marketing" },
-        { "n": "Paul White", "r": "Support" }
-      ],
-      "projectLead": "Project lead",
-      "skills": ["Project lead", "Design", "Communication", "Development", "Sales", "Accounting"],
-      "overview": "Overview",
-      "matrix": "Skills matrix",
-      "teamLabel": "Team",
-      "reports": "Reports",
-      "settings": "Settings",
-      "employees": "Employees",
-      "competencies": "Skills",
-      "coverage": "Coverage",
-      "accounting": "Accounting",
-      "development": "Development",
-      "sales": "Sales",
-      "onePerson": "only 1 person",
-      "outageRisk": "risk if absent",
-      "juniorMissing": "junior missing",
-      "teamDate": "Berlin team · March 2026",
-      "recommendation": "Recommendation",
-      "recommendationBody": "Train 2 employees in accounting to reduce absence risk.",
-      "criticalGaps": "critical gaps",
-      "level": "Level",
-      "expert": "Expert",
-      "early": "Early",
-      "late": "Late",
-      "free": "off",
-      "roster": "Roster",
-      "week": "Week 12 · 4 on team"
     }
   },
   "theme": {

@@ -43,7 +43,7 @@ src/
     ui/                   # primitives: Icon, Placeholder, Decorations, ThemeSwitcher
     layout/               # Header, Footer
     sections/             # Hero, Angebot, Ueber, Kontakt
-      arbeiten/           # case-study section (StickyCase + shared CaseParts)
+      arbeiten/           # case-study section (StickyCase + work cases)
       software/           # outcomes section (Gfx, OutcomeCard, Software)
     mockups/              # rendered (not image) website/app mockups used in case studies
 ```
@@ -100,6 +100,5 @@ docker run --rm -p 3000:3000 -e RESEND_API_KEY=re_xxx portfolio2026
 ### Notes
 
 - Styling stays inline (React style objects) + CSS variables, matching the original design.
-- Components in `mockups/` such as `BeforeAfterSlider`, `FlipCard`, `KompassApp`, and
-  `DispatchApp` are preserved showcase pieces that aren't mounted on the page yet — import
-  them where needed.
+- Components in `mockups/` provide the active case-study visuals and can be
+  composed into sections as needed.

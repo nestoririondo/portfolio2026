@@ -9,9 +9,6 @@ const HERO = "/img/reb/1.webp";
 const LISTING = "/img/reb/2.webp";
 const DETAIL = "/img/reb/3.webp";
 
-// intrinsic pixel ratios (w / h)
-const LIST_R = 2085 / 4722; // tall properties list
-
 const SHOT_RATIO = "2085 / 2033";
 // Stop at the 7th property, not the absolute page bottom.
 const LIST_SEVENTH_SHIFT = 52.5;
@@ -384,7 +381,7 @@ export function RebInteraction({ progress: p }: { progress: number }) {
             >
               ✓
             </span>
-            Anfrage gesendet
+            {copy.sentLabel}
           </div>
         )}
       </div>

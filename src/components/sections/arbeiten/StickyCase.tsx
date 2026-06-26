@@ -524,9 +524,12 @@ export function StickyCase() {
 
   const intro = (
     <>
-      <h3 style={{ fontSize: "clamp(26px,3vw,36px)", marginBottom: 6 }}>
-        REB Consulting GmbH
-      </h3>
+      <div className="case-title-row">
+        <span className="case-index-pill" aria-hidden>01</span>
+        <h3 style={{ fontSize: "clamp(26px,3vw,36px)" }}>
+          REB Consulting GmbH
+        </h3>
+      </div>
       <div
         style={{
           display: "flex",
@@ -648,9 +651,12 @@ export function StickyCase() {
   const mobileIdentity = (
     <div style={{ flex: "0 0 auto" }}>
       {/* title on its own line so it never wraps behind the pill */}
-      <h3 style={{ fontSize: 20, lineHeight: 1.12, marginBottom: 8 }}>
-        REB Consulting GmbH
-      </h3>
+      <div className="case-title-row">
+        <span className="case-index-pill" aria-hidden>01</span>
+        <h3 style={{ fontSize: 20, lineHeight: 1.12 }}>
+          REB Consulting GmbH
+        </h3>
+      </div>
       <div
         style={{
           display: "flex",
@@ -800,7 +806,6 @@ export function StickyCase() {
   return (
     <div
       ref={sectionRef}
-      className="case-snap"
       style={{ marginBottom: "clamp(64px,9vw,120px)" }}
     >
       {mobile ? (

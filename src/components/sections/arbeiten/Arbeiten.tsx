@@ -487,128 +487,130 @@ function BookingCase() {
   );
 
   return (
-    <div
-      className="reveal booking-case case-snap"
-      style={{ marginTop: "clamp(80px,10vw,140px)" }}
-    >
-      <div
-        className="case-sticky"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.08fr .92fr",
-          gap: "clamp(24px,4vw,56px)",
-          alignItems: "center",
-        }}
-      >
-        <BookingVisual active={active} copy={copy} />
-        <div className="case-left">
-          <h3
-            className="booking-copy-title"
-            style={{ fontSize: "clamp(30px,4vw,48px)", marginBottom: 10 }}
-          >
-            {copy.title}
-          </h3>
-          <div className="case-meta booking-meta">{copy.meta}</div>
-          <p
-            className="booking-copy-body"
-            style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6, marginBottom: 22 }}
-          >
-            {copy.body}
-          </p>
-          <div className="case-step is-active case-step--solo">
-            <div
-              key={current.n}
-              className="case-step__swap"
-              style={{ display: "flex", gap: 16, width: "100%" }}
-            >
-              <span className="case-step__num">{current.n}</span>
-              <span>
-                <span
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--mono)",
-                    fontSize: 11,
-                    letterSpacing: ".1em",
-                    textTransform: "uppercase",
-                    color: "var(--accent)",
-                    marginBottom: 6,
-                  }}
-                >
-                  {current.label}
-                </span>
-                <strong
-                  style={{
-                    display: "block",
-                    fontFamily: "var(--font-head)",
-                    fontSize: 22,
-                    fontWeight: 500,
-                    marginBottom: 6,
-                  }}
-                >
-                  {current.title}
-                </strong>
-                <span style={{ color: "var(--muted)", lineHeight: 1.55 }}>
-                  {current.body}
-                </span>
-              </span>
-            </div>
-          </div>
-          <div className="booking-player" style={{ marginTop: 22 }}>
-            <div
-              className="case-progress"
-              role="slider"
-              tabIndex={0}
-              aria-label={t.arbeiten.reb.progressLabel}
-              aria-valuemin={1}
-              aria-valuemax={copy.steps.length}
-              aria-valuenow={active + 1}
-              onPointerDown={seekFromBar}
-              onKeyDown={onBarKey}
-            >
-              <div
-                className="case-progress__fill"
-                style={{ width: `${((active + 1) / copy.steps.length) * 100}%` }}
-              />
-              {copy.steps.slice(1).map((_, i) => (
-                <span
-                  key={i}
-                  className="case-progress__tick"
-                  style={{ left: `${((i + 1) / copy.steps.length) * 100}%` }}
-                />
-              ))}
-            </div>
-            <div className="case-controls">
-              <button
-                type="button"
-                className="case-ctrl"
-                onClick={() => setPlaying((p) => !p)}
-                aria-label={playing ? t.common.pause : t.common.play}
+    <div className="reveal booking-case">
+      <div className="booking-case__inner">
+        <div
+          className="case-sticky"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.08fr .92fr",
+            gap: "clamp(24px,4vw,56px)",
+            alignItems: "center",
+          }}
+        >
+          <BookingVisual active={active} copy={copy} />
+          <div className="case-left">
+            <div className="case-title-row booking-title-row">
+              <span className="case-index-pill" aria-hidden>02</span>
+              <h3
+                className="booking-copy-title"
+                style={{ fontSize: "clamp(30px,4vw,48px)" }}
               >
-                {playing ? <PauseIcon /> : <PlayIcon />}
-              </button>
-              <div className="case-dots">
-                {copy.steps.map((step, i) => (
-                  <button
-                    key={step.n}
-                    type="button"
-                    className={"case-dot" + (active === i ? " is-active" : "")}
-                    onClick={() => seek(i)}
-                    aria-label={`${step.n} · ${step.title}`}
-                    aria-current={active === i ? "step" : undefined}
+                {copy.title}
+              </h3>
+            </div>
+            <div className="case-meta booking-meta">{copy.meta}</div>
+            <p
+              className="booking-copy-body"
+              style={{ fontSize: 17, color: "var(--muted)", lineHeight: 1.6, marginBottom: 22 }}
+            >
+              {copy.body}
+            </p>
+            <div className="case-step is-active case-step--solo">
+              <div
+                key={current.n}
+                className="case-step__swap"
+                style={{ display: "flex", gap: 16, width: "100%" }}
+              >
+                <span className="case-step__num">{current.n}</span>
+                <span>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--mono)",
+                      fontSize: 11,
+                      letterSpacing: ".1em",
+                      textTransform: "uppercase",
+                      color: "var(--accent)",
+                      marginBottom: 6,
+                    }}
+                  >
+                    {current.label}
+                  </span>
+                  <strong
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-head)",
+                      fontSize: 22,
+                      fontWeight: 500,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {current.title}
+                  </strong>
+                  <span style={{ color: "var(--muted)", lineHeight: 1.55 }}>
+                    {current.body}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div className="booking-player" style={{ marginTop: 22 }}>
+              <div
+                className="case-progress"
+                role="slider"
+                tabIndex={0}
+                aria-label={t.arbeiten.reb.progressLabel}
+                aria-valuemin={1}
+                aria-valuemax={copy.steps.length}
+                aria-valuenow={active + 1}
+                onPointerDown={seekFromBar}
+                onKeyDown={onBarKey}
+              >
+                <div
+                  className="case-progress__fill"
+                  style={{ width: `${((active + 1) / copy.steps.length) * 100}%` }}
+                />
+                {copy.steps.slice(1).map((_, i) => (
+                  <span
+                    key={i}
+                    className="case-progress__tick"
+                    style={{ left: `${((i + 1) / copy.steps.length) * 100}%` }}
                   />
                 ))}
               </div>
-              <button
-                type="button"
-                className="case-ctrl"
-                onClick={() => {
-                  setActive(0);
-                  setPlaying(true);
-                }}
-                aria-label={t.common.replay}
-              >
-                <ReplayIcon />
-              </button>
+              <div className="case-controls">
+                <button
+                  type="button"
+                  className="case-ctrl"
+                  onClick={() => setPlaying((p) => !p)}
+                  aria-label={playing ? t.common.pause : t.common.play}
+                >
+                  {playing ? <PauseIcon /> : <PlayIcon />}
+                </button>
+                <div className="case-dots">
+                  {copy.steps.map((step, i) => (
+                    <button
+                      key={step.n}
+                      type="button"
+                      className={"case-dot" + (active === i ? " is-active" : "")}
+                      onClick={() => seek(i)}
+                      aria-label={`${step.n} · ${step.title}`}
+                      aria-current={active === i ? "step" : undefined}
+                    />
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="case-ctrl"
+                  onClick={() => {
+                    setActive(0);
+                    setPlaying(true);
+                  }}
+                  aria-label={t.common.replay}
+                >
+                  <ReplayIcon />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -620,7 +622,7 @@ function BookingCase() {
 export function Arbeiten() {
   const { t } = useI18n();
   return (
-    <section id="arbeiten" style={{ padding: "clamp(64px,9vw,120px) 0" }}>
+    <section id="arbeiten" style={{ padding: "clamp(64px,9vw,120px) 0 0" }}>
       <div className="wrap">
         <div className="reveal" style={{ marginBottom: "clamp(24px,3.5vw,40px)" }}>
           <span className="eyebrow">{t.arbeiten.eyebrow}</span>

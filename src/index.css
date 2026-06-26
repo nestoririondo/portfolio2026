@@ -23,15 +23,7 @@
 }
 html {
   scroll-behavior: smooth;
-  /* gentle scroll-snap so the work case settles centred. `proximity` (not
-     `mandatory`) only nudges when you're already near and never traps the scroll;
-     only .case-snap participates. The case is sized to fit one screen on every
-     device, so the whole unit (title → visual → controls) lands in view. */
-  scroll-snap-type: y proximity;
   scroll-padding-top: 0;
-}
-.case-snap {
-  scroll-snap-align: center;
 }
 /* mobile case study as one coherent block: title, then the visual, then the
    chapter card + controls. The block is content-height (no forced viewport
@@ -702,7 +694,6 @@ a:hover > .brand-tile {
   }
   html {
     scroll-behavior: auto;
-    scroll-snap-type: none;
   }
   .lang-switch-indicator {
     transition: none;
@@ -950,6 +941,9 @@ a:hover > .brand-tile {
   min-height: 152px;
   align-items: flex-start;
 }
+.booking-case .case-step--solo {
+  min-height: 192px;
+}
 .case-step--compact {
   padding: 12px 14px;
   min-height: 104px;
@@ -978,6 +972,88 @@ a:hover > .brand-tile {
 .case-phone-rise.is-active {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+.booking-case {
+  --accent: var(--accent2);
+  position: relative;
+  width: 100vw;
+  margin: clamp(24px, 4vw, 54px) calc(50% - 50vw) 0;
+  padding: clamp(56px, 7vw, 92px) 0 clamp(64px, 8vw, 104px);
+  overflow: clip;
+  border-top: 1px solid color-mix(in oklab, var(--accent2) 18%, var(--line));
+  border-bottom: 1px solid color-mix(in oklab, var(--accent2) 16%, var(--line));
+  background:
+    radial-gradient(
+      circle at 8% 28%,
+      color-mix(in oklab, var(--accent2) 12%, transparent),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--accent2) 9%, var(--bg)),
+      color-mix(in oklab, var(--paper) 68%, var(--accent2-soft))
+    );
+}
+.booking-case::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+.booking-case__inner {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+}
+.case-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  margin-bottom: clamp(22px, 3vw, 34px);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--accent) 78%, var(--ink));
+}
+.case-marker span:first-child {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, var(--line));
+  background: color-mix(in oklab, var(--paper) 80%, transparent);
+  color: var(--accent);
+}
+.case-marker span:last-child {
+  color: color-mix(in oklab, var(--muted) 78%, var(--accent));
+}
+.case-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.case-index-pill {
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--accent) 26%, var(--line));
+  background: color-mix(in oklab, var(--paper) 74%, transparent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
 }
 .ios-mail-banner {
   position: absolute;
@@ -1015,34 +1091,6 @@ a:hover > .brand-tile {
 .ios-mail-banner__text {
   flex: 1;
   min-width: 0;
-}
-.ios-mail-banner__row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-.ios-mail-banner__head {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 6px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 600;
-  color: rgba(35, 35, 35, 0.58);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.ios-mail-banner--phone .ios-mail-banner__head {
-  gap: 5px;
-  margin-bottom: 5px;
-  font-size: 8px;
-}
-.ios-mail-banner__head span:last-child {
-  margin-left: auto;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 500;
 }
 .ios-mail-banner__icon {
   width: 21px;
@@ -1191,10 +1239,6 @@ a:hover > .brand-tile {
     stroke-dashoffset: 0;
   }
 }
-.deco-float {
-  animation: floatY 8s ease-in-out infinite;
-  will-change: transform;
-}
 .squiggle path {
   stroke-dasharray: 230;
   stroke-dashoffset: 230;
@@ -1203,9 +1247,6 @@ a:hover > .brand-tile {
   animation: drawLine 1.05s 0.45s cubic-bezier(0.6, 0, 0.3, 1) forwards;
 }
 @media (prefers-reduced-motion: reduce) {
-  .deco-float {
-    animation: none;
-  }
   .squiggle path {
     stroke-dashoffset: 0;
     animation: none;
@@ -1740,13 +1781,13 @@ textarea {
   .booking-case {
     --accent: var(--accent2);
     margin-top: clamp(56px, 9dvh, 92px) !important;
-    margin-bottom: clamp(48px, 8dvh, 80px);
+    margin-bottom: 0;
   }
   .booking-case .case-sticky {
-    min-height: calc(100dvh - 28px);
+    min-height: 0;
     display: flex !important;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 14px !important;
   }
   .booking-visual {
@@ -1768,13 +1809,15 @@ textarea {
   .booking-case .case-left {
     display: contents;
   }
-  .booking-copy-title {
+  .booking-title-row {
     order: 1;
     width: 100%;
-    font-size: 20px !important;
-    line-height: 1.12 !important;
     margin-bottom: -4px !important;
     text-align: left;
+  }
+  .booking-copy-title {
+    font-size: 20px !important;
+    line-height: 1.12 !important;
   }
   .booking-meta {
     order: 2;
@@ -1787,27 +1830,28 @@ textarea {
   }
   .booking-case .case-step--solo {
     order: 4;
-    min-height: 0;
-    padding: 11px 13px;
+    min-height: 144px;
+    padding: 10px 12px;
     border-radius: 14px;
   }
   .booking-case .case-step__swap {
-    gap: 12px !important;
+    gap: 10px !important;
   }
   .booking-case .case-step__num {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 11px;
   }
   .booking-case .case-step strong {
-    font-size: 18px !important;
+    font-size: 17px !important;
+    line-height: 1.12 !important;
     margin-bottom: 3px !important;
   }
   .booking-case .case-step__swap > span:last-child > span:last-child {
     display: block;
-    font-size: 15px;
-    line-height: 1.34 !important;
+    font-size: 14px;
+    line-height: 1.28 !important;
   }
   .booking-case .case-step span {
     line-height: 1.38 !important;
@@ -1850,9 +1894,6 @@ textarea {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
-  #ba-grid {
-    grid-template-columns: 1fr !important;
-  }
   .ueber-grid {
     grid-template-columns: 1fr !important;
   }
@@ -1862,27 +1903,6 @@ textarea {
   .legal-grid {
     grid-template-columns: 1fr !important;
   }
-  .case-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .sw-grid,
-  .sw-grid2 {
-    grid-template-columns: 1fr !important;
-  }
-  .sw-grid2 .sw-shot {
-    order: 2;
-  }
-  .sw-grid2 .sw-copy {
-    order: 1;
-  }
-  .showcase-phone {
-    position: static !important;
-    right: auto !important;
-    bottom: auto !important;
-    display: flex;
-    justify-content: center;
-    margin: 26px auto 0;
-  }
 }
 @media (max-width: 960px) {
   .desk-nav {
@@ -1890,13 +1910,5 @@ textarea {
   }
   .mob-btn {
     display: flex !important;
-  }
-}
-@media (max-width: 680px) {
-  .cards-3 {
-    grid-template-columns: 1fr !important;
-  }
-  .form-row {
-    grid-template-columns: 1fr !important;
   }
 }

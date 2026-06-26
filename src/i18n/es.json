@@ -273,89 +273,12 @@
       "photo": "foto",
       "chips": ["Estrategia", "Procesos", "Subvención"]
     },
-    "flip": {
-      "beforeNames": {
-        "rest": "Trattoria Da Mario",
-        "med": "Consulta Dr. Vogel",
-        "reb": "Panadería Sonne"
-      },
-      "blink": "¡parpadea!",
-      "nav": ["Inicio", "Info", "Contacto"],
-      "welcome": "» Bienvenido a nuestra página",
-      "body": "Qué bien que esté aquí. Encontrará toda la información...",
-      "image": "[imagen]",
-      "hours": "Horarios abajo ▼",
-      "menu": "Menú",
-      "contact": "Contacto",
-      "reserve": "Reservar",
-      "after": {
-        "rest": {
-          "name": "Trattoria Da Mario",
-          "tag": "Ristorante",
-          "headline": "Auténtica cocina italiana en Kreuzberg."
-        },
-        "med": {
-          "name": "Consulta Dr. Vogel",
-          "tag": "Médico de familia",
-          "headline": "Consulta moderna de medicina familiar en Pankow."
-        },
-        "reb": {
-          "name": "Panadería Sonne",
-          "tag": "Panadería artesanal",
-          "headline": "Pan de obrador propio, fresco cada día."
-        }
-      }
-    },
     "reb": {
       "nameText": "Anna Schäfer",
       "messageText": "Interés en este piso. Por favor, llámenme.",
+      "sentLabel": "Consulta enviada",
       "mailLabel": "Notificación de email",
       "mailTitle": "Nueva consulta de Anna Schäfer"
-    },
-    "softwareApps": {
-      "personName": "Paul Weiß",
-      "team": [
-        { "n": "Anna Berg", "r": "Liderazgo" },
-        { "n": "Tomáš Novák", "r": "Desarrollo" },
-        { "n": "Leyla Demir", "r": "Diseño" },
-        { "n": "Jonas Frei", "r": "Ventas" },
-        { "n": "Marie Klein", "r": "Marketing" },
-        { "n": "Paul Weiß", "r": "Soporte" }
-      ],
-      "projectLead": "Dirección de proyecto",
-      "skills": [
-        "Dirección",
-        "Diseño",
-        "Comunicación",
-        "Desarrollo",
-        "Ventas",
-        "Contabilidad"
-      ],
-      "overview": "Resumen",
-      "matrix": "Matriz de competencias",
-      "teamLabel": "Equipo",
-      "reports": "Informes",
-      "settings": "Ajustes",
-      "employees": "Personas",
-      "competencies": "Competencias",
-      "coverage": "Cobertura",
-      "accounting": "Contabilidad",
-      "development": "Desarrollo",
-      "sales": "Ventas",
-      "onePerson": "solo 1 persona",
-      "outageRisk": "riesgo por ausencia",
-      "juniorMissing": "falta relevo",
-      "teamDate": "Equipo Berlín · marzo 2026",
-      "recommendation": "Recomendación",
-      "recommendationBody": "Formar a 2 personas en contabilidad para reducir el riesgo por ausencias.",
-      "criticalGaps": "vacíos críticos",
-      "level": "Nivel",
-      "expert": "Experto",
-      "early": "Temprano",
-      "late": "Tarde",
-      "free": "libre",
-      "roster": "Turnos",
-      "week": "Sem. 12 · 4 en equipo"
     }
   },
   "theme": {
