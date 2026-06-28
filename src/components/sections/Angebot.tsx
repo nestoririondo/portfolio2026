@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { OFFER_PROCESS } from "../../data/content";
 import { useParallax } from "../../hooks/useParallax";
 import { ProcessGraphic } from "./ProcessGraphic";
@@ -9,69 +9,8 @@ import { useI18n } from "../../i18n";
 export function Angebot() {
   const secRef = useRef<HTMLElement>(null);
   const flowRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  // The price card holds back until the 3-step sequence has finished building
-  // in (stepsDone) *and* the card itself is in view (cardInView).
-  const [stepsDone, setStepsDone] = useState(false);
-  const [cardInView, setCardInView] = useState(false);
   const { t } = useI18n();
   useParallax(secRef);
-
-  // Mark the step sequence "done" once the last step finishes its pop-in.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStepsDone(true);
-      return;
-    }
-    const last = flowRef.current?.querySelector<HTMLElement>(
-      ".process-step:last-child",
-    );
-    if (!last) {
-      setStepsDone(true);
-      return;
-    }
-    let fallback: number | undefined;
-    const onEnd = (e: TransitionEvent) => {
-      if (e.target === last && e.propertyName === "transform") {
-        setStepsDone(true);
-      }
-    };
-    last.addEventListener("transitionend", onEnd);
-    // Safety net in case transitionend is missed: once the last step is in
-    // view, allow the card after the longest possible step animation.
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fallback = window.setTimeout(() => setStepsDone(true), 2200);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-    );
-    io.observe(last);
-    return () => {
-      last.removeEventListener("transitionend", onEnd);
-      io.disconnect();
-      if (fallback) window.clearTimeout(fallback);
-    };
-  }, []);
-
-  // Track whether the price card has scrolled into view.
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setCardInView(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-    );
-    io.observe(card);
-    return () => io.disconnect();
-  }, []);
 
   return (
     <section
@@ -118,67 +57,66 @@ export function Angebot() {
           );})}
         </div>
 
-        {/* one consolidated price card */}
-        <div
-          ref={cardRef}
-          data-reveal-defer
-          className={`reveal price-card${stepsDone && cardInView ? " in" : ""}`}
-        >
-          <div className="price-card-head">
+        {/* simple pricing: one anchor, then the few things that change scope */}
+        <div className="reveal" style={{ marginBottom: "clamp(34px,5vw,52px)" }}>
+          <SectionHeading
+            eyebrow={t.angebot.pricing.eyebrow}
+            title={t.angebot.pricing.title}
+            sub={t.angebot.pricing.sub}
+          />
+        </div>
+
+        <div className="reveal price-simple">
+          <div className="price-simple-main">
             <span className="price-tag">
-              <Icon name="spark" size={14} color="var(--accent)" /> {t.angebot.priceTag}
+              <Icon name="spark" size={14} color="var(--accent)" /> {t.angebot.pricing.kicker}
             </span>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                justifyContent: "center",
-                gap: 8,
-                margin: "16px 0 6px",
-              }}
-            >
-              <span style={{ fontSize: 20, fontWeight: 500, color: "var(--muted)" }}>{t.angebot.from}</span>
-              <span
-                style={{
-                  fontFamily: "var(--font-head)",
-                  fontSize: "clamp(46px,6vw,64px)",
-                  fontWeight: 600,
-                  lineHeight: 1,
-                }}
-              >
-                {t.angebot.price}
-              </span>
+            <p className="price-range-label">{t.angebot.pricing.rangeLabel}</p>
+            <div className="price-range">
+              <span>{t.angebot.pricing.rangeFrom}</span>
+              <span className="price-range-to">– {t.angebot.pricing.rangeTo}</span>
             </div>
-            <div style={{ color: "var(--muted)", fontSize: 15 }}>
-              {t.angebot.priceNote}
+            <p className="price-range-note">{t.angebot.pricing.rangeNote}</p>
+          </div>
+
+          <div className="price-simple-side">
+            <h3>{t.angebot.pricing.driversTitle}</h3>
+            <div className="price-drivers">
+              {t.angebot.pricing.drivers.map((driver) => (
+                <div key={driver} className="price-driver">
+                  <span className="price-check">
+                    <Icon name="check" size={13} stroke={3} color="var(--accent)" />
+                  </span>
+                  <span>{driver}</span>
+                </div>
+              ))}
             </div>
-            <div className="price-recurring">
+            <div className="price-edges">
+              {t.angebot.pricing.edges.map((edge) => (
+                <div key={edge.label} className="price-edge">
+                  <span>{edge.label}</span>
+                  <strong>{edge.price}</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="reveal price-foot">
+          <div className="price-recurring">
+            <Icon name="check" size={14} stroke={3} color="var(--accent)" />
+            <span>
               <strong>{t.angebot.recurringStrong}</strong> {t.angebot.recurringRest}
-            </div>
+            </span>
           </div>
-
-          <div className="price-included-label">{t.angebot.includedLabel}</div>
-          <div className="price-included">
-            {t.angebot.included.map((item) => (
-              <div key={item} className="price-included-item">
-                <span className="price-check">
-                  <Icon name="check" size={13} stroke={3} color="var(--accent)" />
-                </span>
-                {item}
-              </div>
-            ))}
-          </div>
-
           <a
             href="#kontakt"
-            className="btn btn-primary"
-            style={{ justifyContent: "center", width: "100%" }}
+            className="btn btn-primary price-foot-cta"
+            style={{ justifyContent: "center" }}
           >
             {t.angebot.cta} <Icon name="arrow" size={18} />
           </a>
-          <p className="price-reassure">
-            {t.angebot.reassure}
-          </p>
+          <p className="price-reassure">{t.angebot.reassure}</p>
         </div>
       </div>
     </section>

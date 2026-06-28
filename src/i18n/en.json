@@ -19,7 +19,7 @@
     "subtitle": "Most websites stop at looking presentable. Yours can book appointments, keep itself current, and bring in new enquiries while you are busy with everything else.",
     "primaryCta": "Start a project",
     "secondaryCta": "View work",
-    "trust": ["DE · EN · ES", "Fixed price from €2,500"],
+    "trust": ["DE · EN · ES", "Fixed price, no surprises"],
     "availability": "Available for new projects",
     "photoAlt": "Néstor, web developer from Berlin",
     "photoLabel": "Portrait · Néstor"
@@ -146,7 +146,7 @@
     "heading": {
       "eyebrow": "How it works",
       "title": "From rough idea to live website.",
-      "sub": "You get a clear website for a fixed price. Extra features only make it into the plan when they genuinely help your business."
+      "sub": "A simple process: we clarify the goal, shape the page, and launch it without turning the project into homework for you."
     },
     "steps": [
       {
@@ -165,23 +165,35 @@
         "meta": "usually live in 4–6 weeks"
       }
     ],
-    "priceTag": "Complete website",
-    "from": "from",
-    "price": "€2,500",
-    "priceNote": "A one-time fixed price, agreed after the first conversation.",
+    "pricing": {
+      "eyebrow": "Investment",
+      "title": "A price that fits the job.",
+      "sub": "First we clarify what the website actually needs to do. Then you get a fixed price.",
+      "kicker": "Guide price",
+      "rangeLabel": "Most projects",
+      "rangeFrom": "€4,000",
+      "rangeTo": "€7,000",
+      "rangeNote": "Typical when the website needs to do more than simply exist online.",
+      "driversTitle": "What changes the price:",
+      "drivers": [
+        "Editable content",
+        "Multiple languages",
+        "Booking or enquiry flow",
+        "Property listings or integrations"
+      ],
+      "edges": [
+        {
+          "label": "Simple business websites",
+          "price": "from €2,500"
+        },
+        {
+          "label": "Portals & integrations",
+          "price": "from €7,500"
+        }
+      ]
+    },
     "recurringStrong": "1st year of support included",
-    "recurringRest": "– then €50/month for hosting, domain, updates, and small changes.",
-    "includedLabel": "Included as standard:",
-    "included": [
-      "Custom design",
-      "Mobile optimised",
-      "Fast loading",
-      "SEO basics",
-      "Google Business",
-      "Copy & structure",
-      "Contact form",
-      "Legal pages"
-    ],
+    "recurringRest": "— then €50/mo: hosting, domain, updates & small changes.",
     "cta": "Book a free first call",
     "reassure": "No obligation · no hidden costs"
   },

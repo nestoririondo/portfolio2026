@@ -37,9 +37,9 @@ export function Blob({
   className,
   dataPx,
   float = true,
-  floatDuration = 11,
+  floatDuration = 9.17,
   floatDelay = 0,
-  floatY = -10,
+  floatY = -12,
   d = DEFAULT_BLOB,
 }: {
   color?: string;

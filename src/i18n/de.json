@@ -19,7 +19,7 @@
     "subtitle": "Viele Websites stehen nur da. Deine kann Termine annehmen, Inhalte aktuell halten und Anfragen bringen – auch nach Feierabend.",
     "primaryCta": "Projekt anfragen",
     "secondaryCta": "Arbeiten ansehen",
-    "trust": ["DE · EN · ES", "Festpreis ab 2.500 €"],
+    "trust": ["DE · EN · ES", "Festpreis, keine Überraschungen"],
     "availability": "Verfügbar für neue Projekte",
     "photoAlt": "Néstor – Webentwickler aus Berlin",
     "photoLabel": "Portrait · Néstor"
@@ -146,7 +146,7 @@
     "heading": {
       "eyebrow": "So läuft’s",
       "title": "Von der Idee zur fertigen Website.",
-      "sub": "Du bekommst eine klare Website zum Festpreis. Zusätzliche Funktionen planen wir nur, wenn sie für dein Geschäft wirklich sinnvoll sind."
+      "sub": "Ein einfacher Ablauf: Wir klären das Ziel, formen die Seite und bringen sie online, ohne dass das Projekt für dich zur Hausaufgabe wird."
     },
     "steps": [
       {
@@ -165,23 +165,35 @@
         "meta": "meist in 4–6 Wochen live"
       }
     ],
-    "priceTag": "Komplett-Website",
-    "from": "ab",
-    "price": "2.500 €",
-    "priceNote": "Einmaliger Festpreis, nach dem Gespräch festgelegt.",
+    "pricing": {
+      "eyebrow": "Investition",
+      "title": "Ein Preis, der zur Aufgabe passt.",
+      "sub": "Wir klären zuerst, was die Website wirklich leisten soll. Danach bekommst du einen Festpreis.",
+      "kicker": "Orientierung",
+      "rangeLabel": "Die meisten Projekte",
+      "rangeFrom": "4.000 €",
+      "rangeTo": "7.000 €",
+      "rangeNote": "Typisch, wenn die Website mehr tun soll als nur online sein.",
+      "driversTitle": "Was den Preis verändert:",
+      "drivers": [
+        "Inhalte selbst bearbeiten",
+        "Mehrere Sprachen",
+        "Buchung oder Anfragefluss",
+        "Immobilien-Listings oder Integration"
+      ],
+      "edges": [
+        {
+          "label": "Einfache Unternehmenswebsites",
+          "price": "ab 2.500 €"
+        },
+        {
+          "label": "Portale & Integrationen",
+          "price": "ab 7.500 €"
+        }
+      ]
+    },
     "recurringStrong": "1. Jahr Betreuung inklusive",
-    "recurringRest": "– danach 50 €/Monat für Hosting, Domain, Updates & kleine Änderungen.",
-    "includedLabel": "Im Grundpreis enthalten:",
-    "included": [
-      "Individuelles Design",
-      "Mobil optimiert",
-      "Schnelle Ladezeiten",
-      "SEO-Grundlagen",
-      "Google Business",
-      "Text & Struktur",
-      "Kontaktformular",
-      "Rechtstexte"
-    ],
+    "recurringRest": "— danach 50 €/Monat: Hosting, Domain, Updates & kleine Änderungen.",
     "cta": "Kostenloses Erstgespräch",
     "reassure": "Unverbindlich · keine versteckten Kosten"
   },

@@ -19,7 +19,7 @@
     "subtitle": "Muchas webs se quedan en verse bien. La tuya puede reservar citas, mantenerse actualizada y traer nuevas consultas mientras tú estás a otras cosas.",
     "primaryCta": "Consultar proyecto",
     "secondaryCta": "Ver trabajos",
-    "trust": ["DE · EN · ES", "Precio fijo desde 2.500 €"],
+    "trust": ["DE · EN · ES", "Precio fijo, sin sorpresas"],
     "availability": "Disponible para nuevos proyectos",
     "photoAlt": "Néstor, desarrollador web de Berlín",
     "photoLabel": "Retrato · Néstor"
@@ -146,7 +146,7 @@
     "heading": {
       "eyebrow": "Cómo funciona",
       "title": "De una idea inicial a una web lista.",
-      "sub": "Recibes una web con un mensaje claro a precio fijo. Las funciones extra solo entran en el plan si realmente ayudan a tu negocio."
+      "sub": "Un proceso sencillo: aclaramos el objetivo, damos forma a la web y la publicamos sin convertir el proyecto en deberes para ti."
     },
     "steps": [
       {
@@ -165,23 +165,35 @@
         "meta": "normalmente online en 4–6 semanas"
       }
     ],
-    "priceTag": "Web completa",
-    "from": "desde",
-    "price": "2.500 €",
-    "priceNote": "Precio fijo y único, acordado después de la primera conversación.",
+    "pricing": {
+      "eyebrow": "Inversión",
+      "title": "Un precio según la tarea.",
+      "sub": "Primero aclaramos qué debe hacer realmente la web. Después tienes un precio fijo.",
+      "kicker": "Orientación",
+      "rangeLabel": "La mayoría de proyectos",
+      "rangeFrom": "4.000 €",
+      "rangeTo": "7.000 €",
+      "rangeNote": "Lo normal cuando la web debe hacer más que simplemente existir online.",
+      "driversTitle": "Qué cambia el precio:",
+      "drivers": [
+        "Contenido editable",
+        "Varios idiomas",
+        "Reservas o consultas",
+        "Listados inmobiliarios o integración"
+      ],
+      "edges": [
+        {
+          "label": "Webs de negocio sencillas",
+          "price": "desde 2.500 €"
+        },
+        {
+          "label": "Portales e integraciones",
+          "price": "desde 7.500 €"
+        }
+      ]
+    },
     "recurringStrong": "1.er año de soporte incluido",
-    "recurringRest": "– después 50 €/mes para hosting, dominio, actualizaciones y pequeños cambios.",
-    "includedLabel": "Incluido de serie:",
-    "included": [
-      "Diseño a medida",
-      "Optimizada para móvil",
-      "Carga rápida",
-      "SEO básico",
-      "Google Business",
-      "Contenido y estructura",
-      "Formulario de contacto",
-      "Textos legales"
-    ],
+    "recurringRest": "— después, 50 €/mes: hosting, dominio, actualizaciones y cambios pequeños.",
     "cta": "Pedir primera llamada gratis",
     "reassure": "Sin compromiso · sin costes ocultos"
   },

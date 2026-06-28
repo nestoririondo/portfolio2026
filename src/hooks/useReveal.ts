@@ -6,8 +6,7 @@ import { useEffect } from "react";
  */
 export function useReveal() {
   useEffect(() => {
-    // `data-reveal-defer` elements manage their own `in` timing (e.g. the
-    // Angebot price card, which waits for the 3-step sequence to finish).
+    // `data-reveal-defer` elements manage their own `in` timing.
     const els = document.querySelectorAll(".reveal:not([data-reveal-defer])");
     const io = new IntersectionObserver(
       (entries) => {
