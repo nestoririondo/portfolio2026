@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
   type KeyboardEvent,
   type PointerEvent,
@@ -444,16 +445,32 @@ function BookingVisual({
 function BookingCase() {
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(true);
+  const [inView, setInView] = useState(true);
+  const rootRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
   const copy = t.arbeiten.booking;
 
+  // only auto-advance while the case is on screen: a step swap while scrolled
+  // past it would reflow content above the viewport, and scroll-anchoring would
+  // nudge the page — which made the auto-hide header flicker every cycle.
   useEffect(() => {
-    if (!playing) return;
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => setInView(e.isIntersecting),
+      { threshold: 0 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!playing || !inView) return;
     const id = window.setInterval(() => {
       setActive((cur) => (cur + 1) % copy.steps.length);
     }, 2800);
     return () => window.clearInterval(id);
-  }, [copy.steps.length, playing]);
+  }, [copy.steps.length, playing, inView]);
 
   const current = copy.steps[active];
   const seek = useCallback(
@@ -487,7 +504,7 @@ function BookingCase() {
   );
 
   return (
-    <div className="reveal booking-case">
+    <div className="reveal booking-case" ref={rootRef}>
       <div className="booking-case__inner">
         <div
           className="case-sticky"

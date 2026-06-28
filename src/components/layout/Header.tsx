@@ -6,6 +6,9 @@ import { useI18n } from "../../i18n";
 
 const NAV_IDS = NAV_LINKS.map((l) => l.href.replace(/^#/, ""));
 const HEADER_HIDE_SCROLL_Y = 260;
+// min scroll movement (px) before the auto-hide header changes state — filters
+// out micro-jitter so the nav can't flicker on tiny programmatic scroll nudges
+const HEADER_SCROLL_DELTA = 8;
 
 function LangSwitch({
   lang,
@@ -106,18 +109,29 @@ export function Header() {
     let last = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
+      if (y <= HEADER_HIDE_SCROLL_Y) {
+        clearAutoHide();
+        setHidden(false);
+        last = y;
+        return;
+      }
       if (open) {
         clearAutoHide();
         setHidden(false);
-      } else if (y > last && y > HEADER_HIDE_SCROLL_Y) {
+        last = y;
+        return;
+      }
+      // ignore sub-threshold jitter (e.g. scroll-anchoring nudges from off-screen
+      // layout shifts) so the header doesn't flicker; keep `last` as the anchor
+      // so small drifts accumulate instead of each counting as a direction change
+      const dy = y - last;
+      if (Math.abs(dy) < HEADER_SCROLL_DELTA) return;
+      if (dy > 0) {
         clearAutoHide();
         setHidden(true);
-      } else if (y < last) {
+      } else {
         setHidden(false);
         scheduleAutoHide();
-      } else if (y <= HEADER_HIDE_SCROLL_Y) {
-        clearAutoHide();
-        setHidden(false);
       }
       last = y;
     };
