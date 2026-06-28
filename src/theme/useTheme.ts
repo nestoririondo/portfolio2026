@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   DEFAULT_THEME,
   FONT_PAIRS,
   THEMES,
-  type FontPairName,
-  type HeroLayout,
-  type Palette,
   type ThemeState,
 } from "./themes";
 
 /**
  * Owns the active theme state and applies it to the document as CSS custom
- * properties on <html>. Returns the current state plus typed setters so UI
- * (the ThemeSwitcher) stays free of styling logic.
+ * properties on <html>.
  */
 export function useTheme() {
-  const [state, setState] = useState<ThemeState>(DEFAULT_THEME);
+  const state: ThemeState = DEFAULT_THEME;
 
   const theme =
     THEMES.find(
@@ -35,14 +31,5 @@ export function useTheme() {
     Object.entries(vars).forEach(([k, v]) => root.setProperty(k, v));
   }, [theme, pair, state.accent2]);
 
-  const setPalette = (palette: Palette) =>
-    setState((s) => ({ ...s, palette }));
-  const setAccent2 = (accent2: string) =>
-    setState((s) => ({ ...s, accent2 }));
-  const setFontPair = (fontPair: FontPairName) =>
-    setState((s) => ({ ...s, fontPair }));
-  const setHeroLayout = (heroLayout: HeroLayout) =>
-    setState((s) => ({ ...s, heroLayout }));
-
-  return { state, setPalette, setAccent2, setFontPair, setHeroLayout };
+  return { state };
 }

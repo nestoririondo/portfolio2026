@@ -274,27 +274,5 @@
       "mailLabel": "Email notification",
       "mailTitle": "New enquiry from Anna Schaefer"
     }
-  },
-  "theme": {
-    "labels": {
-      "main": "Main color",
-      "accent": "Accent",
-      "font": "Font",
-      "hero": "Hero"
-    },
-    "swatches": {
-      "main": "Main color",
-      "accent": "Accent color"
-    },
-    "fontLabels": {
-      "editorial": "Editorial",
-      "modern": "Modern",
-      "warm": "Warm"
-    },
-    "heroLayouts": {
-      "split": "Split",
-      "centered": "Centered"
-    },
-    "toggle": "Adjust design"
   }
 }

@@ -2,7 +2,6 @@ import { useReveal } from "./hooks/useReveal";
 import { useTheme } from "./theme/useTheme";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
-import { ThemeSwitcher } from "./components/ui/ThemeSwitcher";
 import { ScrollHint } from "./components/ui/ScrollHint";
 import { Hero } from "./components/sections/Hero";
 import { Arbeiten } from "./components/sections/arbeiten/Arbeiten";
@@ -14,8 +13,7 @@ import { Legal } from "./components/sections/Legal";
 import { getRoutePath } from "./i18n";
 
 export default function App() {
-  const { state, setPalette, setAccent2, setFontPair, setHeroLayout } =
-    useTheme();
+  const { state } = useTheme();
   useReveal();
   const pathname = getRoutePath(window.location.pathname).replace(/\/$/, "") || "/";
   const legalPage =
@@ -33,14 +31,6 @@ export default function App() {
           <Legal page={legalPage} />
         </main>
         <Footer />
-
-        <ThemeSwitcher
-          state={state}
-          setPalette={setPalette}
-          setAccent2={setAccent2}
-          setFontPair={setFontPair}
-          setHeroLayout={setHeroLayout}
-        />
       </>
     );
   }
@@ -58,14 +48,6 @@ export default function App() {
       </main>
       <ScrollHint />
       <Footer />
-
-      <ThemeSwitcher
-        state={state}
-        setPalette={setPalette}
-        setAccent2={setAccent2}
-        setFontPair={setFontPair}
-        setHeroLayout={setHeroLayout}
-      />
     </>
   );
 }

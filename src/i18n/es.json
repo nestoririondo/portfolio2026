@@ -280,27 +280,5 @@
       "mailLabel": "Notificación de email",
       "mailTitle": "Nueva consulta de Anna Schäfer"
     }
-  },
-  "theme": {
-    "labels": {
-      "main": "Color principal",
-      "accent": "Acento",
-      "font": "Tipografía",
-      "hero": "Hero"
-    },
-    "swatches": {
-      "main": "Color principal",
-      "accent": "Color de acento"
-    },
-    "fontLabels": {
-      "editorial": "Editorial",
-      "modern": "Moderna",
-      "warm": "Cálida"
-    },
-    "heroLayouts": {
-      "split": "Split",
-      "centered": "Centrado"
-    },
-    "toggle": "Ajustar diseño"
   }
 }

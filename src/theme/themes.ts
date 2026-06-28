@@ -1,6 +1,6 @@
 /**
  * Theme definitions for the site: color palettes, font pairings and hero layout.
- * Pure data + types — no React. Consumed by `useTheme` and the ThemeSwitcher UI.
+ * Pure data + types — no React. Consumed by `useTheme`.
  */
 
 export type CssVars = Record<string, string>;

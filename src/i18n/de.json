@@ -274,27 +274,5 @@
       "mailLabel": "E-Mail-Benachrichtigung",
       "mailTitle": "Neue Anfrage von Anna Schäfer"
     }
-  },
-  "theme": {
-    "labels": {
-      "main": "Hauptfarbe",
-      "accent": "Akzent",
-      "font": "Schrift",
-      "hero": "Hero"
-    },
-    "swatches": {
-      "main": "Hauptfarbe",
-      "accent": "Akzentfarbe"
-    },
-    "fontLabels": {
-      "editorial": "Editorial",
-      "modern": "Modern",
-      "warm": "Warm"
-    },
-    "heroLayouts": {
-      "split": "Split",
-      "centered": "Zentriert"
-    },
-    "toggle": "Design anpassen"
   }
 }
