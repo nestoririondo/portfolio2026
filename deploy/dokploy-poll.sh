@@ -10,7 +10,7 @@ STATE_FILE="${STATE_FILE:-/var/lib/dokploy-poll/last-sha}"
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
-remote_sha="$(git ls-remote "$REPO_URL" "refs/heads/$BRANCH" | cut -f1)"
+remote_sha="$(GIT_TERMINAL_PROMPT=0 git ls-remote "$REPO_URL" "refs/heads/$BRANCH" | cut -f1)"
 if [[ -z "$remote_sha" ]]; then
   echo "branch $BRANCH not found on $REPO_URL" >&2
   exit 1
@@ -24,7 +24,7 @@ fi
 
 [[ "$remote_sha" == "$(cat "$STATE_FILE")" ]] && exit 0
 
-curl -fsS -X POST "$DOKPLOY_URL/api/application.deploy" \
+curl -fsS --max-time 20 -X POST "$DOKPLOY_URL/api/application.deploy" \
   -H "x-api-key: $DOKPLOY_API_KEY" \
   -H "content-type: application/json" \
   -d "{\"applicationId\":\"$APPLICATION_ID\"}" > /dev/null

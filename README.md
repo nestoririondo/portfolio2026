@@ -110,3 +110,9 @@ One-time setup on the server:
 3. Check it: `sudo systemctl start dokploy-poll.service` then
    `journalctl -u dokploy-poll.service -n 20`. The first run only records the
    current commit; the next push triggers a deploy.
+4. In Dokploy, add a notification (Settings → Notifications) for build
+   errors. The script only knows that Dokploy accepted the deploy; if the
+   build then fails, the old version stays live and nothing retries.
+
+The repository must stay public: the script reads the branch from GitHub
+without credentials.

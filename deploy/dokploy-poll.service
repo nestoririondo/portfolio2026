@@ -7,3 +7,7 @@ Wants=network-online.target
 Type=oneshot
 EnvironmentFile=/etc/dokploy-poll.env
 ExecStart=/usr/local/bin/dokploy-poll.sh
+TimeoutStartSec=60
+# Unprivileged throwaway user; systemd owns /var/lib/dokploy-poll for it.
+DynamicUser=yes
+StateDirectory=dokploy-poll
