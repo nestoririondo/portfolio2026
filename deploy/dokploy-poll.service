@@ -1,0 +1,9 @@
+[Unit]
+Description=Redeploy nestoririondo.com when GitHub has new commits
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/dokploy-poll.env
+ExecStart=/usr/local/bin/dokploy-poll.sh

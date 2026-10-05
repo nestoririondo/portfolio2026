@@ -77,3 +77,36 @@ environment variables are needed.
 docker build -t nestoririondo .
 docker run --rm -p 3000:3000 nestoririondo
 ```
+
+### Auto-deploy on push
+
+Dokploy is behind the firewall, so GitHub webhooks can't reach it. Instead a
+systemd timer on the server checks the deploy branch every 5 minutes and calls
+Dokploy's deploy API when it sees a new commit. A push is live within about
+5 minutes plus build time. Files are in `deploy/`.
+
+One-time setup on the server:
+
+1. In Dokploy, generate an API key (Settings → Profile → API/CLI) and note
+   the site's application ID (it is in the application's URL).
+2. Copy the files and create the config:
+
+   ```bash
+   sudo install -m 755 deploy/dokploy-poll.sh /usr/local/bin/
+   sudo install -m 644 deploy/dokploy-poll.service deploy/dokploy-poll.timer /etc/systemd/system/
+   sudo install -m 600 /dev/null /etc/dokploy-poll.env
+   sudo tee /etc/dokploy-poll.env > /dev/null <<'EOF'
+   REPO_URL=https://github.com/nestoririondo/portfolio2026.git
+   BRANCH=main
+   APPLICATION_ID=<application id>
+   DOKPLOY_API_KEY=<api key>
+   EOF
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now dokploy-poll.timer
+   ```
+
+   `BRANCH` must match the branch the Dokploy application builds from.
+
+3. Check it: `sudo systemctl start dokploy-poll.service` then
+   `journalctl -u dokploy-poll.service -n 20`. The first run only records the
+   current commit; the next push triggers a deploy.
