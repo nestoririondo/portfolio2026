@@ -9,7 +9,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: var(--space-4);
+  scroll-padding-top: var(--space-5);
 }
 
 body {
@@ -48,9 +48,13 @@ blockquote {
 
 h1,
 h2,
-h3 {
-  font-weight: 600;
+h3,
+.heading {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-variation-settings: var(--heading-variation);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
@@ -98,7 +102,7 @@ a:hover {
 
 main {
   flex: 1;
-  padding-block: var(--space-6) var(--space-8);
+  padding-block: var(--space-7) var(--space-8);
 }
 
 .skip-link {
@@ -125,22 +129,31 @@ main {
   white-space: nowrap;
 }
 
-/* ---- UI text: navigation, metadata, labels ---- */
+/* ---- UI text: navigation, metadata, labels (sans) ---- */
 
-.ui {
+.ui,
+.meta,
+.label {
   font-family: var(--font-sans);
-  font-size: var(--text-ui);
   line-height: var(--leading-ui);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
+.ui {
+  font-size: var(--text-ui);
+}
+
 .meta {
-  font-family: var(--font-sans);
   font-size: var(--text-meta);
-  line-height: var(--leading-ui);
   color: var(--color-text-muted);
-  font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: 0.01em;
+}
+
+.label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 /* Quiet links: inherit colour, underline only on hover. Used in chrome. */
@@ -160,7 +173,7 @@ a.quiet:hover,
 /* ---- Header ---- */
 
 .site-header {
-  padding-block: var(--space-4) 0;
+  padding-top: var(--space-4);
 }
 
 .site-header .column {
@@ -168,7 +181,7 @@ a.quiet:hover,
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0 var(--space-4);
+  gap: 0 var(--space-5);
 }
 
 .site-name {
@@ -193,7 +206,7 @@ a.quiet:hover,
 /* ---- Footer ---- */
 
 .site-footer {
-  padding-block: 0 var(--space-6);
+  padding-bottom: var(--space-6);
 }
 
 .site-footer .column > div {
@@ -215,54 +228,50 @@ a.quiet:hover,
 
 /* ---- Homepage sections ---- */
 
-.section + .section {
-  margin-top: var(--space-7);
+.section {
+  margin-top: var(--space-8);
+  padding-top: var(--space-3);
+  border-top: var(--rule-width) solid var(--color-rule);
 }
 
 .section-title {
-  margin-bottom: var(--space-4);
-  font-family: var(--font-sans);
-  font-size: var(--text-ui);
-  font-weight: 500;
-  line-height: var(--leading-ui);
-  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
 }
 
 /* ---- Entry lists (posts, projects) ---- */
 
 .entries {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
   padding: 0;
   list-style: none;
 }
 
 .entry-title {
-  font-size: 1em;
-  font-weight: 600;
-  line-height: var(--leading-body);
+  font-size: var(--text-title);
+  line-height: var(--leading-tight);
 }
 
 .entry-title a {
   color: var(--color-text);
-  text-decoration-color: color-mix(in srgb, currentColor 25%, transparent);
+  text-decoration-color: transparent;
 }
 
 .entry-title a:hover {
-  color: var(--color-accent);
   text-decoration-color: currentColor;
 }
 
 .entry-summary {
+  margin-top: var(--space-2);
   color: var(--color-text-muted);
 }
 
 .entry .meta {
-  margin-top: var(--space-1);
+  margin-top: var(--space-2);
 }
 
 .more {
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 @media (prefers-reduced-motion: reduce) {

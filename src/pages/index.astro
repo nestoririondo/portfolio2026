@@ -14,18 +14,25 @@ const profiles = PROFILES.filter(({ href }) => href);
 
 <Base>
   <section class="intro">
-    <h1 class="visually-hidden">{SITE.name}</h1>
-    <Image
-      class="portrait"
-      src={portrait}
-      alt="Portrait of Néstor Iriondo"
-      width={96}
-      height={128}
-      densities={[1, 2, 3]}
-      loading="eager"
-      fetchpriority="high"
-    />
-    <p>
+    <div class="who">
+      <Image
+        class="avatar"
+        src={portrait}
+        alt=""
+        width={64}
+        height={64}
+        densities={[1, 2, 3]}
+        fit="cover"
+        position="top"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div>
+        <h1 class="who-name">{SITE.name}</h1>
+        <p class="meta">Berlin</p>
+      </div>
+    </div>
+    <p class="statement heading">
       I’m Néstor. I lead a team building an industrial IoT platform in Berlin. I studied
       philosophy, spent a decade translating for tech companies, and now write about building
       software, leading people, and what AI changes about both.
@@ -33,14 +40,14 @@ const profiles = PROFILES.filter(({ href }) => href);
   </section>
 
   <section class="section" aria-labelledby="built">
-    <h2 class="section-title" id="built">Things I’ve built</h2>
+    <h2 class="section-title label" id="built">Things I’ve built</h2>
     <ProjectList projects={projects} />
   </section>
 
   {
     posts.length > 0 && (
       <section class="section" aria-labelledby="writing">
-        <h2 class="section-title" id="writing">Writing</h2>
+        <h2 class="section-title label" id="writing">Writing</h2>
         <PostList posts={posts} />
         <p class="more ui">
           <a href="/writing">All writing</a>
@@ -50,12 +57,14 @@ const profiles = PROFILES.filter(({ href }) => href);
   }
 
   <section class="section" aria-labelledby="contact">
-    <h2 class="section-title" id="contact">Contact</h2>
-    <p>I take on a small number of freelance projects. If you have one, write to me.</p>
-    <p class="contact-email"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    <h2 class="section-title label" id="contact">Contact</h2>
+    <p class="contact-line">
+      I take on a small number of freelance projects. If you have one, write to me.
+    </p>
+    <p class="email heading"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
     {
       profiles.length > 0 && (
-        <ul class="profiles ui">
+        <ul class="profiles ui" aria-label="Elsewhere">
           {profiles.map(({ label, href }) => (
             <li>
               <a href={href}>{label}</a>
@@ -68,33 +77,70 @@ const profiles = PROFILES.filter(({ href }) => href);
 </Base>
 
 <style>
-  .intro {
-    margin-bottom: var(--space-7);
+  .who {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
   }
 
-  .portrait {
-    width: 4.5rem;
-    height: auto;
-    aspect-ratio: 3 / 4;
-    margin-bottom: var(--space-4);
-    border-radius: var(--radius);
+  .avatar {
+    width: var(--avatar);
+    height: var(--avatar);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 20%;
   }
 
-  .intro p {
-    font-size: var(--text-lead);
-    line-height: var(--leading-lead);
-    letter-spacing: -0.006em;
+  .who-name {
+    font-size: 1.15em;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: var(--leading-tight);
   }
 
-  .contact-email {
+  .statement {
+    font-size: var(--text-display);
+    font-weight: calc(var(--heading-weight) - 100);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .contact-line,
+  .email {
+    font-size: var(--text-contact);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .email {
     margin-top: var(--space-3);
+    font-weight: 300;
+    overflow-wrap: anywhere;
+  }
+
+  .email a {
+    color: var(--color-text);
+  }
+
+  .email a:hover {
+    color: var(--color-accent);
   }
 
   .profiles {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-4);
-    margin-top: var(--space-3);
+    margin-top: var(--space-4);
     padding: 0;
     list-style: none;
+  }
+
+  .profiles a {
+    color: var(--color-text-muted);
+  }
+
+  .profiles a:hover {
+    color: var(--color-text);
   }
 </style>
