@@ -12,7 +12,7 @@ export const SITE = {
 
 /** Profiles linked from the homepage. Entries without a URL are not shown. */
 export const PROFILES = [
-  { label: "LinkedIn", href: "" }, // TODO: Néstor adds his LinkedIn profile URL
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/nestor-iriondo/" },
 ];
 
 export const NAV = [
