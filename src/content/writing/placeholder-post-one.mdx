@@ -1,0 +1,68 @@
+---
+title: "TODO: Title of the first post"
+date: 2026-10-01
+summary: "TODO: Néstor writes a one-line summary of this post."
+---
+
+import { Image } from "astro:assets";
+import figure from "../../assets/placeholder-figure.svg";
+
+<mark>TODO: Néstor writes this post.</mark> Everything below is placeholder text that exists only to show how each element is typeset. This opening paragraph is body text at the reading size, set in a single column of about sixty-five characters. It contains *emphasis*, **strong emphasis**, [a link](https://example.com), and "quotation marks" that are converted to typographic ones automatically -- as are dashes.
+
+A second paragraph, to show the space between paragraphs. It carries a footnote reference[^1] and some `inline code`, plus numbers such as 1984 and 2026 to show the old-style figures used in running text.
+
+## A second-level heading
+
+Text directly after a heading sits closer to it than to the paragraph before. Headings wrap in balanced lines when they are long.
+
+> A block quotation. It is set in italic with a thin clay rule on the left, and it can run across several lines so the indent and the rhythm are visible.
+>
+> A second paragraph inside the same quotation.
+
+### A third-level heading
+
+An unordered list:
+
+- First item in the list
+- Second item, which is long enough to wrap onto another line so the hanging indent can be checked
+- Third item
+
+An ordered list:
+
+1. First step
+2. Second step
+3. Third step
+
+## Code
+
+A code block with syntax colours taken from the site palette:
+
+```ts
+type Post = { title: string; date: Date; summary: string };
+
+// Newest first.
+export function sortPosts(posts: Post[]): Post[] {
+  return [...posts].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+}
+```
+
+## Images
+
+<figure>
+  <Image src={figure} alt="TODO: describe the image" />
+  <figcaption>TODO: a caption. Figures and code blocks extend slightly past the text column on wide screens.</figcaption>
+</figure>
+
+## Tables and rules
+
+| Element | Typeface      | Size  |
+| ------- | ------------- | ----- |
+| Body    | Source Serif 4 | 17–20 |
+| Meta    | Hanken Grotesk | 13    |
+
+---
+
+A closing paragraph after a thematic break, with one more footnote.[^2]
+
+[^1]: A footnote. It links back to where it was referenced.
+[^2]: A second footnote, with a [link](https://example.com) inside it.

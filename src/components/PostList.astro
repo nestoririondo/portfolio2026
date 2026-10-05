@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate, isoDate } from "../site";
+
+interface Props {
+  posts: CollectionEntry<"writing">[];
+  /** Heading level of each title. */
+  level?: 2 | 3;
+}
+
+const { posts, level = 3 } = Astro.props;
+const Heading = `h${level}` as const;
+---
+
+<ul class="entries">
+  {
+    posts.map(({ id, data }) => (
+      <li class="entry">
+        <div>
+          <Heading class="entry-title">
+          <a href={`/writing/${id}`}>{data.title}</a>
+        </Heading>
+        <p class="entry-summary">{data.summary}</p>
+        </div>
+        <p class="meta">
+          <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>
+        </p>
+      </li>
+    ))
+  }
+</ul>

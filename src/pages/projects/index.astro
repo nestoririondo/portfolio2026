@@ -1,0 +1,15 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProjectList from "../../components/ProjectList.astro";
+import "../../styles/prose.css";
+import { getProjects } from "../../content";
+
+const projects = await getProjects();
+---
+
+<Base title="Projects" description="Things Néstor Iriondo has built.">
+  <header class="article-header">
+    <h1>Projects</h1>
+  </header>
+  <ProjectList projects={projects} level={2} />
+</Base>

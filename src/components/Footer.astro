@@ -1,0 +1,19 @@
+---
+import { SITE } from "../site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer meta quiet">
+  <div class:list={["column", { "column--wide": Astro.props.wide }]}>
+    <div>
+      <p>© {year} {SITE.name} · Berlin</p>
+      <ul>
+        <li><a href="/hire">Hire me</a></li>
+        <li><a href="/rss.xml">RSS</a></li>
+        <li><a href="/en/impressum">Legal notice</a></li>
+        <li><a href="/en/datenschutz">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

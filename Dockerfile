@@ -1,4 +1,4 @@
-# ---- build stage: install everything, type-check, build dist/ ----
+# ---- build stage: install, type-check, build static site into dist/ ----
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
@@ -6,14 +6,8 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# ---- runtime stage: prod deps + built assets + server ----
-FROM node:22-alpine AS runtime
-WORKDIR /app
-ENV NODE_ENV=production
-ENV PORT=3000
-COPY package*.json ./
-RUN npm ci --omit=dev
-COPY --from=build /app/dist ./dist
-COPY server ./server
+# ---- runtime stage: Caddy serves dist/ and handles redirects ----
+FROM caddy:2-alpine AS runtime
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv
 EXPOSE 3000
-CMD ["node", "server/index.js"]

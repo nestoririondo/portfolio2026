@@ -1,0 +1,28 @@
+---
+import Base from "./Base.astro";
+import "../styles/prose.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+  ogType?: "website" | "article";
+  published?: string;
+}
+
+const { title, ...rest } = Astro.props;
+---
+
+<Base title={title} {...rest}>
+  <slot name="head" slot="head" />
+  <article>
+    <header class="article-header">
+      <h1>{title}</h1>
+      <slot name="meta" />
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+    <slot name="footer" />
+  </article>
+</Base>

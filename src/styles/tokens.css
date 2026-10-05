@@ -1,0 +1,104 @@
+/*
+ * Design tokens. Every colour, size and space on the site comes from here;
+ * change a value in this file and it changes everywhere.
+ *
+ * Contrast (WCAG AA needs 4.5:1 for text) is noted against --color-bg.
+ * All text colours also pass on --color-surface and the tints.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ---- Colour: light ---- */
+  --color-bg: #faf7f2; /* warm paper */
+  --color-surface: #f1ede4; /* code blocks, quotes */
+  --color-tint-sage: #e6ece3; /* surfaces only, never text */
+  --color-tint-blue: #dce6ee; /* text selection, highlights */
+  --color-tint-clay: #f0dfd6; /* surfaces only */
+  --color-rule: #ddd7cb; /* hairlines */
+
+  --color-text: #23262b; /* 14.2:1 */
+  --color-text-muted: #5c6168; /* 5.8:1 — dates, metadata, summaries */
+  --color-link: #3d5f7d; /* 6.3:1 — dusty blue */
+  --color-accent: #96503b; /* 5.6:1 — clay, used sparingly */
+  --color-focus: #3d5f7d;
+
+  /* Code syntax (used by the Shiki theme in astro.config.mjs) */
+  --code-foreground: var(--color-text);
+  --code-background: var(--color-surface);
+  --code-token-comment: var(--color-text-muted);
+  --code-token-keyword: var(--color-accent);
+  --code-token-string: #4f6b55; /* 5.0:1 on surface — sage */
+  --code-token-string-expression: #4f6b55;
+  --code-token-constant: var(--color-link);
+  --code-token-function: var(--color-link);
+  --code-token-parameter: var(--color-text);
+  --code-token-punctuation: var(--color-text-muted);
+  --code-token-link: var(--color-link);
+
+  /* ---- Typefaces ---- */
+  --font-serif: "Source Serif 4 Variable", "Source Serif 4", Charter, "Iowan Old Style",
+    Georgia, serif;
+  --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* ---- Type scale ----
+   * Sizes are in rem; --text-base grows gently from phone to desktop. */
+  --text-base: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); /* 17 → 20px body */
+  --text-xs: 0.8125rem; /* metadata, footer */
+  --text-sm: 0.9375rem; /* navigation, captions, code */
+  --text-lead: 1.2em; /* contact sentence, list titles */
+  --text-display: clamp(1.55rem, 1.1rem + 2.1vw, 2.45rem); /* homepage intro */
+  --text-h3: 1.15em;
+  --text-h2: 1.4em;
+  --text-h1: clamp(1.9rem, 1.5rem + 1.8vw, 2.6rem);
+
+  --leading-body: 1.62;
+  --leading-tight: 1.2;
+  --leading-ui: 1.4;
+
+  /* ---- Layout ---- */
+  --measure: calc(34 * var(--text-base)); /* ≈ 65 characters of body text */
+  --measure-wide: calc(46 * var(--text-base)); /* code blocks and figures may breathe out to this */
+  --label-col: 9rem; /* left column for section labels on wide screens */
+  --gutter: clamp(1.25rem, 5vw, 2.5rem); /* page side padding */
+
+  /* ---- Spacing scale ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+
+  /* ---- Details ---- */
+  --radius: 3px;
+  --rule-width: 1px;
+  --underline-offset: 0.2em;
+  --transition: 120ms ease-out;
+}
+
+/* ---- Colour: dark ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1b1e22;
+    --color-surface: #24282d;
+    --color-tint-sage: #2a322c;
+    --color-tint-blue: #263039;
+    --color-tint-clay: #3a2e29;
+    --color-rule: #353a40;
+
+    --color-text: #e6e2da; /* 13.0:1 */
+    --color-text-muted: #a3a8ad; /* 7.0:1 */
+    --color-link: #a9c1d6; /* 9.0:1 */
+    --color-accent: #d9a892; /* 7.9:1 */
+    --color-focus: #a9c1d6;
+
+    --code-token-string: #a9c2ad; /* 7.8:1 on surface */
+    --code-token-string-expression: #a9c2ad;
+  }
+}

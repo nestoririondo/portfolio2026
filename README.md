@@ -1,104 +1,74 @@
-# Néstor Iriondo — Portfolio 2026
+# nestoririondo.com
 
-Marketing landing page for a Berlin web developer, built with **React + TypeScript + Vite**.
+Personal site, built with [Astro](https://astro.build). Every page is rendered to
+static HTML at build time; no JavaScript is shipped to the browser.
 
 ## Scripts
 
 ```bash
 npm install      # install dependencies
-npm run dev      # Vite (5173) + API server (3000) together — full local site
-npm run dev:web  # just the Vite frontend (no contact form)
-npm run build    # type-check (tsc) + production build to dist/
-npm run start    # run the production server (serves dist/ + /api/contact)
-npm run preview  # serve the static build with Vite's preview server
+npm run dev      # live preview at http://localhost:4321
+npm run build    # type-check + build to dist/
+npm run preview  # serve the built site locally
 ```
 
-`npm run dev` runs the frontend and the Node API side by side; Vite proxies
-`/api/*` to the server (see `vite.config.ts`), so the contact form works the
-same locally as in production.
+## Writing a post
 
-## Architecture
+Add an `.mdx` file to `src/content/writing/`. The file name becomes the URL
+(`my-post.mdx` → `/writing/my-post`).
 
-UI is separated from logic and content throughout:
+```mdx
+---
+title: "Post title"
+date: 2026-10-01
+summary: "One line, shown in lists, RSS and link previews."
+---
+
+Text in Markdown. Footnotes[^1], code blocks, quotes and images are styled.
+
+[^1]: Like this.
+```
+
+A missing or mistyped frontmatter field fails the build. The same applies to
+projects (`src/content/projects/`, fields: `title`, `summary`, `order`,
+optional `url` and `note`).
+
+## Structure
 
 ```
 src/
-  main.tsx                # entry — mounts <App>
-  App.tsx                 # composition root: wires theme + sections
-  index.css               # global styles + CSS custom-property theme + responsive rules
-
-  theme/
-    themes.ts             # palettes, font pairings, hero layouts (pure data + types)
-    useTheme.ts           # holds theme state, applies it as CSS vars on <html>
-
-  hooks/
-    useReveal.ts          # IntersectionObserver fade-up on scroll
-    useScrolled.ts        # sticky-header scroll state
-    useParallax.ts        # data-px parallax for the Software section
-
-  data/
-    content.ts            # site copy & structured content (nav, outcomes, offer, …)
-
-  components/
-    ui/                   # primitives: Icon, Placeholder, Decorations, ThemeSwitcher
-    layout/               # Header, Footer
-    sections/             # Hero, Angebot, Ueber, Kontakt
-      arbeiten/           # case-study section (StickyCase + work cases)
-      software/           # outcomes section (Gfx, OutcomeCard, Software)
-    mockups/              # rendered (not image) website/app mockups used in case studies
+  site.ts               # site name, email, navigation
+  content.config.ts     # frontmatter schemas
+  content/
+    writing/            # posts
+    projects/           # one page per project
+    pages/              # about, hire (en), hire-de
+    legal/              # Impressum + Datenschutz in de, en, es
+  pages/                # routes: one file per URL pattern
+  layouts/              # Base (head, header, footer), Page (long-form text)
+  components/           # Header, Footer, PostList, ProjectList
+  styles/
+    tokens.css          # colours, type scale, spacing — adjust the design here
+    global.css          # base styles, header, footer, lists
+    prose.css           # long-form typography
+  assets/               # images, optimised at build time
+public/                 # copied as-is: favicons, og.png, robots.txt
 ```
 
-### Theming
+## Languages
 
-Colors and fonts are driven by CSS custom properties on `:root` (see `index.css`).
-`useTheme` swaps them at runtime; the floating **ThemeSwitcher** (bottom-right) lets a
-visitor preview palette, font pairing, and hero layout.
-
-### Contact form
-
-The Kontakt form POSTs JSON to `POST /api/contact`, handled by a small Express
-server (`server/index.js`) that sends the message via [Resend](https://resend.com).
-The same server also serves the built site from `dist/`, so the whole thing runs
-as **one Node process** — no serverless platform required. The UI handles the
-full round trip: loading (`Wird gesendet …`), success confirmation, and an error
-state with a direct e-mail fallback.
-
-Setup:
-
-1. `cp .env.example .env.local` and add your `RESEND_API_KEY`.
-2. Verify the `nestoririondo.com` domain in Resend so `hello@nestoririondo.com`
-   can send (Resend authorizes the whole domain — the address doesn't need its
-   own mailbox).
-3. `npm run dev` — Vite proxies `/api` to the Express server, so the form works
-   locally exactly as in production.
-
-| Env var          | Required | Default                                   |
-| ---------------- | -------- | ----------------------------------------- |
-| `RESEND_API_KEY` | yes      | —                                         |
-| `CONTACT_TO`     | no       | `hello@nestoririondo.com`                 |
-| `CONTACT_FROM`   | no       | `Kontaktformular <hello@nestoririondo.com>` |
-| `PORT`           | no       | `3000`                                    |
+The site is English. Exceptions: `/hire` also exists in German at `/de/hire`,
+and the legal pages exist in German, English and Spanish at
+`/{de,en,es}/impressum` and `/{de,en,es}/datenschutz`. There is no i18n
+library; each language version is its own content file.
 
 ## Deployment (Hetzner + Dokploy)
 
-The repo ships a `Dockerfile` (multi-stage: build → slim runtime). In Dokploy:
-
-1. Create an **Application** from this Git repo, build type **Dockerfile**.
-2. Under **Environment**, add `RESEND_API_KEY` (and any overrides above).
-3. Set the container port to **3000** and point your domain at it; Dokploy's
-   Traefik handles HTTPS.
-4. Deploy. The container builds `dist/` and runs `node server/index.js`, serving
-   both the site and the contact API on port 3000.
-
-To run the production image locally:
+The `Dockerfile` builds the site and serves `dist/` with Caddy on port 3000.
+The `Caddyfile` also holds the redirects from the old site's URLs. No
+environment variables are needed.
 
 ```bash
-docker build -t portfolio2026 .
-docker run --rm -p 3000:3000 -e RESEND_API_KEY=re_xxx portfolio2026
+docker build -t nestoririondo .
+docker run --rm -p 3000:3000 nestoririondo
 ```
-
-### Notes
-
-- Styling stays inline (React style objects) + CSS variables, matching the original design.
-- Components in `mockups/` provide the active case-study visuals and can be
-  composed into sections as needed.

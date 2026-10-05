@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from "astro:content";
+import Page from "../../layouts/Page.astro";
+
+const LANGUAGES = { de: "Deutsch", en: "English", es: "Español" } as const;
+
+export async function getStaticPaths() {
+  const entries = await getCollection("legal", ({ data }) => data.page === "impressum");
+  return entries.map((entry) => ({ params: { lang: entry.data.lang }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, lang } = entry.data;
+---
+
+<Page title={title} lang={lang}>
+  <Fragment slot="head">
+    {
+      Object.keys(LANGUAGES).map((code) => (
+        <link rel="alternate" hreflang={code} href={new URL(`/${code}/impressum`, Astro.site)} />
+      ))
+    }
+  </Fragment>
+  <p class="meta" slot="meta">
+    {
+      Object.entries(LANGUAGES).map(([code, name], i) => (
+        <>
+          {i > 0 && " · "}
+          {code === lang ? name : <a href={`/${code}/impressum`} hreflang={code} lang={code}>{name}</a>}
+        </>
+      ))
+    }
+  </p>
+  <Content />
+</Page>

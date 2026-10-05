@@ -1,0 +1,19 @@
+---
+import { getEntry, render } from "astro:content";
+import Page from "../../layouts/Page.astro";
+
+const entry = await getEntry("pages", "hire-de");
+if (!entry) throw new Error("Missing src/content/pages/hire-de.mdx");
+const { Content } = await render(entry);
+---
+
+<Page title={entry.data.title} description={entry.data.description} lang="de">
+  <Fragment slot="head">
+    <link rel="alternate" hreflang="en" href={new URL("/hire", Astro.site)} />
+    <link rel="alternate" hreflang="de" href={new URL("/de/hire", Astro.site)} />
+  </Fragment>
+  <p class="meta" slot="meta">
+    <a href="/hire" hreflang="en" lang="en">Read in English</a>
+  </p>
+  <Content />
+</Page>

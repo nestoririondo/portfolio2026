@@ -1,0 +1,120 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PostList from "../components/PostList.astro";
+import ProjectList from "../components/ProjectList.astro";
+import portrait from "../assets/portrait.webp";
+import { getPosts, getProjects } from "../content";
+import { SITE } from "../site";
+
+const posts = (await getPosts()).slice(0, 3);
+const projects = await getProjects();
+---
+
+<Base wide>
+  <section class="intro">
+    <h1 class="visually-hidden">{SITE.name}</h1>
+    <Image
+      class="portrait"
+      src={portrait}
+      alt="Portrait of Néstor Iriondo"
+      width={240}
+      height={320}
+      densities={[1, 2, 3]}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <p>
+      I’m Néstor. I studied philosophy, spent a decade translating for tech companies, and now
+      lead a team building an industrial IoT platform in Berlin. I write about building software,
+      leading people, and what AI changes about both.
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="built">
+    <h2 class="section-title" id="built">Things I’ve built</h2>
+    <ProjectList projects={projects} />
+  </section>
+
+  <section class="section" aria-labelledby="writing">
+    <h2 class="section-title" id="writing">Writing</h2>
+    <PostList posts={posts} />
+    <p class="more ui"><a href="/writing">All writing</a></p>
+  </section>
+
+  <section class="section" aria-labelledby="contact">
+    <h2 class="section-title" id="contact">Contact</h2>
+    <div class="contact">
+      <p>I take on a small number of freelance projects. If you have one, write to me.</p>
+      <p class="contact-email"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .intro p {
+    font-size: var(--text-display);
+    font-weight: 380;
+    line-height: 1.28;
+    letter-spacing: -0.014em;
+    text-wrap: pretty;
+  }
+
+  /* Flat offset block behind the photo, in the pastel tint. */
+  .portrait {
+    width: 8rem;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: 0.6rem 0.6rem 0 var(--color-tint-blue);
+  }
+
+  @media (min-width: 52rem) {
+    .intro {
+      grid-template-columns: minmax(0, 1fr) 13rem;
+      gap: var(--space-7);
+      align-items: start;
+      padding-top: var(--space-5);
+    }
+
+    .portrait {
+      order: 2;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .contact {
+    padding: var(--space-6);
+    background: var(--color-tint-sage);
+    border-radius: var(--radius);
+  }
+
+  .contact p {
+    font-size: var(--text-lead);
+    line-height: 1.4;
+  }
+
+  .contact-email {
+    margin-top: var(--space-3);
+    font-weight: 600;
+  }
+
+  .contact-email a {
+    color: var(--color-text);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

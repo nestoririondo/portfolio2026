@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import Page from "../../layouts/Page.astro";
+import { getProjects } from "../../content";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, url, kind, stack, cover, coverAlt } = project.data;
+const facts = [kind, ...stack].join(" · ");
+const host = url && new URL(url).host.replace(/^www\./, "");
+---
+
+<Page title={title} description={summary}>
+  <p class="meta" slot="meta">
+    {facts}
+    {url && " · "}
+    {url && <a href={url}>{host}</a>}
+  </p>
+  {
+    cover && (
+      <figure>
+        <Image src={cover} alt={coverAlt ?? ""} widths={[720, 1300]} sizes="(min-width: 60rem) 46rem, 100vw" loading="eager" />
+      </figure>
+    )
+  }
+  <Content />
+  <footer class="article-footer ui" slot="footer">
+    <a href="/projects">All projects</a>
+  </footer>
+</Page>

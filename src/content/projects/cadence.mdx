@@ -1,0 +1,29 @@
+---
+title: "Cadence"
+summary: "Continuous 1-on-1 notes for managers. Dictate what happened, review the structured draft, and see what is still open before the next meeting."
+order: 2
+kind: "Own product"
+stack: ["NestJS", "React", "PostgreSQL", "Claude"]
+cover: "../../assets/projects/cadence.png"
+coverAlt: "Cadence landing page: rough meeting notes on the left, a structured draft with summary and action items on the right"
+---
+
+<mark>Draft, taken from the project README. Néstor rewrites this.</mark>
+
+## What it does
+
+Each direct report has one running thread. After a meeting you dictate or type what happened, and Cadence structures it into a summary, decisions and action items split by owner. Open items, talking points for next time and recurring topics stay threaded across every meeting, so preparing for the next 1-on-1 takes a minute instead of a search through old notes.
+
+## Principles
+
+- **The AI writes a draft, never the record.** Every structured note is reviewed and editable before it is saved. Changes the AI proposes to existing items can be rejected.
+- **Personnel notes are sensitive data.** Audio is transcribed and discarded immediately; it is never stored. Analytics carry IDs only, never names or note content.
+- **Vendors stay behind interfaces.** Transcription and AI extraction can be swapped without touching product logic.
+
+## How it is built
+
+A NestJS API with PostgreSQL, a React front end, Whisper for transcription and Claude for structuring the notes. The interface is German-first with English available, and works on phones and desktop.
+
+## TODO: Why I built it, and what I learned
+
+TODO: Néstor writes this.

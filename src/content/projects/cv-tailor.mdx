@@ -1,0 +1,28 @@
+---
+title: "CV Tailor"
+summary: "A job-search tool that finds matching jobs and tailors your CV to each one. You decide where to apply."
+order: 1
+kind: "Own product"
+stack: ["Next.js", "SQLite", "Claude"]
+url: "https://usecvtailor.com"
+cover: "../../assets/projects/cv-tailor.png"
+coverAlt: "CV Tailor preview card with the line “Jobs that fit you. CVs that fit the job.” and a sample CV with matched skills highlighted"
+---
+
+<mark>Draft, taken from the project README. Néstor rewrites this.</mark>
+
+## What it does
+
+You import your CV once into a reusable profile. CV Tailor searches for jobs that match it, scores how well you fit each one, and generates a CV tailored to the posting. You edit the draft, export a PDF that applicant tracking systems can read, and track your applications in one place.
+
+## How it treats AI output
+
+The profile is the source of facts. Everything the AI produces is a suggestion that needs review. Generating a CV creates a draft application; sending it is a separate step that only you take.
+
+## How it is built
+
+A Next.js application with one SQLite database per account, Claude for import, tailoring and matching, and headless Chromium for reading job pages and exporting PDFs.
+
+## TODO: Why I built it, and what I learned
+
+TODO: Néstor writes this.

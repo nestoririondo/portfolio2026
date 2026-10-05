@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import PostList from "../../components/PostList.astro";
+import "../../styles/prose.css";
+import { getPosts } from "../../content";
+
+const posts = await getPosts();
+---
+
+<Base title="Writing" description="Posts on building software, leading people, and AI.">
+  <header class="article-header">
+    <h1>Writing</h1>
+    <p class="meta"><a href="/rss.xml">Subscribe via RSS</a></p>
+  </header>
+  <PostList posts={posts} level={2} />
+</Base>
