@@ -29,6 +29,11 @@ Text in Markdown. Footnotes[^1], code blocks, quotes and images are styled.
 [^1]: Like this.
 ```
 
+Add `draft: true` to keep a post out of the build: drafts show in `npm run dev`
+but not on the live site, in RSS or in the sitemap. The Writing link in the
+navigation and the Writing section on the homepage appear once at least one
+post is published.
+
 A missing or mistyped frontmatter field fails the build. The same applies to
 projects (`src/content/projects/`, fields: `title`, `summary`, `order`,
 optional `url` and `note`).

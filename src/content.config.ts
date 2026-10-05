@@ -8,6 +8,8 @@ const writing = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     summary: z.string(),
+    /** Drafts show in `npm run dev` but are left out of the build, RSS and sitemap. */
+    draft: z.boolean().default(false),
   }),
 });
 

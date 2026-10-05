@@ -16,12 +16,10 @@ const Heading = `h${level}` as const;
   {
     posts.map(({ id, data }) => (
       <li class="entry">
-        <div>
-          <Heading class="entry-title">
+        <Heading class="entry-title">
           <a href={`/writing/${id}`}>{data.title}</a>
         </Heading>
         <p class="entry-summary">{data.summary}</p>
-        </div>
         <p class="meta">
           <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>
         </p>

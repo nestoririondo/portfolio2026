@@ -6,101 +6,57 @@ interface Props {
   projects: CollectionEntry<"projects">[];
   /** Heading level of each title. */
   level?: 2 | 3;
+  /** Show the tech stack and screenshot (projects page) or just text (homepage). */
+  detailed?: boolean;
 }
 
-const { projects, level = 3 } = Astro.props;
+const { projects, level = 3, detailed = false } = Astro.props;
 const Heading = `h${level}` as const;
 const host = (url: string) => new URL(url).host.replace(/^www\./, "");
 ---
 
-<ul class="entries projects">
+<ul class="entries">
   {
-    projects.map(({ id, data }) => (
-      <li class="project">
-        <div class="project-text">
-          <p class="project-kind">{data.kind}</p>
+    projects.map(({ id, data }) => {
+      const facts = [data.kind, ...(detailed ? data.stack : [])].join(" · ");
+      return (
+        <li class="entry">
           <Heading class="entry-title">
             <a href={`/projects/${id}`}>{data.title}</a>
           </Heading>
           <p class="entry-summary">{data.summary}</p>
-          {(data.stack.length > 0 || data.url) && (
-            <p class="meta">
-              {data.stack.join(" · ")}
-              {data.stack.length > 0 && data.url && " · "}
-              {data.url && <a href={data.url}>{host(data.url)}</a>}
-            </p>
+          <p class="meta">
+            {facts}
+            {data.url && (
+              <>
+                {" · "}
+                <a href={data.url}>{host(data.url)}</a>
+              </>
+            )}
+          </p>
+          {detailed && data.cover && (
+            <a class="project-cover" href={`/projects/${id}`} tabindex="-1" aria-hidden="true">
+              <Image src={data.cover} alt="" widths={[576, 1152]} sizes="(min-width: 40rem) 36rem, 100vw" />
+            </a>
           )}
-        </div>
-        {data.cover && (
-          <a class="project-cover" href={`/projects/${id}`} tabindex="-1" aria-hidden="true">
-            <Image src={data.cover} alt="" widths={[280, 560]} sizes="17.5rem" />
-          </a>
-        )}
-      </li>
-    ))
+        </li>
+      );
+    })
   }
 </ul>
 
 <style>
-  .project {
-    display: grid;
-    gap: var(--space-4) var(--space-6);
-    padding-block: var(--space-5);
-  }
-
-  .project:first-child {
-    padding-top: 0;
-  }
-
-  .project + .project {
-    border-top: var(--rule-width) solid var(--color-rule);
-  }
-
-  .project-kind {
-    margin-bottom: var(--space-1);
-    font-family: var(--font-sans);
-    font-size: var(--text-xs);
-    line-height: var(--leading-ui);
-    color: var(--color-text-muted);
-  }
-
-  .project .meta {
-    margin-top: var(--space-3);
-  }
-
-  /* Screenshot on a pastel plate. */
   .project-cover {
     display: block;
-    padding: var(--space-3);
-    background: var(--color-tint-sage);
-    border-radius: var(--radius);
-  }
-
-  .project:nth-child(3n + 2) .project-cover {
-    background: var(--color-tint-blue);
-  }
-
-  .project:nth-child(3n) .project-cover {
-    background: var(--color-tint-clay);
+    margin-top: var(--space-3);
   }
 
   .project-cover img {
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     object-position: top left;
-    border-radius: 2px;
-  }
-
-  @media (min-width: 40rem) {
-    .project {
-      grid-template-columns: minmax(0, 1fr) 13rem;
-      align-items: start;
-    }
-
-    .project-text:only-child {
-      grid-column: 1 / -1;
-      max-width: 34rem;
-    }
+    border: var(--rule-width) solid var(--color-rule);
+    border-radius: var(--radius);
   }
 </style>

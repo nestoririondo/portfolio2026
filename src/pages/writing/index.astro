@@ -12,5 +12,5 @@ const posts = await getPosts();
     <h1>Writing</h1>
     <p class="meta"><a href="/rss.xml">Subscribe via RSS</a></p>
   </header>
-  <PostList posts={posts} level={2} />
+  {posts.length > 0 ? <PostList posts={posts} level={2} /> : <p>Nothing published yet.</p>}
 </Base>

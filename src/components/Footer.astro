@@ -1,16 +1,18 @@
 ---
+import { getPosts } from "../content";
 import { SITE } from "../site";
 
 const year = new Date().getFullYear();
+const hasPosts = (await getPosts()).length > 0;
 ---
 
 <footer class="site-footer meta quiet">
-  <div class:list={["column", { "column--wide": Astro.props.wide }]}>
+  <div class="column">
     <div>
       <p>© {year} {SITE.name} · Berlin</p>
       <ul>
         <li><a href="/hire">Hire me</a></li>
-        <li><a href="/rss.xml">RSS</a></li>
+        {hasPosts && <li><a href="/rss.xml">RSS</a></li>}
         <li><a href="/en/impressum">Legal notice</a></li>
         <li><a href="/en/datenschutz">Privacy</a></li>
       </ul>

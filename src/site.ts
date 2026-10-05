@@ -7,6 +7,12 @@ export const SITE = {
   email: "hello@nestoririondo.com",
 };
 
+/** Profiles linked from the homepage. Entries without a URL are not shown. */
+export const PROFILES = [
+  { label: "GitHub", href: "https://github.com/nestoririondo" },
+  { label: "LinkedIn", href: "" }, // TODO: Néstor adds his LinkedIn profile URL
+];
+
 export const NAV = [
   { href: "/writing", label: "Writing" },
   { href: "/projects", label: "Projects" },

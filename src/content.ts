@@ -1,8 +1,8 @@
 import { getCollection } from "astro:content";
 
-/** All posts, newest first. */
+/** All posts, newest first. Drafts only in development. */
 export async function getPosts() {
-  const posts = await getCollection("writing");
+  const posts = await getCollection("writing", ({ data }) => import.meta.env.DEV || !data.draft);
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 

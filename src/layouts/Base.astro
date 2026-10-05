@@ -17,8 +17,6 @@ interface Props {
   ogType?: "website" | "article";
   /** ISO date, for articles. */
   published?: string;
-  /** Wider page with a label column (homepage, list pages). */
-  wide?: boolean;
 }
 
 const {
@@ -27,7 +25,6 @@ const {
   lang = "en",
   ogType = "website",
   published,
-  wide = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
@@ -58,18 +55,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1b1e22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#17181a" media="(prefers-color-scheme: dark)" />
     <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header wide={wide} />
+    <Header />
     <main id="main">
-      <div class:list={["column", { "column--wide": wide }]}>
+      <div class="column">
         <slot />
       </div>
     </main>
-    <Footer wide={wide} />
+    <Footer />
   </body>
 </html>

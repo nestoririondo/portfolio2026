@@ -24,7 +24,7 @@ const host = url && new URL(url).host.replace(/^www\./, "");
   </p>
   {
     cover && (
-      <figure>
+      <figure class="screenshot">
         <Image src={cover} alt={coverAlt ?? ""} widths={[720, 1300]} sizes="(min-width: 60rem) 46rem, 100vw" loading="eager" />
       </figure>
     )
