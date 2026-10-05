@@ -5,14 +5,18 @@ import PostList from "../components/PostList.astro";
 import ProjectList from "../components/ProjectList.astro";
 import portrait from "../assets/portrait.webp";
 import { getPosts, getProjects } from "../content";
-import { PROFILES, SITE } from "../site";
+import { PROFILES, SITE, person } from "../site";
 
 const posts = (await getPosts()).slice(0, 3);
 const projects = await getProjects();
 const profiles = PROFILES.filter(({ href }) => href);
+const schema = {
+  "@context": "https://schema.org",
+  ...person(new URL(portrait.src, Astro.site).href),
+};
 ---
 
-<Base>
+<Base schema={schema}>
   <section class="intro">
     <div class="who">
       <Image
@@ -59,7 +63,7 @@ const profiles = PROFILES.filter(({ href }) => href);
   <section class="section" aria-labelledby="contact">
     <h2 class="section-title label" id="contact">Contact</h2>
     <p class="contact-line">
-      I take on a small number of freelance projects. If you have one, write to me.
+      For roles, advisory work or a freelance project, write to me.
     </p>
     <p class="email heading"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
     {

@@ -8,6 +8,7 @@ interface Props {
   lang?: string;
   ogType?: "website" | "article";
   published?: string;
+  schema?: Record<string, unknown>;
 }
 
 const { title, ...rest } = Astro.props;
