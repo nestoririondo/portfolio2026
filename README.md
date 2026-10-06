@@ -48,7 +48,7 @@ src/
     writing/            # posts
     projects/           # one page per project
     pages/              # about, hire (en), hire-de
-    legal/              # Impressum + Datenschutz in de, en, es
+    legal/              # Impressum + Datenschutz in de, en
   pages/                # routes: one file per URL pattern
   layouts/              # Base (head, header, footer), Page (long-form text)
   components/           # Header, Footer, PostList, ProjectList
@@ -64,7 +64,7 @@ public/                 # copied as-is: favicons, og.png, robots.txt
 
 The site is English. Exceptions: `/hire` also exists in German at `/de/hire`,
 and the legal pages exist in German, English and Spanish at
-`/{de,en,es}/impressum` and `/{de,en,es}/datenschutz`. There is no i18n
+`/{de,en}/impressum` and `/{de,en}/datenschutz`. There is no i18n
 library; each language version is its own content file.
 
 ## Deployment (Hetzner + Dokploy)

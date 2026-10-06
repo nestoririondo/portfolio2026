@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Page from "../../layouts/Page.astro";
 
-const LANGUAGES = { de: "Deutsch", en: "English", es: "Español" } as const;
+const LANGUAGES = { de: "Deutsch", en: "English" } as const;
 
 export async function getStaticPaths() {
   const entries = await getCollection("legal", ({ data }) => data.page === "datenschutz");

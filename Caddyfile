@@ -26,7 +26,7 @@
 	# Old language homepages, and any other old language path.
 	@oldlang {
 		path /de /en /es /de/* /en/* /es/*
-		not path /de/hire /de/impressum /de/datenschutz /en/impressum /en/datenschutz /es/impressum /es/datenschutz
+		not path /de/hire /de/impressum /de/datenschutz /en/impressum /en/datenschutz
 	}
 	redir @oldlang / 301
 

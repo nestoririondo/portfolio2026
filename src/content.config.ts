@@ -48,7 +48,7 @@ const legal = defineCollection({
   schema: z.object({
     title: z.string(),
     page: z.enum(["impressum", "datenschutz"]),
-    lang: z.enum(["de", "en", "es"]),
+    lang: z.enum(["de", "en"]),
   }),
 });
 
