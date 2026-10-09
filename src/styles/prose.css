@@ -227,6 +227,38 @@
   text-decoration: none;
 }
 
+/* ---- Log: a numbered list of project notes, used on project pages ---- */
+
+.prose ol.log {
+  padding-left: 0;
+  list-style: none;
+  border-top: var(--rule-width) solid var(--color-rule);
+  font-family: var(--font-sans);
+  font-size: var(--text-meta);
+  line-height: var(--leading-ui);
+}
+
+.prose ol.log li {
+  display: grid;
+  grid-template-columns: 3.25em 1fr;
+  gap: var(--space-3);
+  margin-top: 0;
+  padding-block: var(--space-2);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+}
+
+.prose ol.log .n {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* A note that a later one reversed. */
+.prose ol.log .was {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
 /* ---- Placeholder marker: makes unwritten content easy to spot ---- */
 
 .prose mark,

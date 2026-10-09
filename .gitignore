@@ -1,3 +1,5 @@
+.agents/
+__pycache__/
 # Dependencies
 node_modules/
 

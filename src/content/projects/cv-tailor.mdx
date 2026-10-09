@@ -1,4 +1,4 @@
----
+ ---
 title: "CV Tailor"
 summary: "Your CV, tailored to every job. Paste a job posting and get your CV in the job’s words, using only your real experience."
 order: 2
@@ -9,18 +9,70 @@ cover: "../../assets/projects/cv-tailor.png"
 coverAlt: "CV Tailor preview card with the line “Jobs that fit you. CVs that fit the job.” and a sample CV with matched skills highlighted"
 ---
 
-## What it does
+CV Tailor started as one prompt: give it a job link and a CV, and get the CV back rewritten for that job. Today it imports a CV into a profile, searches for matching jobs, scores the fit, tailors the CV, exports the PDF, sends the application and reminds you to follow up.
 
-You import your CV once into a reusable profile. CV Tailor searches for jobs that match it, scores how well you fit each one, and generates a CV tailored to the posting. You edit the draft, export a PDF that applicant tracking systems can read, and track your applications in one place.
+This page is about the decisions in between. For what the product does today, the [landing page](https://usecvtailor.com/?ref=portfolio) is the better place.
 
-## How it treats AI output
+<mark>TODO: Néstor writes this.</mark> Two or three sentences on why you built it: whose job search it was for, and what was annoying about doing it by hand.
 
-The profile is the source of facts. Everything the AI produces is a suggestion that needs review. Generating a CV creates a draft application; sending it is a separate step that only you take.
+## A note for every feature
+
+Every feature has a short note in the repository, numbered in the order it was built. There are 68 so far, and most of them end with the decisions that were not obvious. This page is drawn from those notes.
+
+<figure>
+  <ol class="log">
+    <li><span class="n">001</span><span>One prompt: a job link and a CV go in, a rewritten CV comes out.</span></li>
+    <li><span class="n">007</span><span>The CV becomes a profile of facts. The AI may select and reword them, not invent new ones.</span></li>
+    <li><span class="n">010</span><span class="was">Nothing reaches the applications list until you approve the draft.</span></li>
+    <li><span class="n">016</span><span>A job agent searches German job boards and judges how well each posting fits.</span></li>
+    <li><span class="n">020</span><span>Accounts, with one database file per person.</span></li>
+    <li><span class="n">039</span><span>The approval step from 010 is removed again. Match scores are counted in code.</span></li>
+    <li><span class="n">059</span><span>A credit is only used when the AI delivered something.</span></li>
+    <li><span class="n">068</span><span>The hand-over from the tailoring screen to the finished CV.</span></li>
+  </ol>
+  <figcaption>Eight of the 68 notes. The rule from note 010 was reversed in note 039.</figcaption>
+</figure>
+
+## The profile is the source of facts
+
+The first version sent the whole CV and the job text to the model and stored whatever came back. That made the model the author of the CV, and nothing stopped it from improving on the truth.
+
+From note 007 on, you enter your facts once, in a profile. Each application is one selection and presentation of those facts. The prompt forbids invented claims, and it treats instructions hidden inside a job posting as data, not as instructions. Contact details and the photo are never sent to the model. Later the raw text of the imported CV was excluded as well, so a fact you delete from the profile cannot come back through the original import.
+
+> Everything the AI produces is a suggestion that needs review. Sending is a separate step that only you take.
+
+## A rule I reversed
+
+Note 010 set a rule: generating a draft never adds anything to the applications list. Only approving it does. The reason was sound. Before that, every generated draft became an application, and the list filled with drafts that were never sent.
+
+Twenty-nine notes later I removed the approval step. It was one more screen between asking for a CV and seeing it. A tailored CV is now saved as a draft straight away and opens on its own page. Abandoned ones sit under "To send", where they can be deleted.
+
+Sending stayed a separate step, and marking an application as sent still freezes its copy of the CV, so later edits cannot change what went out.
+
+## Scores are counted, not generated
+
+The model never writes a number. A percentage it made up would look precise without being checkable.
+
+Instead it does two small jobs. It classifies six to ten of the posting's requirements as met, partly met or missing, judged against the profile. And it lists the key terms it finds in the posting. The code does the counting: requirements met, with a partly met one counting half, and key terms that appear in the CV as whole words.
+
+Both lists are shown behind the scores, so every point can be traced. Requirements are judged against the facts and not against the CV, so tailoring cannot inflate that score. Only the key-term score rises when the CV is tailored.
+
+## One database per person
+
+Each account has its own SQLite file. With one shared table, a single query that forgets its ownership filter can show someone another person's CV. With separate files that mistake has less room to happen, and deleting an account means deleting a folder.
+
+The cost is that there are no queries across users. So far none have been needed.
+
+## A credit pays for a result
+
+If the AI fails, if its answer is cut off, or if a job search finds nothing new, the credit comes back. This is decided once per request and not once per feature, so a new AI feature gets the same behaviour without anyone having to remember it.
+
+## What is still open
+
+The verification scripts were written before accounts existed, and they need updating before they can run again.
+
+<mark>TODO: Néstor writes this.</mark> What you would do differently if you started again, and what the project taught you.
 
 ## How it is built
 
-A Next.js application with one SQLite database per account, Claude for import, tailoring and matching, and headless Chromium for reading job pages and exporting PDFs.
-
-## TODO: Why I built it, and what I learned
-
-TODO: Néstor writes this.
+A Next.js application with one SQLite database per account, Claude for import, tailoring and matching, and headless Chromium for reading job pages and exporting PDFs. Accounts run on Better Auth. It is hosted on a Hetzner server with Dokploy.
