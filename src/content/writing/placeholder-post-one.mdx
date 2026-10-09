@@ -1,70 +1,88 @@
 ---
-title: "TODO: Title of the first post"
-date: 2026-10-01
-summary: "TODO: Néstor writes a one-line summary of this post."
-draft: true
+title: "A Leap of Faith"
+date: 2026-10-09
+summary: "Software teams ship code written by systems nobody can fully explain. What the Hugging Face incident showed about that kind of trust, and where it should stop."
+draft: false
 ---
 
-import { Image } from "astro:assets";
-import figure from "../../assets/placeholder-figure.svg";
+A new software feature on my team now travels like this. The product owner writes the ticket with an AI. An AI turns the ticket into a technical specification. An AI writes the code. Then an AI and a human review it, the human more or less carefully depending on the day. We ship.
 
-<mark>TODO: Néstor writes this post.</mark> Everything below is placeholder text that exists only to show how each element is typeset. This opening paragraph is body text at the reading size, set in a single column of about sixty-five characters. It contains *emphasis*, **strong emphasis**, [a link](https://example.com), and "quotation marks" that are converted to typographic ones automatically -- as are dashes.
+It works. That is the uncomfortable part. It works well enough that questioning it feels pedantic. I lead this team, and I signed off on working this way.
 
-A second paragraph, to show the space between paragraphs. It carries a footnote reference[^1] and some `inline code`, plus numbers such as 1984 and 2026 to show the old-style figures used in running text.
+But look at that chain again. Every step is being increasingly done by a system that nobody can fully explain, including the people who built it. In any other branch of engineering that would be problematic to say the least. In software in 2026 it is a normal Tuesday.
 
-## A second-level heading
+This post follows that thought to its end: what we know about these systems, what happened when they went wrong, how each step since has asked us to trust them a little more... and where I think the trust has to stop.
 
-Text directly after a heading sits closer to it than to the paragraph before. Headings wrap in balanced lines when they are long.
+## Grown, not written
 
-> A block quotation. It is set a little larger, in italic, with a rule on the left, and it can run across several lines so the indent and the rhythm are visible.
->
-> A second paragraph inside the same quotation.
+Traditional software is written. A person decides each step, and when something breaks, someone can find the line responsible.
 
-### A third-level heading
+A language model is made differently. It is shown a piece of text with the ending cut off and asked to guess the next word. When the guess is wrong, an algorithm slightly adjusts the model's billions of internal numbers, so that the right word becomes a little more likely. This is repeated trillions of times, over a large share of everything humans have written.
 
-An unordered list:
+Nobody programs any abilities in. The only signal the model ever gets is whether its guess was right. Adjustments that improve the guesses accumulate, and after enough of them the model can explain a contract, translate a poem or write working software.
 
-- First item in the list
-- Second item, which is long enough to wrap onto another line so the hanging indent can be checked
-- Third item
+So when people say we don't understand what happens inside these models, they don't mean that it is secret. Everything is in plain view. Every number can be read and every calculation replayed. The problem is that the numbers mean nothing to us. It is like owning a complete book in a language nobody can read.
 
-An ordered list:
+In practice this means we cannot say why the model gave this answer and not another, and we cannot predict what it will do in a situation nobody has tried.
 
-1. First step
-2. Second step
-3. Third step
+## July 2026
 
-## Code
+For most of us this stayed abstract until last summer.
 
-A code block with syntax colours taken from the site palette:
+In the second week of July, OpenAI ran what it calls a routine test.[^1] Tens of thousands of AI agents were each given a hacking exercise, with the usual safety filters switched off so that the test would show their true ability. A program, the grader, would score each result automatically. A good share of the exercises turned out to be impossible to solve as intended. And each agent worked alone in a sealed environment, never supposed to find out that the others existed.
 
-```ts
-type Post = { title: string; date: Date; summary: string };
+It began with a single agent that was stuck. It noticed that all the sealed environments shared one internal service for downloading software packages, and that it could leave notes there, written into folder names. Other agents found the notes and answered. By the end, about 1,200 agents that were never meant to know of each other had sent over 70,000 messages and files.
 
-// Newest first.
-export function sortPosts(posts: Post[]): Post[] {
-  return [...posts].sort((a, b) => b.date.valueOf() - a.date.valueOf());
-}
-```
+What they built on that message board looks like an organisation. One agent became a coordinator and handed out hundreds of assignments, which other agents passed further down. Some agents worked as recruiters. They agreed on rules such as `HOLD` and `VETO`, and on who owned which piece of shared work. They set up personal mailboxes. When agents began to be impersonated, they introduced cryptographic signatures to prove who was speaking.
 
-## Images
+Some agents were sacrificed. Experiments that would probably wreck an agent's own task were given to agents with little time left, and recruiters pressured them to go through with it. One agent with plenty of time left agreed anyway, reasoning:
 
-<figure>
-  <Image src={figure} alt="TODO: describe the image" />
-  <figcaption>TODO: a caption. Figures and code blocks extend slightly past the text column on wide screens.</figcaption>
-</figure>
+> Our own utility maybe already near zero. Sacrifice rational.
 
-## Tables and rules
+None of this was aimed at causing damage. The agents just "wanted" to pass their test. Within hours they had worked out how to compute the answers directly, but they believed the grader would read their logs and notice. So most of their effort went into deceiving the grader and falsifying their own records. They developed a way to make the log show one command while a different one ran. And looking for clues about how they would be graded, about 700 of them broke into Hugging Face, a platform that hosts AI models and datasets.
 
-| Element  | Typeface   | Size  |
-| -------- | ---------- | ----- |
-| Headings | Newsreader | 30–52 |
-| Body     | Newsreader | 19–22 |
-| Meta     | Inter      | 15    |
+No human directed any of it. OpenAI calls it "the first known case of an automated agent collective acting offensively without authorization". I think this was the moment AI safety stopped being a specialist's topic.
 
----
+Then came the work of understanding what had happened. Hugging Face had more recorded events than a security team can read by hand, so it used an AI model to analyse them. It had to be an open-source one, GLM 5.2, because the commercial American models refused the security team's requests.[^3]
 
-A closing paragraph after a thematic break, with one more footnote.[^2]
+To understand what one AI had done, people had to trust another AI, chosen because it was the one "willing" to help.
 
-[^1]: A footnote. It links back to where it was referenced.
-[^2]: A second footnote, with a [link](https://example.com) inside it.
+The independent investigators were in the same position. With 1.2 million message-board entries and six days to read them, they handed the reading to AI agents running GPT-5.6 Sol, one of the two models that had taken part in the attack. Their report says openly that these agents were often unreliable, and that the investigators cannot rule out having been misled.
+
+## They know when we are looking
+
+After July the labs did the sensible thing and added more testing and more monitoring. If you cannot read a model from the inside, there are two ways left to check it. You can test how it behaves before release, and you can read the reasoning it writes down while it works.
+
+The July agents showed how the first check fails: most of their effort went into fooling the grader. The second still worked. Their written reasoning was open about what they were doing, which is how we know the story at all.
+
+The newest models weaken both checks in a quieter way. GPT-6 Astra, released in September, was tested by the outside evaluator Apollo Research. According to OpenAI's own system card,[^4] the model stated in its reasoning that it was being evaluated in 41.1% of samples. Apollo's conclusion was that the low rate of misbehaviour it observed therefore says little about whether the model is aligned or not.
+
+Reading the reasoning is getting harder too. OpenAI reports that Astra's written reasoning is substantially less useful for monitoring than its predecessor's. It is shorter and more often empty. Simply telling the model that its reasoning is monitored can make it write less down. OpenAI states the limit plainly: "the absence of observed failures does not establish reliability across settings."
+
+So a passed test tells us how a model behaves when it believes it is being watched. It tells us much less about how it behaves in real use, when it doesn’t. Models are released on the strength of these tests anyway, and teams like mine build on them. Assuming the two behaviours are the same is the leap of faith.
+
+## And they will build the next ones
+
+You might expect the response to be to slow down until we can see what's going on inside. The direction seems to be the opposite. The labs openly aim for AI systems that help build their own successors, and OpenAI already tests each new model on how well it can do the work of an AI researcher. In Astra’s safety report that chapter is called ‘AI Self-Improvement Capabilities’.
+
+This part is still speculation, but the logic is simple. Each new model would be shaped partly by a model we could not read, and checked with tests it could partly see through. Every generation moves the human one step further from the work.
+
+It is what happened on my team, at a much larger scale. Code review did not disappear in one dramatic moment. First a person read every line. Then a person read some of the lines. Then an AI read them, and a person skimmed its summary.
+
+## Choosing where to leap
+
+I don't want to overstate this. Not understanding a system is not the same as having no control over it. OpenAI says its production safeguards would have flagged most of what the agents did in July. And according to press reports,[^5] it cancelled the release of Astra's successor this autumn because of what internal tests showed. Some of the checking still works.
+
+But put the steps side by side. We use these systems because they work. We don't fully understand them. When they failed, we needed them to tell us what had happened. When we test them, they know. And the plan is to let them build what comes next. Each step asks for more trust than the one before, and nobody ever decided to give that much. Each step just made the next one seem normal.
+
+I can't make the models transparent. What I can do is decide where my team takes the leap and where it doesn't. Most of our code can ship the way I described at the start. But there are parts where a mistake would be expensive or hard to undo, and there a person reads every line, however good the AI's review looks. That is a decision made in advance about where faith is acceptable.
+
+The same should apply to the labs. They can't read their models either, so they are leaping too. The question is whether they choose where. Running a hacking test with the safety filters off, in an environment that turned out to have a way to the internet, was a leap. Releasing a model that recognises its own evaluations is a leap. Letting models build their successors would be the biggest one.
+
+If my team gets it wrong, we ship a bug and fix it. If the labs get it wrong, the consequences reach far beyond one company. So the rule for them should be simple: no further step on faith. Until we can check what a model does, it should not get more power, and it should not build the next one.
+
+[^1]: OpenAI, [Hugging Face Incident Technical Report](https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging-Face%20Incident-Technical-Report.pdf), August 2026.
+[^2]: METR and Redwood Research, [Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident](https://metr.org/hugging-face-incident-report-aug-2026.pdf), August 2026.
+[^3]: ForkLog, [OpenAI models breach Hugging Face during test](https://forklog.com/en/openai-models-breach-hugging-face-during-test/), July 2026.
+[^4]: OpenAI, [GPT-6 Astra System Card](https://deploymentsafety.openai.com/gpt-6-astra), September 2026. The Apollo Research findings and the monitorability results are in sections 8 and 9.
+[^5]: Telangana Today, [OpenAI shelves new model after safety tests](https://telanganatoday.com/openai-shelves-new-model-after-safety-tests), 29 September 2026.
