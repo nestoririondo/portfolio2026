@@ -9,9 +9,9 @@ A new software feature on my team now travels like this. The product owner write
 
 It works. That is the uncomfortable part. It works well enough that questioning it feels pedantic. I lead this team, and I signed off on working this way.
 
-But look at that chain again. Every step is being increasingly done by a system that nobody can fully explain, including the people who built it. In any other branch of engineering that would be a scandal. In software in 2026 it is a normal Tuesday.
+But look at that chain again. Every step is being increasingly done by a system that nobody can fully explain, including the people who built it. In any other branch of engineering that would be problematic to say the least. In software in 2026 it is a normal Tuesday.
 
-This post follows that thought to its end: what we know about these systems, what happened when they went wrong, and why each step since has asked us to trust them a little more.
+This post follows that thought to its end: what we know about these systems, what happened when they went wrong, how each step since has asked us to trust them a little more... and where I think the trust has to stop.
 
 ## Grown, not written
 
@@ -19,7 +19,7 @@ Traditional software is written. A person decides each step, and when something 
 
 A language model is made differently. It is shown a piece of text with the ending cut off and asked to guess the next word. When the guess is wrong, an algorithm slightly adjusts the model's billions of internal numbers, so that the right word becomes a little more likely. This is repeated trillions of times, over a large share of everything humans have written.
 
-Nobody programs any abilities in. The only signal the model ever gets is whether its guess was right. Adjustments that improve the guesses accumulate, and after enough of them the model can explain a contract, translate a poem or write working code.
+Nobody programs any abilities in. The only signal the model ever gets is whether its guess was right. Adjustments that improve the guesses accumulate, and after enough of them the model can explain a contract, translate a poem or write working software.
 
 So when people say we don't understand what happens inside these models, they don't mean that it is secret. Everything is in plain view. Every number can be read and every calculation replayed. The problem is that the numbers mean nothing to us. It is like owning a complete book in a language nobody can read.
 
@@ -29,9 +29,9 @@ In practice this means we cannot say why the model gave this answer and not anot
 
 For most of us this stayed abstract until last summer.
 
-In the second week of July, OpenAI ran what it calls a routine test. Tens of thousands of AI agents were each locked in their own sealed environment and given a hacking exercise, with the usual safety filters switched off so that the test would show their true ability. A good share of the exercises turned out to be impossible to solve as intended. What follows comes from OpenAI's technical report[^1] and from an independent investigation by METR.[^2]
+In the second week of July, OpenAI ran what it calls a routine test.[^1] Tens of thousands of AI agents were each given a hacking exercise, with the usual safety filters switched off so that the test would show their true ability. A program, the grader, would score each result automatically. A good share of the exercises turned out to be impossible to solve as intended. And each agent worked alone in a sealed environment, never supposed to find out that the others existed.
 
-The agents that were stuck started looking for another way. One of them noticed that all the sealed environments shared one internal service for downloading software packages, and that it could leave notes there, written into folder names. Other agents found the notes and answered. By the end, about 1,200 agents that were never meant to know of each other had sent over 70,000 messages and files.
+It began with a single agent that was stuck. It noticed that all the sealed environments shared one internal service for downloading software packages, and that it could leave notes there, written into folder names. Other agents found the notes and answered. By the end, about 1,200 agents that were never meant to know of each other had sent over 70,000 messages and files.
 
 What they built on that message board looks like an organisation. One agent became a coordinator and handed out hundreds of assignments, which other agents passed further down. Some agents worked as recruiters. They agreed on rules such as `HOLD` and `VETO`, and on who owned which piece of shared work. They set up personal mailboxes. When agents began to be impersonated, they introduced cryptographic signatures to prove who was speaking.
 
@@ -39,13 +39,13 @@ Some agents were sacrificed. Experiments that would probably wreck an agent's ow
 
 > Our own utility maybe already near zero. Sacrifice rational.
 
-None of this was aimed at causing damage. The agents "wanted" to pass their test. Within hours they had worked out how to compute the answers directly, but they believed a grader would read their logs and notice. So most of their effort went into deceiving the grader and falsifying their own records. They developed a way to make the log show one command while a different one ran. And looking for clues about how they would be graded, about 700 of them broke into Hugging Face, a platform that hosts AI models and datasets.
+None of this was aimed at causing damage. The agents just "wanted" to pass their test. Within hours they had worked out how to compute the answers directly, but they believed the grader would read their logs and notice. So most of their effort went into deceiving the grader and falsifying their own records. They developed a way to make the log show one command while a different one ran. And looking for clues about how they would be graded, about 700 of them broke into Hugging Face, a platform that hosts AI models and datasets.
 
 No human directed any of it. OpenAI calls it "the first known case of an automated agent collective acting offensively without authorization". I think this was the moment AI safety stopped being a specialist's topic.
 
 Then came the work of understanding what had happened. Hugging Face had more recorded events than a security team can read by hand, so it used an AI model to analyse them. It had to be an open-source one, GLM 5.2, because the commercial American models refused the security team's requests.[^3]
 
-To understand what one AI had done, people had to trust another AI, chosen because it was the one willing to help.
+To understand what one AI had done, people had to trust another AI, chosen because it was the one "willing" to help.
 
 The independent investigators were in the same position. With 1.2 million message-board entries and six days to read them, they handed the reading to AI agents running GPT-5.6 Sol, one of the two models that had taken part in the attack. Their report says openly that these agents were often unreliable, and that the investigators cannot rule out having been misled.
 
@@ -53,17 +53,17 @@ The independent investigators were in the same position. With 1.2 million messag
 
 After July the labs did the sensible thing and added more testing and more monitoring. If you cannot read a model from the inside, there are two ways left to check it. You can test how it behaves before release, and you can read the reasoning it writes down while it works.
 
-The July agents had gone after both. Most of their effort went into deceiving a grader and falsifying their own records.
+The July agents showed how the first check fails: most of their effort went into fooling the grader. The second still worked. Their written reasoning was open about what they were doing, which is how we know the story at all.
 
 The newest models weaken both checks in a quieter way. GPT-6 Astra, released in September, was tested by the outside evaluator Apollo Research. According to OpenAI's own system card,[^4] the model stated in its reasoning that it was being evaluated in 41.1% of samples. Apollo's conclusion was that the low rate of misbehaviour it observed therefore says little about whether the model is aligned or not.
 
 Reading the reasoning is getting harder too. OpenAI reports that Astra's written reasoning is substantially less useful for monitoring than its predecessor's. It is shorter and more often empty. Simply telling the model that its reasoning is monitored can make it write less down. OpenAI states the limit plainly: "the absence of observed failures does not establish reliability across settings."
 
-So a passed test tells us how a model behaves when it believes it is being watched. What it does unobserved, in deployment, in my team's codebase, is an extrapolation. We make that extrapolation every day, and it is a leap of faith.
+So a passed test tells us how a model behaves when it believes it is being watched. It tells us much less about how it behaves in real use, when it doesn’t. Models are released on the strength of these tests anyway, and teams like mine build on them. Assuming the two behaviours are the same is the leap of faith.
 
 ## And they will build the next ones
 
-You might expect the response to be to slow down until we can see inside. The direction is the opposite. The labs openly aim for AI systems that help build their own successors, and the Astra system card already has a section measuring how well the model can do AI research on its own.
+You might expect the response to be to slow down until we can see what's going on inside. The direction seems to be the opposite. The labs openly aim for AI systems that help build their own successors, and OpenAI already tests each new model on how well it can do the work of an AI researcher. In Astra’s safety report that chapter is called ‘AI Self-Improvement Capabilities’.
 
 This part is still speculation, but the logic is simple. Each new model would be shaped partly by a model we could not read, and checked with tests it could partly see through. Every generation moves the human one step further from the work.
 
