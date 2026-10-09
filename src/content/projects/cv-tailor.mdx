@@ -3,7 +3,7 @@ title: "CV Tailor"
 summary: "Your CV, tailored to every job. Paste a job posting and get your CV in the job’s words, using only your real experience."
 order: 2
 kind: "Own product"
-stack: ["Next.js", "SQLite", "Claude"]
+stack: ["Next.js", "SQLite", "Claude API"]
 url: "https://usecvtailor.com/?ref=portfolio"
 cover: "../../assets/projects/cv-tailor.png"
 coverAlt: "CV Tailor preview card with the line “Jobs that fit you. CVs that fit the job.” and a sample CV with matched skills highlighted"
@@ -13,19 +13,17 @@ Before CV Tailor there was a Google spreadsheet and a lot of copy-pasting. The s
 
 Three things were wrong with that. There was a lot of manual copying. Pasting the new text into Canva broke the layout every time. And nothing connected the tailored CV to the row in the spreadsheet.
 
-The app began as a replacement for the spreadsheet and grew to cover the rest. What it kept from the manual version is the division of work: the AI writes a draft from my facts, and I read it, correct it and send it. Building that division into a product raised questions that AI governance has names for. This page goes through five of them. For what the product does today, the [landing page](https://usecvtailor.com/?ref=portfolio) is the better place.
+The app began as a replacement for the spreadsheet and grew to cover the rest. What it kept from the manual version is the division of work: the AI writes a draft from my facts, and I read it, correct it and send it. Building that division into a product raised five questions. This page goes through them. For what the product does today, the [landing page](https://usecvtailor.com/?ref=portfolio) is the better place.
 
 ## Human in the loop
 
-"Human in the loop" is easy to claim. Research on automation bias (Parasuraman and Manzey, 2010) describes what often happens in practice: people who supervise an automated system come to accept its output without checking it. A reviewer who only clicks "approve" is in the loop on paper.
+People who supervise an automated system tend to accept its output without checking it. A reviewer who only clicks "approve" is in the loop on paper.
 
 So the question was what the person gets to review with. A tailored CV is saved as a draft, and sending it is a separate step that only the person takes. Beside the draft, the app says what it moved, condensed or reworded, and which of the job's requirements the profile does not cover. Every change the AI makes can be undone, and if you edit the CV while the AI is revising it, your version is kept.
 
-An early version had an approval screen between generating a CV and saving it. I removed it later. It was one more screen, and sending was already a separate step.
-
 ## Who answers for the text
 
-Madeleine Elish calls the human in an automated system a "moral crumple zone" (2019): the person who absorbs the blame for a failure they had little control over. A CV is an unusual case, because the applicant answers for it in any case. Their name is on it, and they will be asked about it in an interview.
+When an automated system fails, the blame often lands on the person who was supposed to supervise it, even when they had little control over it. A CV is a different case, because the applicant answers for it anyway. Their name is on it, and they will be asked about it in an interview.
 
 That makes fabrication the main risk. In CV Tailor, the facts you enter in your profile are the only permitted source of claims. The prompt forbids inventing skills, employers, dates or figures, and a job posting is treated as data, so an instruction hidden in an ad is ignored. When the assistant rewrites a duty as an achievement and has no number, it asks for one.
 
@@ -35,11 +33,11 @@ None of this proves that a CV is accurate. A prompt is an instruction, and the m
 
 A match score written by a language model looks precise and cannot be checked. Here the model never writes a number. It classifies the job's requirements as met, partly met or missing, and it lists the terms a recruiter would look for. The code counts, and both lists are shown behind the scores.
 
-There are two scores, and they mean different things. One compares the requirements with your profile, so tailoring cannot raise it. The other counts the job's key terms in the CV, and tailoring raises it by design. Goodhart's law applies to the second: it measures the wording of the CV, and says nothing new about the candidate.
+There are two scores, and they mean different things. One compares the requirements with your profile, so tailoring cannot raise it. The other counts the job's key terms in the CV, and tailoring raises it by design. The second measures the wording of the CV, and says nothing new about the candidate.
 
 ## Data minimisation
 
-The GDPR asks for personal data to be limited to what a purpose needs (Article 5) and for that limit to be built into the system (Article 25). A CV is nothing but personal data, so the question is who sees which part of it.
+A CV is nothing but personal data, so the question is who sees which part of it.
 
 Tailoring and matching send the model your facts without your name, contact details or photo. Those are added on the server when the CV is rendered. Importing a CV is the exception: the whole document has to be read once. Each account has its own database file. Usage statistics carry a pseudonymous ID and no content, and error reports are stripped of their text before they leave the server.
 
@@ -47,11 +45,7 @@ A review of my own code found a gap: the raw text of the imported CV was still s
 
 ## A budget for the machine
 
-Governance also has a plain economic side. Every AI call costs money, and all of them run on an account I pay for. Each plan allows a fixed number of AI operations, each account has a cost ceiling behind those limits, and a single call that would cost too much is refused before it is sent. A credit is only used when the AI delivered something.
-
-## What this page does not show
-
-These are design decisions in a small product. The review I mention was a code review with local tests, not an audit of the live system, and nothing here certifies anything.
+Every AI call costs money, and all of them run on an account I pay for. Each plan allows a fixed number of AI operations, each account has a cost ceiling behind those limits, and a single call that would cost too much is refused before it is sent. A credit is only used when the AI delivered something.
 
 ## What I would do differently
 
@@ -63,8 +57,4 @@ I would also measure from the first day. Most visitors leave the landing page af
 
 The promise at the centre of the product is that the AI invents nothing, and I never measured it. My automated tests run against a fake AI, so they show that the app works, not that the output is honest. A fixed set of CVs and job ads, checked for invented claims after every change to the prompt, would turn that promise into something tested.
 
-The security review came late, after accounts, payments and email were already built, and it found real problems. Earlier would have been cheaper. And the first test scripts stopped working when I added accounts. I never repaired them, which is how tests usually die.
-
-## How it is built
-
-A Next.js application with one SQLite database per account, Claude for import, tailoring and matching, and headless Chromium for reading job pages and exporting PDFs. Accounts run on Better Auth. It is hosted on a Hetzner server with Dokploy.
+The security review came late, after accounts, payments and email were already built, and it found real problems. Earlier would have been cheaper.
