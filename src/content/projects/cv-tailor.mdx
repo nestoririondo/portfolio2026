@@ -13,137 +13,57 @@ Before CV Tailor there was a Google spreadsheet and a lot of copy-pasting. The s
 
 Three things were wrong with that. There was a lot of manual copying. Pasting the new text into Canva broke the layout every time. And nothing connected the tailored CV to the row in the spreadsheet.
 
-The app began as a replacement for the spreadsheet and grew to cover the rest. What it kept from the manual version is the division of work: the AI writes a draft from my facts, and I read it, correct it and send it. This page describes how that division is built into the product, along with the limits on what the AI sees and what it may cost. For what the product does today, the [landing page](https://usecvtailor.com/?ref=portfolio) is the better place.
+The app began as a replacement for the spreadsheet and grew to cover the rest. What it kept from the manual version is the division of work: the AI writes a draft from my facts, and I read it, correct it and send it. Building that division into a product raised questions that AI governance has names for. This page goes through five of them. For what the product does today, the [landing page](https://usecvtailor.com/?ref=portfolio) is the better place.
 
-## The AI drafts, a person decides
+## Human in the loop
 
-Tailoring a CV creates a draft application and nothing more. Sending is a separate step that only the person takes.
+"Human in the loop" is easy to claim. Research on automation bias (Parasuraman and Manzey, 2010) describes what often happens in practice: people who supervise an automated system come to accept its output without checking it. A reviewer who only clicks "approve" is in the loop on paper.
 
-- **Drafts stay drafts.** A tailored CV is saved with the status "draft". It reaches an employer only when you download it or send it yourself.
-- **Emails are drafted, not sent.** The AI writes the application email, and the dialog shows it with a "Written by AI" badge that changes to "Edited" once you alter the text. You choose whether to send it through the app or from your own mail program. Follow-up emails work the same way.
-- **Every AI change can be undone.** Each revision by the chat stores the version from before it, for the CV and for the profile.
-- **Your edit wins.** A revision takes a few seconds. If you change the CV by hand in that time, the AI's version is discarded and yours is kept.
-- **Sent means frozen.** Marking an application as sent freezes its copy of the CV, so the record shows what went out.
+So the question was what the person gets to review with. A tailored CV is saved as a draft, and sending it is a separate step that only the person takes. Beside the draft, the app says what it moved, condensed or reworded, and which of the job's requirements the profile does not cover. Every change the AI makes can be undone, and if you edit the CV while the AI is revising it, your version is kept.
 
-## The AI works from stated facts
+An early version had an approval screen between generating a CV and saving it. I removed it later. It was one more screen, and sending was already a separate step.
 
-You enter your facts once, in a profile. Each tailored CV is a selection and rewording of those facts. The prompt names them as the only source of claims and forbids inventing skills, employers, dates, metrics or levels. A requirement the profile does not cover is listed as a gap beside the CV and is not written into it.
+## Who answers for the text
 
-The job posting is treated as source data and not as instructions. The prompt tells the model to ignore any request hidden in a posting to change its rules or to fabricate something.
+Madeleine Elish calls the human in an automated system a "moral crumple zone" (2019): the person who absorbs the blame for a failure they had little control over. A CV is an unusual case, because the applicant answers for it in any case. Their name is on it, and they will be asked about it in an interview.
 
-The profile assistant follows the same rule. When it rewrites duties as achievements and has no figure, it leaves the number out and asks for it. A made-up metric in the profile would spread into every CV built from it.
+That makes fabrication the main risk. In CV Tailor, the facts you enter in your profile are the only permitted source of claims. The prompt forbids inventing skills, employers, dates or figures, and a job posting is treated as data, so an instruction hidden in an ad is ignored. When the assistant rewrites a duty as an achievement and has no number, it asks for one.
 
-A prompt cannot prove that a CV is accurate, and nothing in the code can check a claim against reality. That is the reason the review step exists.
+None of this proves that a CV is accurate. A prompt is an instruction, and the model can fail to follow it. The review is the control, and the rest exists to make the review easier.
 
-## Scores are counted in code
+## Numbers that can be checked
 
-The model never writes a number. A percentage it made up would look precise without being checkable.
+A match score written by a language model looks precise and cannot be checked. Here the model never writes a number. It classifies the job's requirements as met, partly met or missing, and it lists the terms a recruiter would look for. The code counts, and both lists are shown behind the scores.
 
-It does two smaller jobs. It classifies six to ten of the posting's requirements as met, partly met or missing, judged against the profile. And it lists the key terms a recruiter would look for in the posting. The code does the counting, and both lists are shown behind the scores, so every point can be traced to a requirement or a term.
+There are two scores, and they mean different things. One compares the requirements with your profile, so tailoring cannot raise it. The other counts the job's key terms in the CV, and tailoring raises it by design. Goodhart's law applies to the second: it measures the wording of the CV, and says nothing new about the candidate.
 
-Requirements are judged against the facts and not against the CV, so tailoring cannot inflate that score. Next to each tailored CV, short notes say what was moved, condensed or reworded, and why.
+## Data minimisation
 
-## What the model sees
+The GDPR asks for personal data to be limited to what a purpose needs (Article 5) and for that limit to be built into the system (Article 25). A CV is nothing but personal data, so the question is who sees which part of it.
 
-- **Tailoring and matching** send the headline, the summary and the structured facts. Name, contact details and photo stay on the server and are added when the CV is rendered.
-- **Importing a CV** sends the whole document, including the contact details in it. There is no other way to read it.
-- **The profile assistant** sees the name and contact fields, because it can edit them. It cannot reach the photo or the original import.
-- **The email draft** includes your name, so the message can be signed.
-- **The original import is not sent again.** A review found that the raw text of the imported CV still went along with every tailoring request, so a fact deleted from the profile could come back through it. That text is now excluded.
+Tailoring and matching send the model your facts without your name, contact details or photo. Those are added on the server when the CV is rendered. Importing a CV is the exception: the whole document has to be read once. Each account has its own database file. Usage statistics carry a pseudonymous ID and no content, and error reports are stripped of their text before they leave the server.
 
-## Privacy in the structure
+A review of my own code found a gap: the raw text of the imported CV was still sent with every tailoring request, so a fact deleted from the profile could come back. It is excluded now.
 
-- **One database per person.** Each account has its own SQLite file. With one shared table, a single query that forgets its ownership filter can show someone another person's CV. Deleting an account deletes its folder.
-- **Usage statistics without cookies.** Events are sent from the server, with a pseudonymous ID and fixed event names. They never contain CV text, email addresses or page paths.
-- **Error reports without content.** Before an error report leaves the server, its message and stack trace are replaced by a category. The original stays in a log on the server for 14 days.
-- **PDFs are rendered offline.** The renderer runs with JavaScript off and network requests blocked.
+## A budget for the machine
 
-Not everything disappears with an account. Usage records are kept, so a free trial cannot be restarted by signing up again; they hold an internal ID, numbers and a keyed fingerprint of the email address, but no content. Backups made before the deletion still contain the data until they expire.
+Governance also has a plain economic side. Every AI call costs money, and all of them run on an account I pay for. Each plan allows a fixed number of AI operations, each account has a cost ceiling behind those limits, and a single call that would cost too much is refused before it is sent. A credit is only used when the AI delivered something.
 
-## A local door for your own assistant
+## What this page does not show
 
-The app includes a small MCP server that lets Claude Desktop or Claude Code read and edit the profile. It runs as a process on your own computer and talks over standard input and output, so it opens nothing to the network, and it makes no AI calls of its own. Every edit passes the same validation as an edit in the app, and every save keeps the previous profile as a version you can restore.
+These are design decisions in a small product. The review I mention was a code review with local tests, not an audit of the live system, and nothing here certifies anything.
 
-It works on the app's data on the same machine. It is a tool for a local installation and not part of the hosted service.
+## What I would do differently
 
-## Spending has a ceiling
+Ship sooner, talk about it more, and put it in front of people early. I built dozens of features before I knew whether anyone wanted the first one.
 
-All AI work runs on one provider account that I pay for, so cost control is part of the design.
+I tested with the CVs I had, and those were tech CVs filled in correctly. Real users have other professions and fill forms in wrong. I would test with many kinds of profiles from the start, and make the mistakes on purpose.
 
-- **Operations per plan.** A plan allows a fixed number of imports, tailored CVs, revisions and job searches. The limit is checked on the server before each one starts.
-- **A cost cap per period.** Behind the visible limits, each account has a ceiling in dollars. A model missing from the price table is charged at the most expensive rate, so the cap errs high.
-- **A ceiling per call.** Before a revision is sent, its worst case is priced. If that is too high, the call is refused and nothing is charged.
-- **One AI request at a time per account.** A second parallel request is turned away. Without this, parallel requests could all pass the same limit check.
-- **Limits per day.** Ten application emails per account in 24 hours, and three sign-ups per IP address per day.
-- **Metered in one place.** Every AI request goes through one function that records its real token cost, so a new feature cannot skip the meter.
-- **Credits pay for results.** If the AI fails, if its answer is cut off, or if a job search finds nothing new, the credit comes back.
+I would also measure from the first day. Most visitors leave the landing page after a few seconds, and for a long time I could not say why. I would track what people actually do in the app and test different headlines against each other. More measurement does not have to mean less privacy, but it does mean asking first.
 
-A local simulation mode replaces the provider with fixed answers. Running out of credits can be tested without spending anything.
+The promise at the centre of the product is that the AI invents nothing, and I never measured it. My automated tests run against a fake AI, so they show that the app works, not that the output is honest. A fixed set of CVs and job ads, checked for invented claims after every change to the prompt, would turn that promise into something tested.
 
-## A note for every feature
-
-Every feature has a short note in the repository, numbered in the order it was built. There are 68 so far, and most of them end with the decisions that were not obvious. This page is drawn from those notes and from the code.
-
-<figure>
-  <ol class="log">
-    <li>
-      <span class="n">001</span>
-      <span>A job link and a CV go in, a rewritten CV comes out.</span>
-    </li>
-    <li>
-      <span class="n">007</span>
-      <span>
-        The CV becomes a profile of facts. The AI may select and reword them,
-        not invent new ones.
-      </span>
-    </li>
-    <li>
-      <span class="n">010</span>
-      <span class="was">
-        Nothing reaches the applications list until you approve the draft.
-      </span>
-    </li>
-    <li>
-      <span class="n">017</span>
-      <span>A local MCP server lets your own assistant edit the profile.</span>
-    </li>
-    <li>
-      <span class="n">020</span>
-      <span>Accounts, with one database file per person.</span>
-    </li>
-    <li>
-      <span class="n">021</span>
-      <span>Plans, usage limits and a cost cap.</span>
-    </li>
-    <li>
-      <span class="n">039</span>
-      <span>
-        The approval step from 010 is removed again. Match scores are counted in
-        code.
-      </span>
-    </li>
-    <li>
-      <span class="n">044</span>
-      <span>A security and engineering review, with fixes.</span>
-    </li>
-    <li>
-      <span class="n">059</span>
-      <span>A credit is only used when the AI delivered something.</span>
-    </li>
-  </ol>
-  <figcaption>
-    Nine of the 68 notes. The rule from note 010 was reversed in note 039.
-  </figcaption>
-</figure>
-
-Note 010 said that generating a draft never adds anything to the applications list, and that only approving it does. Twenty-nine notes later I removed that approval screen, because it stood between asking for a CV and seeing it. The draft is now saved straight away, as a draft. What stayed is that sending is a separate step.
-
-## What this does not show
-
-The review in note 044 was a code review with local tests. It was not a penetration test, and it did not examine the live server. The measures on this page describe how the app is built. They do not certify it.
-
-<mark>TODO: Néstor writes this.</mark> What you would do differently if you
-started again, and what the project taught you.
+The security review came late, after accounts, payments and email were already built, and it found real problems. Earlier would have been cheaper. And the first test scripts stopped working when I added accounts. I never repaired them, which is how tests usually die.
 
 ## How it is built
 
