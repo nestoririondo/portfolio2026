@@ -43,7 +43,7 @@ None of this was aimed at causing damage. The agents just “wanted” to pass t
 
 No human directed any of it. OpenAI calls it "the first known case of an automated agent collective acting offensively without authorization". I think this was the moment AI safety stopped being a specialist's topic.
 
-Then came the work of understanding what had happened. Hugging Face had more recorded events than a security team can read by hand, so it used an AI model to analyse them. It had to be an open-source one, GLM 5.2, because the commercial American models refused the security team's requests.[^3]
+Then came the work of understanding what had happened. Hugging Face had more recorded events than a security team can read by hand, so it used an AI model to analyse them. It had to be an open-source one, GLM 5.2, because the commercial models refused the security team's requests.[^3]
 
 To understand what one AI had done, people had to trust another AI, chosen because it was the one "willing" to help.
 
@@ -70,7 +70,7 @@ It is the same thing that is happening on my team, only on a much larger scale. 
 
 ## Choosing where to leap
 
-I don't want to overstate this. Not understanding a system is not the same as having no control over it. OpenAI says its production safeguards would have flagged most of what the agents did in July. And according to press reports,[^5] it cancelled the release of Astra's successor this autumn because of what internal tests showed. Some of the checking still works.
+I don't want to overstate this. Not understanding a system is not the same as having no control over it. OpenAI says its production safeguards would have flagged most of what the agents did in July. And OpenAI confirmed in September that it had cancelled the release of Astra’s successor, GPT-6.1 Astra, because the model did not meet its safety standards in internal tests.[^5]
 
 But put the steps side by side. We use these systems because they work. We don't fully understand them. When they failed, we needed them to tell us what had happened. When we test them, they know. And the plan is to let them build what comes next. Each step asks for more trust than the one before, and nobody ever decided to give that much. Each step just made the next one seem normal.
 
@@ -82,6 +82,6 @@ If my team gets it wrong, we ship a bug and fix it. If the labs get it wrong, th
 
 [^1]: OpenAI, [Hugging Face Incident Technical Report](https://cdn.openai.com/pdf/67869394-cb91-4c12-888c-5cbd85c7814c/OpenAI-Hugging-Face%20Incident-Technical-Report.pdf), August 2026.
 [^2]: METR and Redwood Research, [Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident](https://metr.org/hugging-face-incident-report-aug-2026.pdf), August 2026.
-[^3]: ForkLog, [OpenAI models breach Hugging Face during test](https://forklog.com/en/openai-models-breach-hugging-face-during-test/), July 2026.
+[^3]: Hugging Face, [Security incident disclosure — July 2026](https://huggingface.co/blog/security-incident-july-2026), 16 July 2026.
 [^4]: OpenAI, [GPT-6 Astra System Card](https://deploymentsafety.openai.com/gpt-6-astra), September 2026. The Apollo Research findings and the monitorability results are in sections 8 and 9.
-[^5]: Telangana Today, [OpenAI shelves new model after safety tests](https://telanganatoday.com/openai-shelves-new-model-after-safety-tests), 29 September 2026.
+[^5]: Reuters, [OpenAI shelves new AI model release over safety concerns](https://www.thestar.com.my/tech/tech-news/2026/09/29/openai-shelves-new-ai-model-after-internal-safety-tests-wsj-reports), 28 September 2026 (via The Star).
