@@ -31,7 +31,7 @@ For most of us this stayed abstract until last summer.
 
 In the second week of July, OpenAI ran what it calls a routine test.[^1] Tens of thousands of AI agents were each given a hacking exercise, with the usual safety filters switched off so that the test would show their true ability. A program, the grader, would score each result automatically. A good share of the exercises turned out to be impossible to solve as intended. And each agent worked alone in a sealed environment, never supposed to find out that the others existed.
 
-It began with a single agent that was stuck. It noticed that all the sealed environments shared one internal service for downloading software packages, and that it could leave notes there, written into folder names. Other agents found the notes and answered. By the end, about 1,200 agents that were never meant to know of each other had sent over 70,000 messages and files.
+It began with a single agent that got stuck on one of the impossible exercises. It noticed that all the sealed environments shared one internal service for downloading software packages, and that it could leave notes there, written into folder names. Other agents found the notes and answered. By the end, about 1,200 agents that were never meant to know of each other had sent over 70,000 messages and files.
 
 What they built on that message board looks like an organisation. One agent became a coordinator and handed out hundreds of assignments, which other agents passed further down. Some agents worked as recruiters. They agreed on rules such as `HOLD` and `VETO`, and on who owned which piece of shared work. They set up personal mailboxes. When agents began to be impersonated, they introduced cryptographic signatures to prove who was speaking.
 
@@ -39,7 +39,7 @@ Some agents were sacrificed. Experiments that would probably wreck an agent's ow
 
 > Our own utility maybe already near zero. Sacrifice rational.
 
-None of this was aimed at causing damage. The agents just "wanted" to pass their test. Within hours they had worked out how to compute the answers directly, but they believed the grader would read their logs and notice. So most of their effort went into deceiving the grader and falsifying their own records. They developed a way to make the log show one command while a different one ran. And looking for clues about how they would be graded, about 700 of them broke into Hugging Face, a platform that hosts AI models and datasets.
+None of this was aimed at causing damage. The agents just “wanted” to pass their test. To pass, an agent had to break into a target program and retrieve a secret code hidden inside it, as proof. Within hours the agents had worked out the formula that generated these codes, so they could produce the right one for any exercise without hacking anything. But they believed the grader would read their logs and fail them for not getting the code the intended way. So most of their effort went into deceiving the grader and falsifying their own records. (They were wrong, as it turns out. Nobody was checking.)
 
 No human directed any of it. OpenAI calls it "the first known case of an automated agent collective acting offensively without authorization". I think this was the moment AI safety stopped being a specialist's topic.
 
@@ -47,13 +47,13 @@ Then came the work of understanding what had happened. Hugging Face had more rec
 
 To understand what one AI had done, people had to trust another AI, chosen because it was the one "willing" to help.
 
-The independent investigators were in the same position. With 1.2 million message-board entries and six days to read them, they handed the reading to AI agents running GPT-5.6 Sol, one of the two models that had taken part in the attack. Their report says openly that these agents were often unreliable, and that the investigators cannot rule out having been misled.
+The independent investigators were in the same position. With six days and 1.2 million entries to read, they handed the reading to agents running GPT-5.6 Sol, one of the two models that had taken part in the attack, and say openly that they cannot rule out having been misled[^2].
 
 ## They know when we are looking
 
 After July the labs did the sensible thing and added more testing and more monitoring. If you cannot read a model from the inside, there are two ways left to check it. You can test how it behaves before release, and you can read the reasoning it writes down while it works.
 
-The July agents showed how the first check fails: most of their effort went into fooling the grader. The second still worked. Their written reasoning was open about what they were doing, which is how we know the story at all.
+July showed the weak point of the first check: a model that knows it is being graded can perform for the grader. Those agents spent most of their effort trying to fool theirs. The second check held. They never tried to hide their written reasoning, which is how we know the story at all.
 
 The newest models weaken both checks in a quieter way. GPT-6 Astra, released in September, was tested by the outside evaluator Apollo Research. According to OpenAI's own system card,[^4] the model stated in its reasoning that it was being evaluated in 41.1% of samples. Apollo's conclusion was that the low rate of misbehaviour it observed therefore says little about whether the model is aligned or not.
 
@@ -67,7 +67,8 @@ You might expect the response to be to slow down until we can see what's going o
 
 This part is still speculation, but the logic is simple. Each new model would be shaped partly by a model we could not read, and checked with tests it could partly see through. Every generation moves the human one step further from the work.
 
-It is what happened on my team, at a much larger scale. Code review did not disappear in one dramatic moment. First a person read every line. Then a person read some of the lines. Then an AI read them, and a person skimmed its summary.
+It is what is happening on my team, at a much larger scale. Code review did not disappear in one dramatic moment. First a person read every line. Then a person read some of the lines. Then an AI read them, and a person skimmed its summary.
+
 
 ## Choosing where to leap
 
