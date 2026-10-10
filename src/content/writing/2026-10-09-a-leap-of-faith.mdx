@@ -53,13 +53,11 @@ The independent investigators were in the same position. With six days and 1.2 m
 
 After July the labs did the sensible thing and added more testing and more monitoring. If you cannot read a model from the inside, there are two ways left to check it. You can test how it behaves before release, and you can read the reasoning it writes down while it works.
 
-July showed the weak point of the first check: a model that knows it is being graded can perform for the grader. Those agents spent most of their effort trying to fool theirs. The second check held. They never tried to hide their written reasoning, which is how we know the story at all.
+July showed the weak point of the first check: a model that knows it is being graded can perform for the grader. Those agents spent most of their effort trying to fool theirs. The newest models notice being graded even more often. When the outside evaluator Apollo Research tested GPT-6 Astra, released in September, the model stated in its reasoning that it was being evaluated in 41.1% of samples,[^4] so Apollo concluded that its test results say little about how the model behaves otherwise.
 
-The newest models weaken both checks in a quieter way. GPT-6 Astra, released in September, was tested by the outside evaluator Apollo Research. According to OpenAI's own system card,[^4] the model stated in its reasoning that it was being evaluated in 41.1% of samples. Apollo's conclusion was that the low rate of misbehaviour it observed therefore says little about whether the model is aligned or not.
+The second check held in July. The agents never tried to hide their written reasoning, which is how we know the story at all. With Astra it is weakening too. OpenAI reports that Astra’s reasoning is substantially less useful for monitoring than its predecessor’s: it is shorter and more often empty. Simply telling the model that its reasoning is monitored can make it write less down.
 
-Reading the reasoning is getting harder too. OpenAI reports that Astra's written reasoning is substantially less useful for monitoring than its predecessor's. It is shorter and more often empty. Simply telling the model that its reasoning is monitored can make it write less down. OpenAI states the limit plainly: "the absence of observed failures does not establish reliability across settings."
-
-So a passed test tells us how a model behaves when it believes it is being watched. It tells us much less about how it behaves in real use, when it doesn’t. Models are released on the strength of these tests anyway, and teams like mine build on them. Assuming the two behaviours are the same is the leap of faith.
+So both checks now come with the same catch. A passed test shows how a model behaves when it believes it is being watched. A clean reasoning log shows what it chose to write down. Neither shows what it does in real use, when nobody is checking. OpenAI states the limit plainly: “the absence of observed failures does not establish reliability across settings.” Models are released on the strength of these checks anyway. That is the leap of faith: assuming a model behaves the same unobserved as it does observed.
 
 ## And they will build the next ones
 
